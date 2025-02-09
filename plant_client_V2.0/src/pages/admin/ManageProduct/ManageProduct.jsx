@@ -14,7 +14,6 @@ import {
 
 const ManageProduct = () => {
   const dispatch = useDispatch();
-
   // get data from redux
   const { data: plants, isLoading, isError, isSuccess } = useGetProductsQuery();
   const { filteredProducts } = useSelector((state) => state.manageProducts);

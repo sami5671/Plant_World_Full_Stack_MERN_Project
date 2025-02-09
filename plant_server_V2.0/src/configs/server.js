@@ -13,6 +13,7 @@ const { config } = require("../configs/config");
 const authenticationRoute = require("../routes/authenticationRoute");
 const plantRoute = require("../routes/plantRoute");
 const userRoute = require("../routes/usersRoute");
+const adminRoute = require("../routes/adminRoute");
 
 // Create app instance
 const app = express();
@@ -31,6 +32,7 @@ connectToDatabase(config[env].databaseURI);
 app.use("/auth", authenticationRoute);
 app.use("/user", userRoute);
 app.use("/plant", plantRoute);
+app.use("/admin", adminRoute);
 
 // Home route
 app.get("/", (req, res) => {

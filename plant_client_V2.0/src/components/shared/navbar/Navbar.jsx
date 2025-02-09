@@ -1,20 +1,29 @@
 import { GiFruitTree } from "react-icons/gi";
 import { TiWeatherPartlySunny } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UseAuth from "../../../Hooks/UseAuth";
 import LargeScreenLogo from "../logo/LargeScreenLogo";
+import { userLoggedOut } from "../../../features/auth/authSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user?.data);
+  // console.log(user?.user?.avatar);
 
   const { email, userName, avatar, mobile, role } = user?.data || {};
+  console.log(user);
 
   const getRole = UseAuth();
-  console.log(getRole);
+  // console.log(getRole);
 
   // const user = true;
   const isAdmin = true;
+
+  const handleLogOut = () => {
+    dispatch(userLoggedOut());
+    localStorage.removeItem("auth");
+  };
 
   return (
     <>
@@ -154,7 +163,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="photo" src={avatar} />
+                  <img alt="photo" src={avatar || user?.user?.avatar} />
                 </div>
               </div>
             ) : (
@@ -190,17 +199,12 @@ const Navbar = () => {
                   <Link to="/dashboard/user-dashboard">Dashboard</Link>
                 </li>
               )}
-
               <li>
                 <a>Settings</a>
               </li>
               {user ? (
                 <li>
-                  <button
-                  // onClick={handleLogOut}
-                  >
-                    Logout
-                  </button>
+                  <button onClick={handleLogOut}>Logout</button>
                 </li>
               ) : (
                 <>

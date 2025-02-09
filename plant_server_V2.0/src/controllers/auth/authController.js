@@ -8,17 +8,43 @@ const { apiResponse } = require("../../helpers");
 
 // User registration(signUp)
 const signUp = async (req, res, next) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 15);
   try {
+    // Validate request body
+    const { name, email, password, role, avatar, mobile } = req.body;
+
+    if (!name || !email || !password) {
+      return apiResponse(
+        res,
+        400,
+        false,
+        "Name, Email, and Password are required!"
+      );
+    }
+
+    // Hash password with proper validation
+    const saltRounds = 10; // Recommended value for bcrypt
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create new user instance
     const newUser = new User({
-      ...req.body,
+      name,
+      email,
       password: hashedPassword,
+      role,
+      avatar,
+      mobile,
     });
+
     await newUser.save();
 
-    // find user by email
-    const user = await User.findOne({ email: req.body.email });
+    // Find user after saving
+    const user = await User.findOne({ email });
 
+    if (!user) {
+      return apiResponse(res, 500, false, "User creation failed!");
+    }
+
+    // Construct user object (avoid sending password)
     const userObject = {
       userId: user._id,
       userName: user.name,
@@ -31,15 +57,16 @@ const signUp = async (req, res, next) => {
 
     // Generate token
     const token = jwt.sign(userObject, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRY,
+      expiresIn: process.env.JWT_EXPIRY || "7d", // Default expiry if missing
     });
 
-    return apiResponse(res, 200, true, "Successfully registered!!", {
-      data: userObject,
+    return apiResponse(res, 200, true, "Successfully registered!", {
+      user: userObject,
       token,
     });
   } catch (error) {
-    return apiResponse(res, 500, false, "UnKnown Error during registration!!");
+    console.error("Error during registration:", error);
+    return apiResponse(res, 500, false, "Unknown error during registration!");
   }
 };
 

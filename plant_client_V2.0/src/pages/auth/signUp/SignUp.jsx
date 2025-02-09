@@ -4,13 +4,14 @@ import GoogleLogin from "../../../components/shared/auth/GoogleLogin";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 import { Form, Formik } from "formik";
 import { Input, Password, FileInput } from "rizzui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../../features/auth/authApi";
 import * as Yup from "yup";
 import { imageUpload } from "../../../api/utils";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../../components/shared/loader/Loader";
 const SignUp = () => {
+  const navigate = useNavigate();
   const [register, { isLoading, error: responseError }] = useRegisterMutation();
 
   const initialValues = {
@@ -71,7 +72,7 @@ const SignUp = () => {
       const image = values.avatar;
       const imageData = await imageUpload(image);
 
-      console.log(imageData);
+      // console.log(imageData, values);
       // Registration API call with image URL
       await register({
         name: values.name,
@@ -83,6 +84,7 @@ const SignUp = () => {
 
       resetForm();
       toast(`Welcome, ${values.name}!! You registered successfully`);
+      navigate("/");
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
