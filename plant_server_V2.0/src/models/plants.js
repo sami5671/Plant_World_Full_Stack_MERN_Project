@@ -39,6 +39,10 @@ const plantSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    trending: {
+      type: Boolean,
+      default: false,
+    },
     images: [
       {
         _id: false,

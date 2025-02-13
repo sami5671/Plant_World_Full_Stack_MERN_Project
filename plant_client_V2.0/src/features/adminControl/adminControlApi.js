@@ -9,7 +9,14 @@ export const productsApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    addTrendingProduct: builder.mutation({
+      query: ({ plantId }) => ({
+        url: `/plant/addTrendingPlant/${plantId}`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
-export const { useAddProductMutation } = productsApi;
+export const { useAddProductMutation, useAddTrendingProductMutation } =
+  productsApi;

@@ -33,9 +33,38 @@ const manageProductSlice = createSlice({
         );
       }
     },
+    filterByTrending: (state, action) => {
+      const plantType = action.payload.value;
+      if (plantType === "all") {
+        state.filteredProducts = state.products;
+      } else if (plantType === "trending") {
+        state.filteredProducts = state.products.filter(
+          (product) => product.trending === true
+        );
+      } else {
+        state.filteredProducts = state.products.filter(
+          (product) => product.trending === false
+        );
+      }
+    },
+    manageTrending: (state, action) => {
+      const plantId = action.payload.data;
+      const productIndex = state.products.findIndex(
+        (product) => product._id === plantId
+      );
+      if (productIndex !== -1) {
+        state.filteredProducts[productIndex].trending =
+          !state.filteredProducts[productIndex].trending;
+      }
+    },
   },
 });
 
-export const { allPlants, searchByName, searchById } =
-  manageProductSlice.actions;
+export const {
+  allPlants,
+  searchByName,
+  searchById,
+  manageTrending,
+  filterByTrending,
+} = manageProductSlice.actions;
 export default manageProductSlice.reducer;

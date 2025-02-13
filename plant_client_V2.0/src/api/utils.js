@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Cloudinary } from "@cloudinary/url-gen";
 
 export const imageUpload = async (image) => {
   console.log(image);
@@ -23,3 +24,10 @@ export const uploadCloudinary = async (file) => {
   return { publicId: data?.public_id, url: data?.secure_url };
   // return data;
 };
+
+// Create and configure your Cloudinary instance for image background removal
+export const cld = new Cloudinary({
+  cloud: {
+    cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
+  },
+});

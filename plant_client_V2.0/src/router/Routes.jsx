@@ -10,6 +10,8 @@ import AdminDashboard from "../pages/admin/AdminDashboard/AdminDashboard";
 import AddProduct from "../pages/admin/AddProduct/AddProduct";
 import ManageProduct from "../pages/admin/ManageProduct/ManageProduct";
 import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
+import ManageTrendingProduct from "../pages/admin/ManageTrendingProduct/ManageTrendingProduct";
+import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "manage-product",
         element: <ManageProduct />,
+      },
+      {
+        path: "manage-order",
+        element: <ManageOrder />,
       },
       {
         path: "manage-users",

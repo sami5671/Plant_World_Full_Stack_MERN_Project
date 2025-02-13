@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   products: [],
   filteredProducts: [],
+  trendingProducts: [],
 };
 
 const productSlice = createSlice({
@@ -12,6 +13,9 @@ const productSlice = createSlice({
     allPlants: (state, action) => {
       state.products = action.payload.data;
       state.filteredProducts = action.payload.data;
+      state.trendingProducts = action.payload.data.filter(
+        (product) => product.trending === true
+      );
     },
     searchByName: (state, action) => {
       const searchedTerm = action.payload.toLowerCase();

@@ -1,10 +1,14 @@
 import { FaCartShopping } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { cld } from "./../../../api/utils";
+import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
+import { scale } from "@cloudinary/url-gen/actions/resize";
+
 const ProductCard = ({ plants }) => {
   const { name, newPrice, previousPrice, stock, images } = plants;
   // console.log(plants);
+
   return (
     <>
       <section>
@@ -25,9 +29,15 @@ const ProductCard = ({ plants }) => {
           {/* <Link to={`/product/${_id}`}> */}
           <div className="flex justify-center items-center">
             <img
-              src={images?.[0]?.url}
+              key={images?.[3]?.publicId}
+              src={cld
+                .image(images?.[3]?.publicId)
+                .effect(backgroundRemoval())
+                .format("auto")
+                .quality("auto")
+                .toURL()}
+              // src={images?.[0]?.publicId}
               className="w-48 h-48 object-cover rounded-xl shadow-md"
-              alt={name}
             />
           </div>
           {/* </Link> */}

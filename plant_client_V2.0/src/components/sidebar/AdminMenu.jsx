@@ -3,6 +3,7 @@ import { FaUsersGear } from "react-icons/fa6";
 import { GiTreeGrowth } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
 import { BsDatabaseFillGear } from "react-icons/bs";
+import { BsCartPlusFill } from "react-icons/bs";
 
 const AdminMenu = () => {
   return (
@@ -17,6 +18,12 @@ const AdminMenu = () => {
         icon={BsDatabaseFillGear}
         label="Manage Product"
         address="manage-product"
+      />
+
+      <MenuItem
+        icon={BsCartPlusFill}
+        label="Manage Order"
+        address="manage-order"
       />
       <MenuItem
         icon={FaUsersGear}

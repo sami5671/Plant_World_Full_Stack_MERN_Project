@@ -10,9 +10,7 @@ const ManageUsers = () => {
   const dispatch = useDispatch();
   const { data: users, isLoading, isError, isSuccess } = useGetAllUsersQuery();
   const { filteredUser } = useSelector((state) => state?.manageUsers);
-  console.log(filteredUser);
 
-  //
   useEffect(() => {
     if (isSuccess && users) {
       dispatch(allUsers(users));

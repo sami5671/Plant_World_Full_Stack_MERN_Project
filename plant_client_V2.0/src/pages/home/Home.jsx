@@ -4,9 +4,12 @@ import TrendingProduct from "../../components/home/trendingProducts/TrendingProd
 import WhoWeAre from "../../components/home/whoWeAre/WhoWeAre";
 import { useEffect } from "react";
 import { userLoggedIn } from "../../features/auth/authSlice";
+import { useGetProductsQuery } from "../../features/products/productsApi";
+import { allPlants } from "../../features/products/productsSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { data, isSuccess, isLoading, isError } = useGetProductsQuery();
 
   useEffect(() => {
     if (localStorage.length > 0) {
@@ -18,6 +21,13 @@ const Home = () => {
       }
     }
   }, [dispatch]);
+  // set to redux local store
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(allPlants(data));
+    }
+  }, [data, dispatch, isSuccess]);
+
   return (
     <>
       <Banner />
