@@ -16,6 +16,7 @@ import {
 } from "../../../features/adminControl/manageProductControlSlice";
 import { useAddTrendingProductMutation } from "../../../features/adminControl/adminControlApi";
 import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const options = [
   { label: "All 🌱", value: "all" },
@@ -79,7 +80,7 @@ const ManageProduct = () => {
   return (
     <>
       <ToastContainer
-        position="bottom-left"
+        position="top-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -172,15 +173,17 @@ const ManageProduct = () => {
                     </td>
                     {/* <Link to={`/product/${item._id}`}> */}
                     <td>
-                      <span className="text-4xl text-lime-500 hover:text-lime-800">
-                        <IoInformationCircle />
-                      </span>
+                      <Link to={`/product/${item?._id}`}>
+                        <span className="text-4xl text-lime-500 hover:text-lime-800">
+                          <IoInformationCircle />
+                        </span>
+                      </Link>
                     </td>
                     <td>
                       <button onClick={() => handleTrendingProduct(item?._id)}>
                         <span className="text-2xl text-lime-500 hover:text-lime-800">
                           {item?.trending == true ? (
-                            <span>🔥</span>
+                            <span className="animate-pulse">🔥</span>
                           ) : (
                             <span>❄️</span>
                           )}

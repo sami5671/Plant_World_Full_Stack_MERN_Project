@@ -13,6 +13,21 @@ const getAllPlants = async (req, res, next) => {
   }
 };
 
+const getPlantById = async (req, res, next) => {
+  const plantId = req.params.id;
+  try {
+    const plant = await Plant.findById(plantId);
+    if (!plant) {
+      return apiResponse(res, 404, false, "Plant not found");
+    } else {
+      return apiResponse(res, 200, true, "Plant fetched successfully!", plant);
+    }
+  } catch (error) {
+    return apiResponse(res, 500, false, "Error fetching plant.");
+  }
+};
+
 module.exports = {
   getAllPlants,
+  getPlantById,
 };

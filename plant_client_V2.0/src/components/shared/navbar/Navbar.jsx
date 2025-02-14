@@ -12,7 +12,6 @@ const Navbar = () => {
   // console.log(user?.user?.avatar);
 
   const { email, userName, avatar, mobile, role } = user?.data || {};
-  console.log(user);
 
   const getRole = UseAuth();
   // console.log(getRole);

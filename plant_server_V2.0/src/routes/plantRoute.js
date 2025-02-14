@@ -7,11 +7,16 @@ const {
   addPlant,
   addTrendingPlant,
 } = require("../controllers/admin/PlantController");
-const { getAllPlants } = require("../controllers/plants/plantsController");
+const {
+  getAllPlants,
+  getPlantById,
+} = require("../controllers/plants/plantsController");
 
-// add plant route
-router.post("/addPlant", addPlant);
+// open routes
 router.get("/getAllPlants", getAllPlants);
-router.patch("/addTrendingPlant/:id", addTrendingPlant);
+router.get("/getPlantById/:id", getPlantById);
 
+// admin routes
+router.post("/addPlant", addPlant);
+router.patch("/addTrendingPlant/:id", addTrendingPlant);
 module.exports = router;
