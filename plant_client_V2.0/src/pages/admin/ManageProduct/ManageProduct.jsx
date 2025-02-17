@@ -40,7 +40,6 @@ const ManageProduct = () => {
 
   const { filteredProducts } = useSelector((state) => state.manageProducts);
   const [value, setValue] = useState(null);
-  //   console.log(plants);
 
   // search by name
   const handleSearchByName = (value) => {
@@ -151,70 +150,68 @@ const ManageProduct = () => {
               {/* row 1 */}
 
               {filteredProducts?.map((item, index) => (
-                <>
-                  <tr key={item?._id}>
-                    <td>{index + 1}</td>
-                    <td className="lg:w-1/6">{item?.name.slice(0, 50)}...</td>
-                    <td>{item?.category}</td>
-                    <td>
-                      <div className="avatar">
-                        <div className="mask mask-squircle h-12 w-12">
-                          <img src={item?.images?.[3]?.url} alt="img" />
-                        </div>
+                <tr key={item?._id}>
+                  <td>{index + 1}</td>
+                  <td className="lg:w-1/6">{item?.name.slice(0, 50)}...</td>
+                  <td>{item?.category}</td>
+                  <td>
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img src={item?.images?.[3]?.url} alt="img" />
                       </div>
-                    </td>
-                    <td>
-                      <span className="text-[18px] font-bold">
-                        ${item.newPrice}
+                    </div>
+                  </td>
+                  <td>
+                    <span className="text-[18px] font-bold">
+                      ${item.newPrice}
+                    </span>
+                    <span className="ml-2">
+                      <del>{item.previousPrice}</del>
+                    </span>
+                  </td>
+                  {/* <Link to={`/product/${item._id}`}> */}
+                  <td>
+                    <Link to={`/product/${item?._id}`}>
+                      <span className="text-4xl text-lime-500 hover:text-lime-800">
+                        <IoInformationCircle />
                       </span>
-                      <span className="ml-2">
-                        <del>{item.previousPrice}</del>
+                    </Link>
+                  </td>
+                  <td>
+                    <button onClick={() => handleTrendingProduct(item?._id)}>
+                      <span className="text-2xl text-lime-500 hover:text-lime-800">
+                        {item?.trending == true ? (
+                          <span className="animate-pulse">🔥</span>
+                        ) : (
+                          <span>❄️</span>
+                        )}
                       </span>
-                    </td>
-                    {/* <Link to={`/product/${item._id}`}> */}
-                    <td>
-                      <Link to={`/product/${item?._id}`}>
-                        <span className="text-4xl text-lime-500 hover:text-lime-800">
-                          <IoInformationCircle />
-                        </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <button onClick={() => handleTrendingProduct(item?._id)}>
-                        <span className="text-2xl text-lime-500 hover:text-lime-800">
-                          {item?.trending == true ? (
-                            <span className="animate-pulse">🔥</span>
-                          ) : (
-                            <span>❄️</span>
-                          )}
-                        </span>
-                      </button>
-                    </td>
-                    {/* </Link> */}
-                    {/* update info */}
+                    </button>
+                  </td>
+                  {/* </Link> */}
+                  {/* update info */}
 
-                    <td>
-                      {/* <Link to={`/dashboard/updateProduct/${item._id}`}> */}
+                  <td>
+                    <Link to={`/dashboard/updateProduct/${item._id}`}>
                       <button>
                         <span className="text-2xl hover:text-lime-700">
                           <TfiWrite />
                         </span>
                       </button>
-                      {/* </Link> */}
-                    </td>
+                    </Link>
+                  </td>
 
-                    {/* delete info */}
-                    <td>
-                      <button
-                      //   onClick={() => handleDeleteProduct(item._id)}
-                      >
-                        <span className="text-xl text-red-600 hover:text-orange-500">
-                          <FaTrash />
-                        </span>
-                      </button>
-                    </td>
-                  </tr>
-                </>
+                  {/* delete info */}
+                  <td>
+                    <button
+                    //   onClick={() => handleDeleteProduct(item._id)}
+                    >
+                      <span className="text-xl text-red-600 hover:text-orange-500">
+                        <FaTrash />
+                      </span>
+                    </button>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>

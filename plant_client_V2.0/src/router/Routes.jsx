@@ -10,7 +10,6 @@ import AdminDashboard from "../pages/admin/AdminDashboard/AdminDashboard";
 import AddProduct from "../pages/admin/AddProduct/AddProduct";
 import ManageProduct from "../pages/admin/ManageProduct/ManageProduct";
 import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
-import ManageTrendingProduct from "../pages/admin/ManageTrendingProduct/ManageTrendingProduct";
 import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
 import ProductDetails from "../pages/productDetails/ProductDetails";
 import UpdateProduct from "../pages/admin/UpdateProduct/UpdateProduct";
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetails />,
       },
-      {
-        path: "/updateProduct/:id",
-        element: <UpdateProduct />,
-      },
     ],
   },
   {
@@ -63,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "manage-product",
         element: <ManageProduct />,
+      },
+      {
+        path: "updateProduct/:id",
+        element: <UpdateProduct />,
       },
       {
         path: "manage-order",
