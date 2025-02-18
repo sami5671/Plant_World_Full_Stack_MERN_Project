@@ -153,9 +153,10 @@ const AddProduct = () => {
                   <label className="font-bold">Product Description</label>
                   <JoditEditor
                     ref={editor}
+                    key={values.description}
                     value={values.description}
                     tabIndex={0}
-                    onChange={(newContent) =>
+                    onBlur={(newContent) =>
                       setFieldValue("description", newContent)
                     }
                     config={{

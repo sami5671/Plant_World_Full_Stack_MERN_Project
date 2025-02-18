@@ -1,5 +1,5 @@
-import { useGetProductsQuery } from "../../../features/products/productsApi";
 import { Input } from "rizzui/input";
+import Swal from "sweetalert2";
 import { TfiWrite } from "react-icons/tfi";
 import { IoInformationCircle } from "react-icons/io5";
 import { FaTrash } from "react-icons/fa6";
@@ -14,7 +14,11 @@ import {
   searchById,
   searchByName,
 } from "../../../features/adminControl/manageProductControlSlice";
-import { useAddTrendingProductMutation } from "../../../features/adminControl/adminControlApi";
+import { useGetProductsQuery } from "../../../features/products/productsApi";
+import {
+  useAddTrendingProductMutation,
+  useDeleteProductMutation,
+} from "../../../features/adminControl/adminControlApi";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
@@ -37,6 +41,10 @@ const ManageProduct = () => {
     addTrendingProduct,
     { isSuccess: trendingSuccess, data: TrendingData },
   ] = useAddTrendingProductMutation();
+  const [
+    deleteProduct,
+    { isSuccess: isDeleteProductSuccess, isError: isDeleteProductError },
+  ] = useDeleteProductMutation();
 
   const { filteredProducts } = useSelector((state) => state.manageProducts);
   const [value, setValue] = useState(null);
@@ -59,6 +67,29 @@ const ManageProduct = () => {
   // manage trending
   const handleTrendingProduct = (id) => {
     addTrendingProduct({ plantId: id });
+  };
+
+  // delete product
+  const handleDeleteProduct = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // call the delete method
+        deleteProduct({ plantId: id });
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   //  useEffect to update Redux when trending status changes
@@ -203,9 +234,7 @@ const ManageProduct = () => {
 
                   {/* delete info */}
                   <td>
-                    <button
-                    //   onClick={() => handleDeleteProduct(item._id)}
-                    >
+                    <button onClick={() => handleDeleteProduct(item._id)}>
                       <span className="text-xl text-red-600 hover:text-orange-500">
                         <FaTrash />
                       </span>

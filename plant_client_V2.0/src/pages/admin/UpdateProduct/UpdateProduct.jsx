@@ -3,13 +3,15 @@ import JoditEditor from "jodit-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { GiFruitTree } from "react-icons/gi";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { ImSpinner2 } from "react-icons/im";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetProductByIdQuery } from "../../../features/products/productsApi";
 import { useParams } from "react-router-dom";
 import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 import { FaCartShopping } from "react-icons/fa6";
+import { useUpdateProductInfoMutation } from "../../../features/adminControl/adminControlApi";
+import { useDispatch } from "react-redux";
 
 const PlantTypeOptions = [
   { label: "Epiphytic Plant 🌱🌲", value: "Epiphytic" },
@@ -36,10 +38,6 @@ const validationSchema = Yup.object({
 });
 
 const UpdateProduct = () => {
-  const { id } = useParams();
-  const { data: plants, isSuccess } = useGetProductByIdQuery(id);
-
-  // Define state for form values
   const [initialValues, setInitialValues] = useState({
     plantName: "",
     description: "",
@@ -51,7 +49,38 @@ const UpdateProduct = () => {
     color: "",
     category: "indoor",
   });
+  const { id } = useParams();
+  const editor = useRef(null);
+  const dispatch = useDispatch();
+  const { data: plants, isSuccess } = useGetProductByIdQuery(id);
+  const [
+    updateProductInfo,
+    { isSuccess: isUpdateProductSuccess, isLoading: isUpdateProductLoading },
+  ] = useUpdateProductInfoMutation();
 
+  // Define state for form values
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    try {
+      updateProductInfo({
+        id: id,
+        name: values.plantName,
+        previousPrice: values.previousPrice,
+        newPrice: values.newPrice,
+        stock: values.stock,
+        color: values.color,
+        plantType: values.plantType,
+        material: values.material,
+        category: values.category,
+        description: values.description,
+      });
+      toast(`${values?.plantName} updated successfully`);
+      setSubmitting(false);
+    } catch (error) {
+      toast.error(error);
+    }
+  };
   // Update initialValues when data is fetched successfully
   useEffect(() => {
     if (isSuccess && plants?.data) {
@@ -90,9 +119,7 @@ const UpdateProduct = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           enableReinitialize={true}
-          onSubmit={(values) => {
-            console.log("Updated Values:", values);
-          }}
+          onSubmit={handleSubmit}
         >
           {({ values, setFieldValue, isSubmitting }) => (
             <Form>
@@ -104,7 +131,7 @@ const UpdateProduct = () => {
                   type="submit"
                   className="bg-primary-dashboardPrimaryTextColor text-white lg:px-4 lg:py-2 rounded-full font-bold hover:bg-lime-500"
                 >
-                  {isSubmitting ? (
+                  {isUpdateProductLoading || isSubmitting ? (
                     <ImSpinner2 className="animate-spin" />
                   ) : (
                     "Update Product"
@@ -129,8 +156,11 @@ const UpdateProduct = () => {
                   <div className="mt-6">
                     <label className="font-bold">Product Description</label>
                     <JoditEditor
+                      ref={editor}
+                      key={values.description}
                       value={values.description}
-                      onChange={(newContent) =>
+                      tabIndex={0}
+                      onBlur={(newContent) =>
                         setFieldValue("description", newContent)
                       }
                       config={{

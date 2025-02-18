@@ -15,8 +15,25 @@ export const productsApi = apiSlice.injectEndpoints({
         method: "PATCH",
       }),
     }),
+    updateProductInfo: builder.mutation({
+      query: (data) => ({
+        url: `/admin/updatePlantInfo`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: ({ plantId }) => ({
+        url: `/admin/deleteProduct/${plantId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useAddProductMutation, useAddTrendingProductMutation } =
-  productsApi;
+export const {
+  useAddProductMutation,
+  useAddTrendingProductMutation,
+  useUpdateProductInfoMutation,
+  useDeleteProductMutation,
+} = productsApi;

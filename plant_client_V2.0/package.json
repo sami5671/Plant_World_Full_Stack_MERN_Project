@@ -26,6 +26,7 @@
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.2",
     "rizzui": "^1.0.1",
+    "sweetalert2": "^11.17.2",
     "yup": "^1.6.1"
   },
   "devDependencies": {
