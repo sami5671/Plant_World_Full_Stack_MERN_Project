@@ -15,12 +15,11 @@ const userSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
     },
     password: {
       type: String,
-      required: true,
     },
     avatar: {
       type: String,
@@ -30,6 +29,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin", "moderator"],
       default: "user",
+    },
+    providerId: {
+      type: String, // Store unique provider ID from Google/GitHub
+      unique: true,
+      sparse: true,
+    },
+    provider: {
+      type: String,
+      enum: ["google", "github", "local"],
+      default: "local",
     },
   },
   {

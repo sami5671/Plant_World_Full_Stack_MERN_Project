@@ -5,12 +5,18 @@ import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 import { Form, Formik } from "formik";
 import { Input, Password, FileInput } from "rizzui";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "../../../features/auth/authApi";
+import {
+  useGithubLoginMutation,
+  useGoogleLoginMutation,
+  useRegisterMutation,
+} from "../../../features/auth/authApi";
 import * as Yup from "yup";
 import { imageUpload } from "../../../api/utils";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../../components/shared/loader/Loader";
 const SignUp = () => {
+  const [googleLogin] = useGoogleLoginMutation();
+  const [githubLogin] = useGithubLoginMutation();
   const navigate = useNavigate();
   const [register, { isLoading, error: responseError }] = useRegisterMutation();
 
@@ -91,7 +97,13 @@ const SignUp = () => {
       setSubmitting(false);
     }
   };
+  const handleGoogleLogin = async () => {
+    await googleLogin();
+  };
 
+  const handleGitHubLogin = async () => {
+    await githubLogin();
+  };
   return (
     <>
       <ToastContainer
@@ -129,8 +141,12 @@ const SignUp = () => {
 
               {/* Social Login */}
               <div className="flex justify-center gap-6 mt-6">
-                <GoogleLogin />
-                <GitHubLogin />
+                <button onClick={handleGoogleLogin}>
+                  <GoogleLogin />
+                </button>
+                <button onClick={handleGitHubLogin}>
+                  <GitHubLogin />
+                </button>
                 <p className="border-2 text-4xl text-blue-500 bg-slate-200 shadow-xl p-1 rounded-md">
                   <FaFacebookF />
                 </p>

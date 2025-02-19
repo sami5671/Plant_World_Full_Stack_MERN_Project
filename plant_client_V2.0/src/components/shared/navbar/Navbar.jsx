@@ -162,7 +162,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="photo" src={avatar || user?.user?.avatar} />
+                  <img alt="photo" src={avatar || user?.avatar} />
                 </div>
               </div>
             ) : (
@@ -175,7 +175,7 @@ const Navbar = () => {
             >
               <li>
                 <a className="justify-between">
-                  {userName}
+                  {userName || user?.name}
                   {getRole === "admin" ? (
                     <span className="badge">Admin</span>
                   ) : getRole === "moderator" ? (

@@ -71,7 +71,6 @@ const signUp = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({ email: req.body.email });
 
@@ -83,7 +82,6 @@ const login = async (req, res, next) => {
     if (!isMatch) {
       return apiResponse(res, 401, false, "Invalid Email or Password!!");
     } else {
-      console.log("else block");
       const userObject = {
         userId: user._id,
         userName: user.name,
@@ -117,7 +115,35 @@ const login = async (req, res, next) => {
   }
 };
 
+const socialLogin = async (req, res, next) => {
+  const { name, email, avatar, providerId, provider } = req.body;
+  const user = await User.findOne({ email });
+  const uid = await User.findOne({ providerId });
+
+  if (!uid && !user) {
+    try {
+      // Create new user instance
+      const newUser = new User({
+        name,
+        email,
+        avatar,
+        providerId,
+        provider,
+      });
+      await newUser.save();
+      // find existing user
+      const userObject = await User.findOne({ email });
+      return apiResponse(res, 200, true, "Successfully signed In!", userObject);
+    } catch (error) {
+      return apiResponse(res, 500, false, "Unknown error during registration!");
+    }
+  } else {
+    const userObject = await User.findOne({ email });
+    return apiResponse(res, 200, true, "Successfully signed In!", userObject);
+  }
+};
 module.exports = {
   signUp,
   login,
+  socialLogin,
 };

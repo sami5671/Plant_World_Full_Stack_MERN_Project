@@ -7,11 +7,19 @@ import { Password } from "rizzui";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useLoginMutation } from "../../../features/auth/authApi";
+import {
+  useGithubLoginMutation,
+  useGoogleLoginMutation,
+  useLoginMutation,
+} from "../../../features/auth/authApi";
 import { useEffect, useState } from "react";
 import Loading from "../../../components/shared/loader/Loader";
 
 const Login = () => {
+  const [googleLogin, { isSuccess: isGoogleLoginSuccess }] =
+    useGoogleLoginMutation();
+  const [githubLogin, { isSuccess: isGitHubLoginSuccess }] =
+    useGithubLoginMutation();
   const MAXLENGTH = 50;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,11 +47,19 @@ const Login = () => {
     });
   };
 
+  const handleGoogleLogin = async () => {
+    await googleLogin();
+  };
+
+  const handleGitHubLogin = async () => {
+    await githubLogin();
+  };
+
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isGoogleLoginSuccess || isGitHubLoginSuccess) {
       navigate("/");
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, navigate, isGoogleLoginSuccess, isGitHubLoginSuccess]);
 
   // ====================Adding the background Style=================
   const bgStyle = {
@@ -77,8 +93,12 @@ const Login = () => {
 
               {/* Social Login */}
               <div className="flex justify-center gap-6 mt-6">
-                <GoogleLogin />
-                <GitHubLogin />
+                <button onClick={handleGoogleLogin}>
+                  <GoogleLogin />
+                </button>
+                <button onClick={handleGitHubLogin}>
+                  <GitHubLogin />
+                </button>
                 <p className="border-2 text-4xl text-blue-500 bg-slate-200 shadow-xl p-1 rounded-md">
                   <FaFacebookF />
                 </p>
