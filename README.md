@@ -18,8 +18,10 @@
 </p>
 
 <br>
-
-## :dart: About
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sami5671/Plant_World_Full_Stack_MERN_Project/refs/heads/main/plant_client_V2.0/public/Images/Plant%20world%20Full-Stack%20Web%20App.svg" alt="Plant World Full Stack Web App Banner">
+</p>
+## :dart: About ##
 
 Describe your project
 
