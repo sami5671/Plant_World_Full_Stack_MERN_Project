@@ -1,10 +1,10 @@
-<h1 align="center">Plant_World_Full_Stack_Mern_Project</h1>
+<h1 align="center">App</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/plant_world_full_stack_mern_project?color=56BEB8">
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/plant_world_full_stack_mern_project?color=56BEB8">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/plant_world_full_stack_mern_project?color=56BEB8">
-  <img alt="License" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/plant_world_full_stack_mern_project?color=56BEB8">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{sami5671}}/app?color=56BEB8">
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{sami5671}}/app?color=56BEB8">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{sami5671}}/app?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/{{sami5671}}/app?color=56BEB8">
 </p>
 
 <p align="center">
@@ -18,10 +18,8 @@
 </p>
 
 <br>
-<p align="center">
-  <img src="https://raw.githubusercontent.com/sami5671/Plant_World_Full_Stack_MERN_Project/refs/heads/main/plant_client_V2.0/public/Images/Plant%20world%20Full-Stack%20Web%20App.svg" alt="Plant World Full Stack Web App Banner">
-</p>
-## :dart: About ##
+
+## :dart: About
 
 Describe your project
 
@@ -49,10 +47,10 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/plant_world_full_stack_mern_project
+$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/app
 
 # Access
-$ cd plant_world_full_stack_mern_project
+$ cd app
 
 # Install dependencies
 $ yarn
@@ -67,7 +65,7 @@ $ yarn start
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
 
-Made with :heart: by <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">{{YOUR_NAME}}</a>
+Made with :heart: by <a href="https://github.com/{{sami5671}}" target="_blank">{{MD SAMI ALAM}}</a>
 
 &#xa0;
 
