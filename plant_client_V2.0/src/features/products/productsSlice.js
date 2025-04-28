@@ -29,9 +29,14 @@ const productSlice = createSlice({
     },
     filterByCategory: (state, action) => {
       const selectedCategory = action.payload;
-      state.filteredProducts = state.products.filter(
-        (product) => product.category === selectedCategory
-      );
+
+      if (selectedCategory == "all") {
+        state.filteredProducts = state.products;
+      } else {
+        state.filteredProducts = state.products.filter(
+          (product) => product.category === selectedCategory
+        );
+      }
     },
     filterByPrice: (state, action) => {
       const price = Number(action.payload);

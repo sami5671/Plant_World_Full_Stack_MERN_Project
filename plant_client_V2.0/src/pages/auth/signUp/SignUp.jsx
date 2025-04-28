@@ -14,16 +14,17 @@ import * as Yup from "yup";
 import { imageUpload } from "../../../api/utils";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../../components/shared/loader/Loader";
+import "./signup.css";
 const SignUp = () => {
   const [googleLogin] = useGoogleLoginMutation();
   const [githubLogin] = useGithubLoginMutation();
   const navigate = useNavigate();
-  const [register, { isLoading, error: responseError }] = useRegisterMutation();
+  const [register, { isLoading, error: responseError, isSuccess }] =
+    useRegisterMutation();
 
   const initialValues = {
     name: "",
     email: "",
-    mobile: "",
     password: "",
     avatar: null,
   };
@@ -35,9 +36,6 @@ const SignUp = () => {
     email: Yup.string()
       .required("Email is required!")
       .email("Invalid email format."),
-    mobile: Yup.string()
-      .required("Mobile number is required!")
-      .matches(/^[0-9]{10}$/, "Mobile number must be 10 digits."),
     password: Yup.string()
       .required("Password is required!")
       .min(6, "Password must be at least 6 characters.")
@@ -80,17 +78,21 @@ const SignUp = () => {
 
       // console.log(imageData, values);
       // Registration API call with image URL
-      await register({
+      const response = await register({
         name: values.name,
         email: values.email,
-        mobile: values.mobile,
         password: values.password,
         avatar: imageData?.data?.display_url,
-      });
+      }).unwrap();
 
-      resetForm();
-      toast(`Welcome, ${values.name}!! You registered successfully`);
-      navigate("/");
+      console.log(response);
+
+      if (isSuccess) {
+        resetForm();
+        setSubmitting(false);
+        toast.success(`Welcome, ${values.name}!! You registered successfully`);
+        navigate("/");
+      }
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
@@ -210,27 +212,6 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-control">
-                      <Input
-                        type="number"
-                        label="Mobile Number"
-                        name="mobile"
-                        value={values.mobile}
-                        onChange={handleChange}
-                        placeholder="1234567890"
-                        inputClassName={`border-2 ${
-                          errors.mobile && touched.mobile
-                            ? "border-red-500"
-                            : "border-lime-500"
-                        } bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
-                      />
-                      {errors.mobile && touched.mobile && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.mobile}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="form-control">
                       <Password
                         label="Password"
                         name="password"
@@ -261,6 +242,7 @@ const SignUp = () => {
                       <FileInput
                         label="Upload Avatar"
                         name="avatar"
+                        className="custom-file-input"
                         onChange={(e) =>
                           setFieldValue("avatar", e.target.files[0])
                         }

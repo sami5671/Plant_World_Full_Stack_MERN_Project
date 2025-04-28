@@ -13,11 +13,6 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    mobile: {
-      type: String,
-      unique: true,
-      sparse: true,
-    },
     password: {
       type: String,
     },

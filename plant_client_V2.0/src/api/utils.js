@@ -2,7 +2,6 @@ import axios from "axios";
 import { Cloudinary } from "@cloudinary/url-gen";
 
 export const imageUpload = async (image) => {
-  console.log(image);
   const formData = new FormData();
   formData.append("image", image);
   const { data } = await axios.post(

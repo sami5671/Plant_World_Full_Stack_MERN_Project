@@ -1,22 +1,53 @@
 import { FaTrash, FaUserGear, FaUsers } from "react-icons/fa6";
+import { ImSpinner9 } from "react-icons/im";
+
 import { Input } from "rizzui/input";
-import { useGetAllUsersQuery } from "../../../features/adminControl/manageUsersApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from "../../../features/adminControl/manageUsersApi";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allUsers } from "../../../features/adminControl/manageUsersControlSlice";
 import { formateDate } from "./../../../components/shared/TimeAndDateFormate/FormateDate";
 
+import { getAuth } from "firebase/auth";
+
 const ManageUsers = () => {
   const dispatch = useDispatch();
   const { data: users, isLoading, isError, isSuccess } = useGetAllUsersQuery();
   const { filteredUser } = useSelector((state) => state?.manageUsers);
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
 
+  // delete user from database & firebase
+  const handleDeleteUser = async (item) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    console.log(item._id);
+    if (user) {
+      const idToken = await user.getIdToken();
+      try {
+        const res = await deleteUser({
+          userId: item?._id,
+          uid: item?.providerId,
+          idToken,
+        }).unwrap(); // call redux mutation
+        console.log("Deleted successfully", res);
+        // Optionally you can refetch the users here or remove from local state
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    }
+  };
+
+  // ----------------------------------------------------
   useEffect(() => {
     if (isSuccess && users) {
       dispatch(allUsers(users));
     }
   }, [dispatch, isSuccess, users]);
 
+  // console.log(filteredUser[1].avatar);
   return (
     <>
       <section className="bg-white px-4 py-4 lg:px-12 lg:py-12 rounded-2xl">
@@ -88,13 +119,15 @@ const ManageUsers = () => {
                     </td>
 
                     <td>
-                      <button
-                      //   onClick={() => handleDeleteProduct(item._id)}
-                      >
-                        <span className="text-xl text-red-600 hover:text-orange-500">
-                          <FaTrash />
-                        </span>
-                      </button>
+                      {isDeleting ? (
+                        <ImSpinner9 className="text-red-600" />
+                      ) : (
+                        <button onClick={() => handleDeleteUser(item)}>
+                          <span className="text-xl text-red-600 hover:text-orange-500">
+                            <FaTrash />
+                          </span>
+                        </button>
+                      )}
                     </td>
                     <td>{formateDate(item?.createdAt)}</td>
                     <td>{item?.role}</td>

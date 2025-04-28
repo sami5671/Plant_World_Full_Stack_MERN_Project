@@ -8,7 +8,16 @@ export const manageUsersApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    deleteUser: builder.mutation({
+      query: ({ uid, userId, idToken }) => ({
+        url: `/admin/deleteUser/${uid}/${userId}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery } = manageUsersApi;
+export const { useGetAllUsersQuery, useDeleteUserMutation } = manageUsersApi;

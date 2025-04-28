@@ -8,9 +8,10 @@ const { apiResponse } = require("../../helpers");
 
 // User registration(signUp)
 const signUp = async (req, res, next) => {
+  console.log(req.body);
   try {
     // Validate request body
-    const { name, email, password, role, avatar, mobile } = req.body;
+    const { name, email, password, role, avatar } = req.body;
 
     if (!name || !email || !password) {
       return apiResponse(
@@ -32,38 +33,38 @@ const signUp = async (req, res, next) => {
       password: hashedPassword,
       role,
       avatar,
-      mobile,
     });
 
     await newUser.save();
 
     // Find user after saving
     const user = await User.findOne({ email });
-
-    if (!user) {
-      return apiResponse(res, 500, false, "User creation failed!");
-    }
-
-    // Construct user object (avoid sending password)
-    const userObject = {
-      userId: user._id,
-      userName: user.name,
-      email: user.email,
-      role: user.role,
-      avatar: user.avatar,
-      mobile: user.mobile,
-      createdAt: user.createdAt,
-    };
-
-    // Generate token
-    const token = jwt.sign(userObject, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRY || "7d", // Default expiry if missing
-    });
-
     return apiResponse(res, 200, true, "Successfully registered!", {
-      user: userObject,
-      token,
+      user,
     });
+    // if (!user) {
+    //   return apiResponse(res, 500, false, "User creation failed!");
+    // }
+
+    // // Construct user object (avoid sending password)
+    // const userObject = {
+    //   userId: user._id,
+    //   userName: user.name,
+    //   email: user.email,
+    //   role: user.role,
+    //   avatar: user.avatar,
+    //   createdAt: user.createdAt,
+    // };
+
+    // // Generate token
+    // const token = jwt.sign(userObject, process.env.JWT_SECRET, {
+    //   expiresIn: process.env.JWT_EXPIRY || "7d", // Default expiry if missing
+    // });
+
+    // return apiResponse(res, 200, true, "Successfully registered!", {
+    //   user: userObject,
+    //   token,
+    // });
   } catch (error) {
     console.error("Error during registration:", error);
     return apiResponse(res, 500, false, "Unknown error during registration!");
@@ -88,7 +89,6 @@ const login = async (req, res, next) => {
         email: user.email,
         role: user.role,
         avatar: user.avatar,
-        mobile: user.mobile,
         createdAt: user.createdAt,
       };
 
@@ -116,12 +116,12 @@ const login = async (req, res, next) => {
 };
 
 const socialLogin = async (req, res, next) => {
-  const { name, email, avatar, providerId, provider } = req.body;
-  const user = await User.findOne({ email });
-  const uid = await User.findOne({ providerId });
+  // console.log(req.body);
+  try {
+    const { name, email, avatar, providerId, provider } = req.body;
+    const user = await User.findOne({ $or: [{ email }, { providerId }] });
 
-  if (!uid && !user) {
-    try {
+    if (!user) {
       // Create new user instance
       const newUser = new User({
         name,
@@ -132,14 +132,15 @@ const socialLogin = async (req, res, next) => {
       });
       await newUser.save();
       // find existing user
-      const userObject = await User.findOne({ email });
+      const userObject = await User.findOne({
+        $or: [{ email }, { providerId }],
+      });
       return apiResponse(res, 200, true, "Successfully signed In!", userObject);
-    } catch (error) {
-      return apiResponse(res, 500, false, "Unknown error during registration!");
+    } else {
+      return apiResponse(res, 200, true, "Successfully signed In!", user);
     }
-  } else {
-    const userObject = await User.findOne({ email });
-    return apiResponse(res, 200, true, "Successfully signed In!", userObject);
+  } catch (error) {
+    return apiResponse(res, 400, false, "Error signing In", error);
   }
 };
 module.exports = {

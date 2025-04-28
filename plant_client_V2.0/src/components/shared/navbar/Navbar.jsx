@@ -9,9 +9,11 @@ import { userLoggedOut } from "../../../features/auth/authSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user?.data);
-  // console.log(user?.user?.avatar);
+  console.log(user);
 
-  const { email, userName, avatar, mobile, role } = user?.data || {};
+  const { email, userName, avatar, mobile, role } = user || {};
+
+  console.log(avatar);
 
   const getRole = UseAuth();
   // console.log(getRole);
@@ -162,7 +164,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="photo" src={avatar || user?.avatar} />
+                  <img src={user?.avatar} alt="photo" />
                 </div>
               </div>
             ) : (

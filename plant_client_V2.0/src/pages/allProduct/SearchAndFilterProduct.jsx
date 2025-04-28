@@ -18,12 +18,13 @@ const SearchAndFilterProduct = () => {
     dispatch(searchByName(plantName));
   };
   const handleCategory = (category) => {
+    // console.log(category);
     setCategoryValue(category);
     dispatch(filterByCategory(category));
   };
   const handlePriceChange = (price) => {
     setPrice(price);
-    console.log(price);
+    // console.log(price);
     dispatch(filterByPrice(price)); // Dispatch price filter action
   };
 
@@ -45,6 +46,11 @@ const SearchAndFilterProduct = () => {
           className="flex gap-4"
           value={categoryValue}
         >
+          <Radio
+            label="All"
+            value="all"
+            inputClassName="text-lime-600  ring-0 focus:ring-0 focus:outline-none "
+          />
           <Radio
             label="Indoor"
             value="indoor"

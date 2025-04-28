@@ -16,8 +16,10 @@ import { useEffect, useState } from "react";
 import Loading from "../../../components/shared/loader/Loader";
 
 const Login = () => {
-  const [googleLogin, { isSuccess: isGoogleLoginSuccess }] =
-    useGoogleLoginMutation();
+  const [
+    googleLogin,
+    { isSuccess: isGoogleLoginSuccess, responseError: googleResponseError },
+  ] = useGoogleLoginMutation();
   const [githubLogin, { isSuccess: isGitHubLoginSuccess }] =
     useGithubLoginMutation();
   const MAXLENGTH = 50;
