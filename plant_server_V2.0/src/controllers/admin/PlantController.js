@@ -109,7 +109,7 @@ const deletePlantInfo = async (req, res, next) => {
     await Plant.findByIdAndDelete(plantId);
     return apiResponse(res, 200, true, "Plant deleted successfully");
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return apiResponse(res, 500, false, "Error deleting plant.");
   }
 };

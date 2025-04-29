@@ -6,7 +6,7 @@ import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../../features/adminControl/manageUsersApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allUsers } from "../../../features/adminControl/manageUsersControlSlice";
 import { formateDate } from "./../../../components/shared/TimeAndDateFormate/FormateDate";
@@ -17,14 +17,17 @@ const ManageUsers = () => {
   const dispatch = useDispatch();
   const { data: users, isLoading, isError, isSuccess } = useGetAllUsersQuery();
   const { filteredUser } = useSelector((state) => state?.manageUsers);
-  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
+  const [deleteUser, { isLoading: isDeleting, isSuccess: isDeleteSuccess }] =
+    useDeleteUserMutation();
+  const [deletingUserId, setDeletingUserId] = useState(null);
 
   // delete user from database & firebase
   const handleDeleteUser = async (item) => {
     const auth = getAuth();
     const user = auth.currentUser;
-    console.log(item._id);
+
     if (user) {
+      setDeletingUserId(item._id);
       const idToken = await user.getIdToken();
       try {
         const res = await deleteUser({
@@ -36,6 +39,8 @@ const ManageUsers = () => {
         // Optionally you can refetch the users here or remove from local state
       } catch (error) {
         console.error("Error deleting user:", error);
+      } finally {
+        setDeletingUserId(null);
       }
     }
   };
@@ -119,8 +124,8 @@ const ManageUsers = () => {
                     </td>
 
                     <td>
-                      {isDeleting ? (
-                        <ImSpinner9 className="text-red-600" />
+                      {deletingUserId === item._id ? (
+                        <ImSpinner9 className="text-red-600 animate-spin" />
                       ) : (
                         <button onClick={() => handleDeleteUser(item)}>
                           <span className="text-xl text-red-600 hover:text-orange-500">
