@@ -3,11 +3,11 @@ const Cart = require("../../models/cart");
 
 const addToCart = async (req, res, next) => {
   try {
-    const { user, plants } = req.body;
+    const { userId, plantId } = req.body;
     const plantToAdd = plants[0];
 
     // find the cart for the user
-    let cart = await Cart.findOne({ user });
+    let cart = await Cart.findOne({ userId });
 
     if (cart) {
       const existingPlantIndex = cart.plants.findIndex(

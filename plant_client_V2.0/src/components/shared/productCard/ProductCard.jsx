@@ -5,26 +5,15 @@ import { cld } from "./../../../api/utils";
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
 import { scale } from "@cloudinary/url-gen/actions/resize";
 import { Link } from "react-router-dom";
+import useHandleCart from "../../../Hooks/UseHandleCart";
 
 const ProductCard = ({ plants }) => {
+  const { handleCart } = useHandleCart();
   const { _id, name, newPrice, previousPrice, stock, images } = plants;
 
   return (
     <>
       <section>
-        <ToastContainer
-          position="bottom-left"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition:Bounce
-        />
         <div className="w-[180px] h-full lg:w-[240px] font-Rancho rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 bg-primary-backgroundColor p-4 relative">
           {/* <Link to={`/product/${_id}`}> */}
           <div className="flex justify-center items-center">
@@ -62,7 +51,10 @@ const ProductCard = ({ plants }) => {
               <del className="ml-2 text-gray-500">${previousPrice}</del>
             </p>
 
-            <button className="flex items-center justify-center gap-2 mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full">
+            <button
+              onClick={() => handleCart(_id)}
+              className="flex items-center justify-center gap-2 mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full"
+            >
               Add to Cart <FaCartShopping />
             </button>
           </div>

@@ -13,6 +13,7 @@ import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
 import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
 import ProductDetails from "../pages/productDetails/ProductDetails";
 import UpdateProduct from "../pages/admin/UpdateProduct/UpdateProduct";
+import UserCart from "../pages/user/UserCart/UserCart";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,11 @@ const router = createBrowserRouter([
       {
         path: "manage-users",
         element: <ManageUsers />,
+      },
+      // users routes
+      {
+        path: "UserCart",
+        element: <UserCart />,
       },
     ],
   },

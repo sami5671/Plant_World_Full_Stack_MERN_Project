@@ -9,11 +9,11 @@ import { userLoggedOut } from "../../../features/auth/authSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user?.data);
-  console.log(user);
+  // console.log(user);
 
   const { email, userName, avatar, mobile, role } = user || {};
 
-  console.log(avatar);
+  // console.log(avatar);
 
   const getRole = UseAuth();
   // console.log(getRole);
