@@ -7,6 +7,7 @@ const useHandleCart = () => {
   const user = useSelector((state) => state?.auth?.user?.data);
 
   const handleCart = async (plantId) => {
+    console.log(plantId);
     if (!user?._id) {
       toast.error("Please Login First");
       return;

@@ -1,8 +1,10 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { GiFruitTree } from "react-icons/gi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const LargeScreenLogo = () => {
+  const cart = useSelector((state) => state?.cart);
   return (
     <div className="flex-1 gap-2">
       <span className="hidden lg:block">
@@ -15,8 +17,8 @@ const LargeScreenLogo = () => {
         <Link to="/dashboard/UserCart">
           <span>
             <FaCartShopping className="text-2xl mr-6 lg:text-3xl text-lime-500 lg:mr-2" />
-            <span className="badge absolute -mt-10 ml-2 lg:ml-5 text-red-600 font-bold">
-              {/* {cart.length} */}
+            <span className="badge absolute -mt-10 ml-2 lg:ml-5 text-lime-600 font-bold">
+              {cart?.totalCartItem}
             </span>
           </span>
         </Link>

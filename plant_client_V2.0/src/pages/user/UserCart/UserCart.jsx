@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { Progressbar } from "rizzui";
 
 const UserCart = () => {
+  const cart = useSelector((state) => state?.cart?.plants);
+  console.log(cart);
   return (
     <section className="max-w-6xl mx-auto px-4 py-8">
       {/* Cart Header */}
@@ -29,27 +32,27 @@ const UserCart = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Product Area */}
         <div className="flex-1 border rounded-lg p-4">
-          <div className="flex items-center justify-between gap-6">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwVX4OIDbhVOxttZOsnamVBWIY4uTKDgvSBQ&s"
-              alt="product"
-              className="w-28 h-28 object-cover rounded-lg"
-            />
-            <div className="flex-1">
-              <h2 className="font-semibold text-lg">6 Blade Starter Kit</h2>
-              <p className="text-sm text-gray-500">2 items</p>
-              <div className="flex items-center gap-2 mt-2">
-                <button size="sm" variant="outline">
-                  -
-                </button>
-                <span className="px-3">1</span>
-                <button size="sm" variant="outline">
-                  +
-                </button>
+          {cart?.map((item) => (
+            <>
+              <div className="flex items-center justify-between gap-6 bg-lime-300">
+                <img
+                  src={item?.images?.[0]?.url}
+                  alt="product"
+                  className="w-28 h-28 object-cover rounded-lg"
+                />
+                <div className="flex-1">
+                  <h2 className="font-semibold text-lg">6 Blade Starter Kit</h2>
+                  <p className="text-sm text-gray-500">2 items</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <button size="sm">-</button>
+                    <span className="px-3">1</span>
+                    <button size="sm">+</button>
+                  </div>
+                </div>
+                <p className="text-lg font-bold">$10</p>
               </div>
-            </div>
-            <p className="text-lg font-bold">$10</p>
-          </div>
+            </>
+          ))}
         </div>
 
         {/* Summary Section */}

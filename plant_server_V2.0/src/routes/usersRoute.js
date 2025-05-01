@@ -3,10 +3,13 @@ const express = require("express");
 const router = express.Router();
 
 // internal imports
-const { addToCart } = require("../controllers/user/cartController");
+const {
+  addToCart,
+  getCartItem,
+} = require("../controllers/user/cartController");
 
 // add to cart
 router.post("/cart", addToCart);
-router.get("/userCartItem");
+router.get("/userCartItem/:userId", getCartItem);
 
 module.exports = router;

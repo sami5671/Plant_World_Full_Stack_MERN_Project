@@ -17,7 +17,13 @@ export const cartApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+    getUserCartItem: builder.query({
+      query: (userId) => ({
+        url: `/user/userCartItem/${userId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddCartMutation } = cartApi;
+export const { useGetUserCartItemQuery, useAddCartMutation } = cartApi;
