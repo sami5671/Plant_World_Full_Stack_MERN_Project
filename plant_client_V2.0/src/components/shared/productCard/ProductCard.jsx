@@ -1,5 +1,4 @@
 import { FaCartShopping } from "react-icons/fa6";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cld } from "./../../../api/utils";
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";

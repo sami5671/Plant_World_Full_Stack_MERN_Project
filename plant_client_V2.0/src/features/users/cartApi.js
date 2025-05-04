@@ -23,7 +23,22 @@ export const cartApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    updateCartItem: builder.mutation({
+      query: ({ plantId, userId, action }) => ({
+        url: `/user/updateCartQuantity`,
+        method: "PUT",
+        body: {
+          plantId,
+          userId,
+          action,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetUserCartItemQuery, useAddCartMutation } = cartApi;
+export const {
+  useGetUserCartItemQuery,
+  useAddCartMutation,
+  useUpdateCartItemMutation,
+} = cartApi;

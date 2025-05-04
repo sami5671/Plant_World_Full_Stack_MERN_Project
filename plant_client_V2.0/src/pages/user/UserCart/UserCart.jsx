@@ -1,9 +1,41 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Progressbar } from "rizzui";
+import { useUpdateCartItemMutation } from "../../../features/users/cartApi";
+import { cartItem } from "../../../features/users/cartSlice";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const UserCart = () => {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state?.cart?.plants);
-  console.log(cart);
+  const cartCalculation = useSelector((state) => state?.cart);
+  const user = useSelector((state) => state?.auth?.user?.data);
+  const [updateCartItem, { data, error, isLoading, isSuccess, isError }] =
+    useUpdateCartItemMutation();
+
+  console.log(cartCalculation?.freeShipping);
+  // ==============================================
+  const handleMinusCart = async (plantId, action) => {
+    const userId = user?._id;
+    try {
+      const res = await updateCartItem({ plantId, userId, action }).unwrap();
+
+      dispatch(cartItem(res.message));
+    } catch (error) {
+      toast.error("Can not reduce cart quantity");
+    }
+  };
+  const handlePlusCart = async (plantId, action) => {
+    const userId = user?._id;
+    try {
+      const res = await updateCartItem({ plantId, userId, action }).unwrap();
+      dispatch(cartItem(res.message));
+    } catch (error) {
+      toast.error("Can not update cart quantity");
+    }
+  };
+
+  // ==============================================
   return (
     <section className="max-w-6xl mx-auto px-4 py-8">
       {/* Cart Header */}
@@ -15,41 +47,80 @@ const UserCart = () => {
       </div>
 
       {/* Free shipping progress */}
-      <div className="border p-4 rounded-lg mb-6 flex items-center justify-between">
-        <div className="flex flex-col gap-2 w-full">
-          <p className="text-sm text-gray-700 font-medium">
-            You're <span className="font-bold text-red-600">$8</span> away from
-            FREE SHIPPING!
-          </p>
-          <Progressbar value={20} size="sm" color="danger" className="w-64" />
-        </div>
-        <button className="ml-4" variant="outline">
-          Keep Shopping
-        </button>
+      {/* Free shipping progress */}
+      <div className="border p-4 rounded-lg mb-6 flex items-center justify-between text-white bg-primary-dashboardPrimaryColor">
+        {cartCalculation?.totalPrice === "0.00" ? (
+          <div className="flex flex-col gap-2 w-full">
+            <p className="text-sm font-medium">
+              You're
+              <span className="font-bold mx-2 text-xl">$ 30</span>
+              AWAY FOR FREE SHIPPING!
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 w-full">
+            {cartCalculation?.freeShipping === "" ? (
+              <p className="text-sm font-semibold">
+                🎉 Congratulations! You’re eligible for free shipping!
+              </p>
+            ) : (
+              <p className="text-sm font-medium">
+                You're
+                <span className="font-bold mx-2 text-xl">
+                  $ {cartCalculation?.freeShipping}
+                </span>
+                AWAY FOR FREE SHIPPING!
+              </p>
+            )}
+          </div>
+        )}
+
+        {cartCalculation?.freeShipping !== "" && (
+          <Link to="/allProduct">
+            <button className="ml-4  px-6 py-1 text-green-600 font-bold rounded-bl-full rounded-tr-full text-sm bg-gray-200 hover:bg-white hover:text-green-700 transition">
+              Keep Shopping
+            </button>
+          </Link>
+        )}
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96">
         {/* Product Area */}
-        <div className="flex-1 border rounded-lg p-4">
+        <div className="flex-1 rounded-lg p-4 max-h-[350px] overflow-y-auto">
           {cart?.map((item) => (
             <>
-              <div className="flex items-center justify-between gap-6 bg-lime-300">
+              <div
+                key={item?.plant?._id}
+                className="flex items-center justify-between gap-6  mt-4 px-4 py-2 rounded-2xl shadow-md"
+              >
                 <img
-                  src={item?.images?.[0]?.url}
+                  src={item?.plant?.images?.[3]?.url}
                   alt="product"
-                  className="w-28 h-28 object-cover rounded-lg"
+                  className="w-28 h-28 object-cover rounded-lg shadow-md shadow-lime-700"
                 />
                 <div className="flex-1">
-                  <h2 className="font-semibold text-lg">6 Blade Starter Kit</h2>
-                  <p className="text-sm text-gray-500">2 items</p>
+                  <h2 className="font-semibold text-lg">{item?.plant?.name}</h2>
+                  <p className="text-sm text-gray-500">
+                    {item?.quantity} pieces
+                  </p>
                   <div className="flex items-center gap-2 mt-2">
-                    <button size="sm">-</button>
-                    <span className="px-3">1</span>
-                    <button size="sm">+</button>
+                    <button
+                      onClick={() => handleMinusCart(item?.plant?._id, "minus")}
+                      size="sm"
+                    >
+                      -
+                    </button>
+                    <span className="px-3">{item?.quantity}</span>
+                    <button
+                      onClick={() => handlePlusCart(item?.plant?._id, "plus")}
+                      size="sm"
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
-                <p className="text-lg font-bold">$10</p>
+                <p className="text-lg font-bold">${item?.plant?.newPrice}</p>
               </div>
             </>
           ))}

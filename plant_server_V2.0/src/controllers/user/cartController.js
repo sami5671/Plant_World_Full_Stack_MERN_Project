@@ -25,7 +25,16 @@ const addToCart = async (req, res, next) => {
 
       // Save the updated cart
       await cart.save();
-      return apiResponse(res, 200, true, "Added to Cart successfully");
+      const cartItem = await Cart.findOne({ user: user }).populate(
+        "plants.plant"
+      );
+      return apiResponse(
+        res,
+        200,
+        true,
+        "Added to Cart successfully",
+        cartItem
+      );
     } else {
       // Create a new cart
       const newCart = new Cart({
@@ -33,7 +42,17 @@ const addToCart = async (req, res, next) => {
         plants: [plantToAdd],
       });
       await newCart.save();
-      return apiResponse(res, 200, true, "Added to Cart successfully");
+      const cartItem = await Cart.findOne({ user: user }).populate(
+        "plants.plant"
+      );
+
+      return apiResponse(
+        res,
+        200,
+        true,
+        "Added to Cart successfully",
+        cartItem
+      );
     }
   } catch (error) {
     console.error(error);
@@ -48,7 +67,7 @@ const getCartItem = async (req, res, next) => {
     const cartItem = await Cart.findOne({ user: userId }).populate(
       "plants.plant"
     );
-    console.log(cartItem);
+    // console.log(cartItem);
 
     if (!cartItem) {
       return apiResponse(res, 200, true, "Cart not found for this user");
@@ -59,7 +78,45 @@ const getCartItem = async (req, res, next) => {
   }
 };
 
+const updateCartQuantity = async (req, res) => {
+  const { plantId, userId, action } = req.body;
+  // console.log(plantId, userId, action);
+
+  try {
+    const cart = await Cart.findOne({ user: userId });
+    if (!cart) return apiResponse(res, 404, "Cart not found");
+
+    const plantIndex = cart.plants.findIndex(
+      (item) => item.plant.toString() === plantId
+    );
+
+    if (plantIndex === -1)
+      return apiResponse(res, 404, "Plant not found in cart");
+
+    if (action === "plus") {
+      cart.plants[plantIndex].quantity += 1;
+    } else if (action === "minus") {
+      cart.plants[plantIndex].quantity -= 1;
+      if (cart.plants[plantIndex].quantity < 1) {
+        cart.plants.splice(plantIndex, 1);
+      }
+    }
+
+    await cart.save();
+
+    const cartItem = await Cart.findOne({ user: userId }).populate(
+      "plants.plant"
+    );
+
+    return apiResponse(res, 202, "Cart updated", cartItem);
+  } catch (error) {
+    console.error(error);
+    apiResponse(res, 500, "Server error");
+  }
+};
+
 module.exports = {
   addToCart,
   getCartItem,
+  updateCartQuantity,
 };
