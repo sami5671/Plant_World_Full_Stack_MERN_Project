@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Progressbar } from "rizzui";
 import { useUpdateCartItemMutation } from "../../../features/users/cartApi";
 import { cartItem } from "../../../features/users/cartSlice";
 import { toast } from "react-toastify";
@@ -7,13 +6,13 @@ import { Link } from "react-router-dom";
 
 const UserCart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state?.cart?.plants);
+  const cart = useSelector((state) => state?.cart?.cart);
   const cartCalculation = useSelector((state) => state?.cart);
   const user = useSelector((state) => state?.auth?.user?.data);
   const [updateCartItem, { data, error, isLoading, isSuccess, isError }] =
     useUpdateCartItemMutation();
 
-  console.log(cartCalculation?.freeShipping);
+  // console.log(cart);
   // ==============================================
   const handleMinusCart = async (plantId, action) => {
     const userId = user?._id;
@@ -88,41 +87,39 @@ const UserCart = () => {
       <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96">
         {/* Product Area */}
         <div className="flex-1 rounded-lg p-4 max-h-[350px] overflow-y-auto">
-          {cart?.map((item) => (
-            <>
-              <div
-                key={item?.plant?._id}
-                className="flex items-center justify-between gap-6  mt-4 px-4 py-2 rounded-2xl shadow-md"
-              >
-                <img
-                  src={item?.plant?.images?.[3]?.url}
-                  alt="product"
-                  className="w-28 h-28 object-cover rounded-lg shadow-md shadow-lime-700"
-                />
-                <div className="flex-1">
-                  <h2 className="font-semibold text-lg">{item?.plant?.name}</h2>
-                  <p className="text-sm text-gray-500">
-                    {item?.quantity} pieces
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <button
-                      onClick={() => handleMinusCart(item?.plant?._id, "minus")}
-                      size="sm"
-                    >
-                      -
-                    </button>
-                    <span className="px-3">{item?.quantity}</span>
-                    <button
-                      onClick={() => handlePlusCart(item?.plant?._id, "plus")}
-                      size="sm"
-                    >
-                      +
-                    </button>
-                  </div>
+          {cart?.plants?.map((item) => (
+            <div
+              key={item?.plant?._id}
+              className="flex items-center justify-between gap-6  mt-4 px-4 py-2 rounded-2xl shadow-md"
+            >
+              <img
+                src={item?.plant?.images?.[3]?.url}
+                alt="product"
+                className="w-28 h-28 object-cover rounded-lg shadow-md shadow-lime-700"
+              />
+              <div className="flex-1">
+                <h2 className="font-semibold text-lg">{item?.plant?.name}</h2>
+                <p className="text-sm text-gray-500">{item?.quantity} pieces</p>
+                <div className="flex items-center gap-2 mt-2">
+                  <button
+                    aria-label="Decrease quantity"
+                    className="w-8 h-8 rounded-full border text-lg flex items-center justify-center hover:bg-gray-200"
+                    onClick={() => handleMinusCart(item?.plant?._id, "minus")}
+                  >
+                    -
+                  </button>
+                  <span className="px-3">{item?.quantity}</span>
+                  <button
+                    aria-label="Increase quantity"
+                    className="w-8 h-8 rounded-full border text-lg flex items-center justify-center hover:bg-gray-200"
+                    onClick={() => handlePlusCart(item?.plant?._id, "plus")}
+                  >
+                    +
+                  </button>
                 </div>
-                <p className="text-lg font-bold">${item?.plant?.newPrice}</p>
               </div>
-            </>
+              <p className="text-lg font-bold">${item?.plant?.newPrice}</p>
+            </div>
           ))}
         </div>
 

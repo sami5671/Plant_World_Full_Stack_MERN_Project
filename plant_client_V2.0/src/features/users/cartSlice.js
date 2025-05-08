@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cart: [],
-  plants: [],
   totalPrice: "",
   totalPriceAfterDiscount: "",
   freeShipping: "",
@@ -15,29 +14,36 @@ const cartSlice = createSlice({
   reducers: {
     cartItem: (state, action) => {
       state.cart = action.payload;
-      state.plants = state.cart.plants;
-
+      // Calculate total price and other values
+      const plants = state.cart.plants || [];
       let totalPrice = 0;
-      state.plants.forEach((item) => {
-        const price = parseFloat(item.plant.newPrice);
-        const quantity = item.quantity;
-        totalPrice = totalPrice + price * quantity;
 
-        // discount calculation
-        if (totalPrice >= 30) {
-          state.totalPriceAfterDiscount = (totalPrice - 4).toFixed(2);
-          state.freeShipping = "";
-        } else {
-          state.totalPriceAfterDiscount = "";
-          state.freeShipping = 30 - totalPrice;
-        }
+      plants.forEach((item) => {
+        const price = parseFloat(item.plant?.newPrice || 0);
+        const quantity = parseInt(item.quantity || 0);
+        totalPrice += price * quantity;
       });
+
       state.totalPrice = totalPrice.toFixed(2);
-      state.totalCartItem = state.plants.length;
+      state.totalCartItem = plants.length;
+
+      if (totalPrice >= 30) {
+        state.totalPriceAfterDiscount = (totalPrice - 4).toFixed(2);
+        state.freeShipping = "";
+      } else {
+        state.totalPriceAfterDiscount = "";
+        state.freeShipping = (30 - totalPrice).toFixed(2);
+      }
+    },
+    resetCart: (state) => {
+      state.cart = [];
+      state.totalPrice = "";
+      state.totalPriceAfterDiscount = "";
+      state.freeShipping = "";
+      state.totalCartItem = "";
     },
   },
 });
 
-export const { cartItem } = cartSlice.actions;
-
+export const { cartItem, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;

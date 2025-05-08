@@ -14,6 +14,7 @@ import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
 import ProductDetails from "../pages/productDetails/ProductDetails";
 import UpdateProduct from "../pages/admin/UpdateProduct/UpdateProduct";
 import UserCart from "../pages/user/UserCart/UserCart";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {

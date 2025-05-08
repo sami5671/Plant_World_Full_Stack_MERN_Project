@@ -70,9 +70,10 @@ const getCartItem = async (req, res, next) => {
     // console.log(cartItem);
 
     if (!cartItem) {
-      return apiResponse(res, 200, true, "Cart not found for this user");
+      return apiResponse(res, 400, false, "Cart not found for this user");
+    } else {
+      return apiResponse(res, 200, true, "cart found successfully", cartItem);
     }
-    return res.status(200).json(cartItem);
   } catch (error) {
     return apiResponse(res, 500, true, "Server Error");
   }

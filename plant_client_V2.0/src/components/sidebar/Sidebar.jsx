@@ -1,7 +1,6 @@
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoSettingsSharp } from "react-icons/io5";
 import { GiPalmTree } from "react-icons/gi";
-
 import { MdMenu } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 import { useState } from "react";

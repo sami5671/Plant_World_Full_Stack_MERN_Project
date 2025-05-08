@@ -27,9 +27,9 @@ const Main = () => {
   useEffect(() => {
     if (localStorage.length > 0) {
       const user = localStorage.getItem("auth");
-      const data = JSON.parse(user);
       if (user) {
-        dispatch(userLoggedIn(JSON.parse(user)));
+        const data = JSON.parse(user);
+        dispatch(userLoggedIn(data));
       }
     }
   }, [dispatch]);
@@ -37,7 +37,7 @@ const Main = () => {
   // fetch cart item to redux local store
   useEffect(() => {
     if (isCartSuccess) {
-      dispatch(cartItem(cart));
+      dispatch(cartItem(cart.data));
     }
   }, [cart, isCartSuccess, dispatch]);
 

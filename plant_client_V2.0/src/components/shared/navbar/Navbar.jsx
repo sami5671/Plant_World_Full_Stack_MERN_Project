@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UseAuth from "../../../Hooks/UseAuth";
 import LargeScreenLogo from "../logo/LargeScreenLogo";
 import { userLoggedOut } from "../../../features/auth/authSlice";
+import { resetCart } from "../../../features/users/cartSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     dispatch(userLoggedOut());
-    localStorage.removeItem("auth");
+    dispatch(resetCart());
   };
 
   return (

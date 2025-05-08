@@ -16,12 +16,14 @@ export const cartApi = apiSlice.injectEndpoints({
           ],
         },
       }),
+      invalidatesTags: ["Carts"],
     }),
     getUserCartItem: builder.query({
       query: (userId) => ({
         url: `/user/userCartItem/${userId}`,
         method: "GET",
       }),
+      providesTags: ["Carts"],
     }),
     updateCartItem: builder.mutation({
       query: ({ plantId, userId, action }) => ({
@@ -33,6 +35,7 @@ export const cartApi = apiSlice.injectEndpoints({
           action,
         },
       }),
+      invalidatesTags: ["Carts"],
     }),
   }),
 });
