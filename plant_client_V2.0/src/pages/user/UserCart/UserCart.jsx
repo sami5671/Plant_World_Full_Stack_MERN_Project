@@ -12,7 +12,7 @@ const UserCart = () => {
   const [updateCartItem, { data, error, isLoading, isSuccess, isError }] =
     useUpdateCartItemMutation();
 
-  // console.log(cart);
+  // console.log(cartCalculation.totalCartItem);
   // ==============================================
   const handleMinusCart = async (plantId, action) => {
     const userId = user?._id;
@@ -41,7 +41,7 @@ const UserCart = () => {
       <div className="mb-6">
         <h1 className="text-4xl font-semibold">Your Cart</h1>
         <p className="text-sm mt-2 text-green-600 font-semibold">
-          1 item ships at checkout
+          {cartCalculation.totalCartItem} item ships at checkout
         </p>
       </div>
 
@@ -58,7 +58,7 @@ const UserCart = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-2 w-full">
-            {cartCalculation?.freeShipping === "" ? (
+            {cartCalculation?.freeShipping === 0 ? (
               <p className="text-sm font-semibold">
                 🎉 Congratulations! You’re eligible for free shipping!
               </p>
@@ -84,7 +84,7 @@ const UserCart = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96">
+      <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96 px-4 py-6">
         {/* Product Area */}
         <div className="flex-1 rounded-lg p-4 max-h-[350px] overflow-y-auto">
           {cart?.plants?.map((item) => (
@@ -124,20 +124,22 @@ const UserCart = () => {
         </div>
 
         {/* Summary Section */}
-        <div className="w-full lg:w-1/3 bg-gray-50 rounded-lg p-6 shadow-sm">
-          <h3 className="text-xl font-semibold mb-4">Summary</h3>
+        <div className="w-full lg:w-1/3 bg-gray-50 rounded-xl p-6 shadow-xl ">
+          <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
           <div className="space-y-2 text-sm text-gray-700">
             <div className="flex justify-between">
-              <span>Subtotal (1 item)</span>
-              <span>$10.00</span>
+              <span>Subtotal ({cartCalculation?.totalCartItem} item)</span>
+              <span>${cartCalculation?.totalPrice}</span>
             </div>
             <div className="flex justify-between">
               <span>Shipping Discount</span>
-              <span className="text-red-500">- $2.00</span>
+              <span className="text-red-500 font-bold">
+                -${cartCalculation?.shippingDiscount}
+              </span>
             </div>
             <div className="flex justify-between">
               <span>Shipping & Handling</span>
-              <span>$4.00</span>
+              <span>${cartCalculation?.shippingHandling}</span>
             </div>
             <div className="flex justify-between">
               <span>Tax (Calculated at checkout)</span>
@@ -146,10 +148,16 @@ const UserCart = () => {
           </div>
           <hr className="my-4" />
           <div className="flex justify-between text-lg font-bold">
-            <span>Balance</span>
-            <span>$12.00</span>
+            <span>Total Payable</span>
+            {cartCalculation?.totalPrice == 0 ? (
+              <span>$0.00</span>
+            ) : (
+              <span>${cartCalculation?.totalPriceAfterDiscount}</span>
+            )}
           </div>
-          <button className="w-full mt-4">Checkout</button>
+          <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+            Checkout
+          </button>
         </div>
       </div>
     </section>

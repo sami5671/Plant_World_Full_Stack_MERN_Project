@@ -43,7 +43,11 @@ const ManageProduct = () => {
   ] = useAddTrendingProductMutation();
   const [
     deleteProduct,
-    { isSuccess: isDeleteProductSuccess, isError: isDeleteProductError },
+    {
+      isSuccess: isDeleteProductSuccess,
+      isError: isDeleteProductError,
+      refetch: afterDeleteRefetch,
+    },
   ] = useDeleteProductMutation();
 
   const { filteredProducts } = useSelector((state) => state.manageProducts);
@@ -88,6 +92,7 @@ const ManageProduct = () => {
           text: "Your file has been deleted.",
           icon: "success",
         });
+        afterDeleteRefetch();
       }
     });
   };

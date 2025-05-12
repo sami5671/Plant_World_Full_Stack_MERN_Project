@@ -1,63 +1,43 @@
+import { useSelector } from "react-redux";
+
 const OrderSummary = () => {
+  const cartCalculation = useSelector((state) => state?.cart);
   return (
     <>
       {/* order Summary */}
-      <div className="bg-slate-100 mt-4 lg:mt-3 lg:ml-12 rounded-2xl px-4 lg:px-6 text-slate-500 mb-12 py-4">
-        <h1 className="text-2xl text-lime-500 font-bold mb-2">Order Summary</h1>
-        <hr />
-        <div className="flex justify-between items-center mb-2 ">
-          <p>Subtotal </p>
-          <span className="text-black font-bold">$ 89</span>
-        </div>
-        <div className="flex justify-between items-center mb-2">
-          <p>Shipping Fee</p>
-          <span className="text-black font-bold">$0</span>
-        </div>
-        <div className="flex justify-between items-center mb-2">
-          <p>Use Voucher code For Discount</p>
-          <span className="text-black font-bold">$ -5</span>
-        </div>
-        <div className="flex flex-col lg:flex-row items-center lg:items-center mb-2">
-          <div className="lg:flex-grow">
-            <input
-              type="text"
-              id="voucherInput"
-              placeholder="Enter Voucher Code R45"
-              className="border-2 text-center py-1"
-            />
+      <div className="w-full lg:h-96 bg-gray-50 rounded-xl p-6 shadow-xl ">
+        <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+        <div className="space-y-2 text-sm text-gray-700">
+          <div className="flex justify-between">
+            <span>Subtotal ({cartCalculation?.totalCartItem} item)</span>
+            <span>${cartCalculation?.totalPrice}</span>
           </div>
-          <button
-            // onClick={handleApplyVoucher}
-            className=" bg-lime-600 hover:bg-lime-400 font-bold transition duration-300 ease-in-out text-white px-4 py-1 rounded-sm"
-          >
-            Apply
-          </button>
+          <div className="flex justify-between">
+            <span>Shipping Discount</span>
+            <span className="text-red-500 font-bold">
+              -${cartCalculation?.shippingDiscount}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span>Shipping & Handling</span>
+            <span>${cartCalculation?.shippingHandling}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Tax (Calculated at checkout)</span>
+            <span>$0.00</span>
+          </div>
         </div>
-        <hr />
-        <div className="flex justify-between items-center mt-4 mb-2">
-          <p className="text-xl">Total</p>
-          <span className="text-orange-500 text-xl">$ 78</span>
+        <hr className="my-4" />
+        <div className="flex justify-between text-lg font-bold">
+          <span>Total Payable</span>
+          {cartCalculation?.totalPrice == 0 ? (
+            <span>$0.00</span>
+          ) : (
+            <span>${cartCalculation?.totalPriceAfterDiscount}</span>
+          )}
         </div>
-        <div className="flex justify-between items-center mt-4 mb-2">
-          <p className="text-xl">After Discount</p>
-          <span className="text-orange-500 text-xl">$ 89</span>
-        </div>
-        {/* ==================user info============ */}
-        <hr />
-
-        <button
-          type="button"
-          className="w-full px-4 py-2 rounded-md transition duration-300 ease-in-out hover:bg-amber-500 bg-amber-400 mt-6 text-white font-bold"
-        >
-          Proceed To Checkout
-        </button>
-
-        <button
-          type="button"
-          disabled
-          className="w-full px-4 py-2 rounded-md transition duration-300 ease-in-out bg-amber-200 mt-6 text-white font-bold"
-        >
-          Proceed To Checkout
+        <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+          Checkout
         </button>
       </div>
     </>

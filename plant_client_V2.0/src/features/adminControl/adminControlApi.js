@@ -8,12 +8,14 @@ export const productsApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Products"],
     }),
     addTrendingProduct: builder.mutation({
       query: ({ plantId }) => ({
         url: `/plant/addTrendingPlant/${plantId}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["Products"],
     }),
     updateProductInfo: builder.mutation({
       query: (data) => ({
@@ -21,12 +23,14 @@ export const productsApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: ["Products"],
     }),
     deleteProduct: builder.mutation({
       query: ({ plantId }) => ({
         url: `/admin/deleteProduct/${plantId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Products"],
     }),
   }),
 });

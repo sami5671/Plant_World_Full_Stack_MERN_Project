@@ -7,12 +7,14 @@ export const productsApi = apiSlice.injectEndpoints({
         url: "/plant/getAllPlants",
         method: "GET",
       }),
+      providesTags: ["Products"],
     }),
     getProductById: builder.query({
       query: (plantId) => ({
         url: `/plant/getPlantById/${plantId}`,
         method: "GET",
       }),
+      providesTags: ["Products"],
     }),
   }),
 });

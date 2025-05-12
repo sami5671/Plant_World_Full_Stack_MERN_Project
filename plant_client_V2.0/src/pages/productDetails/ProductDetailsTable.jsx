@@ -1,11 +1,10 @@
 import { FaShoppingCart } from "react-icons/fa";
-import DOMPurify from "dompurify"; // For sanitizing HTML content
 
 const ProductDetailsTable = ({ plant }) => {
   return (
     <>
       {/* Product Name */}
-      <h2 className="text-3xl font-bold">{plant?.name}</h2>
+      <h2 className="text-2xl font-semibold">{plant?.name}</h2>
       <hr className="my-2" />
 
       {/* Price Section */}
@@ -59,17 +58,6 @@ const ProductDetailsTable = ({ plant }) => {
       <button className="flex items-center gap-2 mt-4 bg-lime-600 transition duration-300 ease-in-out hover:bg-lime-800 px-4 py-2 rounded-md text-white font-bold">
         <FaShoppingCart /> Add to Cart
       </button>
-
-      {/* About Section */}
-      <div className="mt-6">
-        <h3 className="text-xl font-bold">About Plant:</h3>
-        <p
-          className="text-gray-700"
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(plant?.description),
-          }}
-        ></p>
-      </div>
     </>
   );
 };

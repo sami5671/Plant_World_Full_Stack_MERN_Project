@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cart: [],
-  totalPrice: "",
-  totalPriceAfterDiscount: "",
-  freeShipping: "",
-  totalCartItem: "",
+  totalPrice: 0,
+  totalPriceAfterDiscount: 0,
+  freeShipping: 0,
+  shippingDiscount: 0,
+  shippingHandling: 0,
+  totalCartItem: 0,
 };
 
 const cartSlice = createSlice({
@@ -24,23 +26,23 @@ const cartSlice = createSlice({
         totalPrice += price * quantity;
       });
 
-      state.totalPrice = totalPrice.toFixed(2);
+      state.totalPrice = parseFloat(totalPrice.toFixed(2));
       state.totalCartItem = plants.length;
 
       if (totalPrice >= 30) {
-        state.totalPriceAfterDiscount = (totalPrice - 4).toFixed(2);
-        state.freeShipping = "";
+        state.totalPriceAfterDiscount = parseFloat((totalPrice - 4).toFixed(2));
+        state.freeShipping = 0;
+        state.shippingDiscount = 4.0;
+        state.shippingHandling = 0;
       } else {
-        state.totalPriceAfterDiscount = "";
-        state.freeShipping = (30 - totalPrice).toFixed(2);
+        state.totalPriceAfterDiscount = parseFloat((totalPrice + 4).toFixed(2));
+        state.freeShipping = parseFloat((30 - totalPrice).toFixed(2));
+        state.shippingDiscount = 0;
+        state.shippingHandling = 4.0;
       }
     },
     resetCart: (state) => {
-      state.cart = [];
-      state.totalPrice = "";
-      state.totalPriceAfterDiscount = "";
-      state.freeShipping = "";
-      state.totalCartItem = "";
+      Object.assign(state, initialState);
     },
   },
 });

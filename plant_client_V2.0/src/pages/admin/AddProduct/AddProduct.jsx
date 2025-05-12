@@ -63,7 +63,7 @@ const AddProduct = () => {
   };
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    console.log(values);
+    // console.log(values);
     const images = values?.images;
     try {
       // upload images to Cloud Storage and get URL
@@ -72,7 +72,7 @@ const AddProduct = () => {
         const data = await uploadCloudinary(images[i]);
         arr.push(data);
       }
-      console.log(arr);
+      // console.log(arr);
       // add product using adminController API
       await addProduct({
         name: values.plantName,
