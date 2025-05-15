@@ -14,7 +14,7 @@ const LargeScreenLogo = () => {
         Plant World
       </a>
       <div>
-        <Link to="/dashboard/UserCart">
+        <Link to="/dashboard/cart">
           <span>
             <FaCartShopping className="text-2xl mr-6 lg:text-3xl text-lime-500 lg:mr-2" />
             <span className="badge absolute -mt-10 ml-2 lg:ml-5 text-lime-600 font-bold">

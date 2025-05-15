@@ -15,6 +15,9 @@ import ProductDetails from "../pages/productDetails/ProductDetails";
 import UpdateProduct from "../pages/admin/UpdateProduct/UpdateProduct";
 import UserCart from "../pages/user/UserCart/UserCart";
 import PrivateRoute from "./PrivateRoute";
+import UserDashboard from "../pages/user/UserDashboard/UserDashboard";
+import ModeratorDashboard from "./../pages/moderator/ModeratorDashboard/ModeratorDashboard";
+import PaymentPage from "../pages/payment/paymentPage";
 
 const router = createBrowserRouter([
   {
@@ -77,11 +80,29 @@ const router = createBrowserRouter([
         path: "manage-users",
         element: <ManageUsers />,
       },
-      // users routes
       {
-        path: "UserCart",
+        path: "payment",
+        element: <PaymentPage />,
+      },
+
+      // Moderator Route start
+      {
+        path: "moderator-dashboard",
+        element: <ModeratorDashboard />,
+      },
+      // Moderator Route end
+
+      // users routes start
+      {
+        path: "user-dashboard",
+        element: <UserDashboard />,
+      },
+      {
+        path: "cart",
         element: <UserCart />,
       },
+
+      // users routes end
     ],
   },
 ]);

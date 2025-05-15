@@ -30,3 +30,9 @@ export const cld = new Cloudinary({
     cloudName: import.meta.env.VITE_CLOUDINARY_NAME,
   },
 });
+
+//---------- payment method (create payment intent for stripe payment)-----------------
+export const createPaymentIntent = async (price) => {
+  const { data } = await axios.post("/create-payment-intent", price);
+  return data;
+};

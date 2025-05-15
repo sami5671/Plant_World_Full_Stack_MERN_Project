@@ -70,3 +70,61 @@ Made with :heart: by <a href="https://github.com/{{sami5671}}" target="_blank">{
 &#xa0;
 
 <a href="#top">Back to top</a>
+
+<!--
+
+🌿 1. Overview / Welcome Message
+User's name and greeting
+
+Account type (e.g., Regular / Premium)
+
+Profile picture (optional)
+
+🛒 2. Recent Orders
+List of recent orders with status (e.g., Shipped, Processing, Delivered)
+
+View Order Details / Invoice
+
+📦 3. Track Orders
+Option to track current orders with real-time status updates
+
+❤️ 4. Wishlist / Saved Items
+Items user has added to their wishlist or saved for later
+
+📊 5. Shopping Activity Summary
+Total orders placed
+
+Total amount spent
+
+Reward points (if applicable)
+
+🧾 6. Billing & Shipping Information
+Display saved addresses
+
+Edit/update address
+
+Default payment methods
+
+⚙️ 7. Account Settings
+Edit Profile (name, email, password)
+
+Notification preferences (email, SMS)
+
+Manage subscriptions (if any)
+
+💬 8. Support Section
+Contact Support / Chat
+
+FAQs
+
+Return & Refund Policy
+
+📩 9. Messages / Notifications
+Delivery alerts
+
+Promotional messages
+
+Order-related notifications
+
+💼 10. Logout Button
+Easy access to securely log out -->

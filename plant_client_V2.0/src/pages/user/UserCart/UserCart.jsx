@@ -3,6 +3,7 @@ import { useUpdateCartItemMutation } from "../../../features/users/cartApi";
 import { cartItem } from "../../../features/users/cartSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { FaStripe } from "react-icons/fa";
 
 const UserCart = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const UserCart = () => {
       toast.error("Can not reduce cart quantity");
     }
   };
+
   const handlePlusCart = async (plantId, action) => {
     const userId = user?._id;
     try {
@@ -155,9 +157,13 @@ const UserCart = () => {
               <span>${cartCalculation?.totalPriceAfterDiscount}</span>
             )}
           </div>
-          <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
-            Checkout
-          </button>
+          <div>
+            <Link to="/dashboard/payment">
+              <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+                Checkout
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

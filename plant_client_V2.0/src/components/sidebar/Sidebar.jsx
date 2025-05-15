@@ -12,7 +12,7 @@ import Logo from "../shared/logo/Logo";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
-  const isAdmin = true;
+  const isAdmin = false;
   const isModerator = false;
   // =================================================================
   const handleToggle = () => {
@@ -63,7 +63,7 @@ const Sidebar = () => {
               ) : isModerator ? (
                 <p>Moderator</p>
               ) : (
-                <p></p>
+                <p>User</p>
               )}
             </h1>
           </div>

@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const OrderSummary = () => {
   const cartCalculation = useSelector((state) => state?.cart);
@@ -36,9 +37,13 @@ const OrderSummary = () => {
             <span>${cartCalculation?.totalPriceAfterDiscount}</span>
           )}
         </div>
-        <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
-          Checkout
-        </button>
+        <div>
+          <Link to="/dashboard/payment">
+            <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+              Checkout
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );
