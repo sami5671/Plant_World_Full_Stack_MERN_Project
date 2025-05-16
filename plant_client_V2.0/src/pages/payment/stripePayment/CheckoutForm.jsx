@@ -1,9 +1,9 @@
-// import visa from "../../../../public/Extra/visa";
-// import stripeLogo from "../../../../public/Extra/stripelogo";
-// import mastercard from "../../../../public/Extra/mastercard";
-// import americanExpress from "../../../../public/Extra/americanexpress";
-// import discover from "../../../../public/Extra/discover";
-// import jcb from "../../../../public/Extra/jcb";
+import visa from "../../../assets/images/visa.png";
+import stripeLogo from "../../../assets/images/stripelogo.png";
+import mastercard from "../../../assets/images/mastercard.png";
+import americanExpress from "../../../assets/images/americanexpress.png";
+import discover from "../../../assets/images/discover.png";
+import jcb from "../../../assets/images/jcb.png";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 // =================================
@@ -147,12 +147,8 @@ const CheckoutForm = () => {
   // ===============Stripe Form handling End===========================
   return (
     <>
-      <div className="flex items-center justify-center">
-        <img
-          // src={stripeLogo}
-          className="w-[80px] "
-          alt=""
-        />
+      <div className="flex items-center justify-center ">
+        <img src={stripeLogo} className="w-[80px] " alt="" />
       </div>
       <h1 className="text-center font-bold text-3xl">
         <span className="text-cyan-600">Stripe</span>{" "}
@@ -163,13 +159,13 @@ const CheckoutForm = () => {
           <p className="font-bold mr-2">We Allow:</p>
         </div>
 
-        {/* <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <img src={visa} className="w-[50px]" alt="" />
           <img src={mastercard} className="w-[50px]" alt="" />
           <img src={americanExpress} className="w-[50px]" alt="" />
           <img src={discover} className="w-[50px]" alt="" />
           <img src={jcb} className="w-[50px]" alt="" />
-        </div> */}
+        </div>
       </div>
 
       <div>
@@ -205,7 +201,7 @@ const CheckoutForm = () => {
                   Name
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                   name="billerName"
                   type="text"
                   placeholder="Biller Name"
@@ -218,7 +214,7 @@ const CheckoutForm = () => {
                   Zip Code
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                   name="zipCodeBiller"
                   type="text"
                   placeholder="Zip"
@@ -231,11 +227,11 @@ const CheckoutForm = () => {
                 Email
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                 name="billerEmail"
                 type="text"
                 placeholder="Biller Email"
-                disabled
+                // disabled
                 // defaultValue={user?.email}
               />
             </div>
@@ -281,7 +277,7 @@ const CheckoutForm = () => {
                 Shipping Address
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                 name="shippingAddress"
                 type="text"
                 placeholder="Shipping Location"
@@ -294,7 +290,7 @@ const CheckoutForm = () => {
                   Receiver's Name
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                   name="receiverName"
                   type="text"
                   placeholder="Receiver Name"
@@ -306,7 +302,7 @@ const CheckoutForm = () => {
                   Zip Code
                 </label>
                 <input
-                  className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                   name="zipCodeS"
                   type="text"
                   placeholder="Zip"
@@ -319,7 +315,7 @@ const CheckoutForm = () => {
                 Receiver's Email
               </label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-purple-400 focus:outline-purple-500 rounded-md "
+                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
                 name="receiverEmail"
                 type="text"
                 placeholder="Receiver Email"
@@ -363,15 +359,14 @@ const CheckoutForm = () => {
         <div className="flex mt-2 justify-around">
           <button
             type="button"
-            className="w-full rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-            // onClick={closeModal}
+            className="w-full rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:rigreen-700 focus-visible:ring-offset-2"
           >
             Cancel
           </button>
           <button
             type="submit"
-            disabled={!stripe || !clientSecret || processing}
-            className="w-full ml-2 cursor-pointer rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+            // disabled={!stripe || !clientSecret || processing}
+            className="w-full ml-2 cursor-pointer rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bglime-border-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
           >
             {/* {processing ? (
               <ImSpinner9 className="m-auto animate-spin" size={24} />

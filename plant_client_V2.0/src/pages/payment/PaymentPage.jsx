@@ -10,7 +10,7 @@ const PaymentPage = () => {
 
   return (
     <div className="min-h-screen flex items-start justify-center p-8">
-      <div className="shadow-lg rounded-xl w-full max-w-2xl p-8">
+      <div className="shadow-lg rounded-xl w-full max-w-2xl p-8 bg-gray-100">
         <h1 className="text-2xl font-bold mb-6 text-primary-dashboardPrimaryTextColor border-b pb-2">
           💰 Choose Your Payment Method
         </h1>
