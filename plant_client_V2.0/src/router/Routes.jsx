@@ -18,6 +18,8 @@ import PrivateRoute from "./PrivateRoute";
 import UserDashboard from "../pages/user/UserDashboard/UserDashboard";
 import ModeratorDashboard from "./../pages/moderator/ModeratorDashboard/ModeratorDashboard";
 import PaymentPage from "../pages/payment/paymentPage";
+import Profile from "../pages/profile/Profile";
+import RecentOrder from "../pages/user/RecentOrder/RecentOrder";
 
 const router = createBrowserRouter([
   {
@@ -101,8 +103,18 @@ const router = createBrowserRouter([
         path: "cart",
         element: <UserCart />,
       },
+      {
+        path: "recent-order",
+        element: <RecentOrder />,
+      },
 
       // users routes end
+
+      // PROFILE ROUTE
+      {
+        path: "my-profile",
+        element: <Profile />,
+      },
     ],
   },
 ]);

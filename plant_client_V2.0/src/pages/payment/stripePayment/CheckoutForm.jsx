@@ -1,384 +1,391 @@
+import { useState, useEffect } from "react";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import * as Yup from "yup";
+import { toast } from "react-hot-toast";
+import { ImSpinner9 } from "react-icons/im";
+
+// Images
 import visa from "../../../assets/images/visa.png";
 import stripeLogo from "../../../assets/images/stripelogo.png";
 import mastercard from "../../../assets/images/mastercard.png";
 import americanExpress from "../../../assets/images/americanexpress.png";
 import discover from "../../../assets/images/discover.png";
 import jcb from "../../../assets/images/jcb.png";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-// =================================
-import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
-import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
-import { ImSpinner9 } from "react-icons/im";
-import { createPaymentIntent } from "../../../api/utils";
-// ==================================
+import DummyCards from "../../../components/shared/payment/DummyCards";
+import { useCreatePaymentIntentMutation } from "../../../features/payment/stripePay/stripePayApi";
+
+// CSS
+import "./checkOutform.css";
+import { useMakeOrderMutation } from "../../../features/users/orderApi";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { resetCart } from "../../../features/users/cartSlice";
+
+// Validation schema
+const validationSchema = Yup.object({
+  billerName: Yup.string().required("Biller Name is required"),
+  zipCodeBiller: Yup.string().required("Biller Zip Code is required"),
+  billerEmail: Yup.string()
+    .email("Invalid email")
+    .required("Biller Email is required"),
+  billerPhone: Yup.string().required("Biller Phone is required"),
+  shippingAddress: Yup.string().required("Shipping Address is required"),
+  receiverName: Yup.string().required("Receiver Name is required"),
+  zipCodeReceiver: Yup.string().required("Receiver Zip Code is required"),
+  receiverEmail: Yup.string()
+    .email("Invalid email")
+    .required("Receiver Email is required"),
+  receiverPhone: Yup.string().required("Receiver Phone is required"),
+});
+
 const CheckoutForm = () => {
   const stripe = useStripe();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const elements = useElements();
   const [cardError, setCardError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
-  // ==========================================
 
-  // ==========================================
-  const [billerPhoneNumber, setBillerPhoneNumber] = useState("");
-  const [receiverPhoneNumber, setReceiverPhoneNumber] = useState("");
-  // ==========================================
+  const cartCalculation = useSelector((state) => state?.cart);
+  const cart = useSelector((state) => state?.cart);
+  const user = useSelector((state) => state?.auth?.user?.data);
+  const price = cartCalculation.totalPriceAfterDiscount;
 
-  const price = 12.2;
+  const plantId = cart?.cart?.plants?.map((item) => item.plant._id);
+  const cartId = cart?.cart?._id;
+  const userId = user?._id;
+  // console.log(userId);
+
+  const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const [
+    makeOrder,
+    {
+      isLoading: makeOrderLoading,
+      isError: makeOrderError,
+      isSuccess: makeOrderSuccess,
+    },
+  ] = useMakeOrderMutation();
+
   useEffect(() => {
-    // create payment intent
     if (price > 0) {
-      createPaymentIntent({ price: price }).then((data) => {
-        console.log(data.clientSecret);
-        setClientSecret(data.clientSecret);
-      });
+      const fetchIntent = async () => {
+        try {
+          const result = await createPaymentIntent({ price }).unwrap();
+          setClientSecret(result.clientSecret);
+        } catch (err) {
+          console.error("Error creating payment intent:", err);
+        }
+      };
+      fetchIntent();
     }
-  }, [price]);
-  // ==========================================
+  }, [price, createPaymentIntent]);
 
-  // ===============Stripe Form handling Start===========================
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("clicked");
-    // =================================================================
-    const form = event.target;
+  useEffect(() => {
+    if (makeOrderSuccess) {
+      toast.success("Order placed successfully!");
+      setProcessing(false);
+    }
+  }, [makeOrderSuccess]);
 
-    const billerName = form.billerName.value;
-    const billerZipCode = form.zipCodeBiller.value;
-    const billerEmail = form.billerEmail.value;
-    const billerPhone = billerPhoneNumber;
+  const initialValues = {
+    billerName: user?.name || "",
+    zipCodeBiller: "",
+    billerEmail: user?.email || "",
+    billerPhone: "",
+    shippingAddress: "",
+    receiverName: "",
+    zipCodeReceiver: "",
+    receiverEmail: "",
+    receiverPhone: "",
+  };
 
-    const shippingAddress = form.shippingAddress.value;
-    const receiverName = form.receiverName.value;
-    const receiverEmail = form.receiverEmail.value;
-    const receiverPhone = receiverPhoneNumber;
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    setCardError("");
 
-    const customerInfo = {
-      billerName,
-      billerZipCode,
-      billerEmail,
-      billerPhone,
-      receiverName,
-      shippingAddress,
-      receiverEmail,
-      receiverPhone,
-    };
-    console.log(customerInfo);
-
-    // =================================================================
+    // console.log(values);
 
     if (!stripe || !elements) {
+      setSubmitting(false);
       return;
     }
 
     const card = elements.getElement(CardElement);
-    if (card === null) {
+    if (!card) {
+      setSubmitting(false);
       return;
     }
 
-    // Card data lookup (Asynchronous Network Call )
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
 
     if (error) {
-      console.log("error", error);
       setCardError(error.message);
-    } else {
-      setCardError("");
-      console.log("payment method", paymentMethod);
+      setSubmitting(false);
+      return;
     }
 
     setProcessing(true);
 
-    // Ekhane taka katbe
-    // const { paymentIntent, error: confirmError } =
-    //   await stripe.confirmCardPayment(clientSecret, {
-    //     payment_method: {
-    //       card: card,
-    //       billing_details: {
-    //         email: "samialam5671@gmail.com",
-    //         name: "Sami alam",
-    //       },
-    //     },
-    //   });
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card,
+          billing_details: {
+            email: values.billerEmail,
+            name: values.billerName,
+          },
+        },
+      });
 
-    // if (confirmError) {
-    //   console.log(confirmError);
-    //   setCardError(confirmError.message);
-    // }
+    if (confirmError) {
+      setCardError(confirmError.message);
+      setProcessing(false);
+      setSubmitting(false);
+      return;
+    }
 
-    // console.log("payment intent", paymentIntent);
+    if (paymentIntent.status === "succeeded") {
+      const orderInfo = {
+        billerName: values.billerName,
+        billerEmail: values.billerEmail,
+        billerZipCode: values.zipCodeBiller,
+        billerPhone: values.billerPhone,
+        shippingAddress: values.shippingAddress,
+        receiverName: values.receiverName,
+        receiverEmail: values.receiverEmail,
+        receiverZipCode: values.zipCodeReceiver,
+        receiverPhone: values.receiverPhone,
+        orderStatus: "pending",
+        paymentStatus: "paid",
+      };
 
-    // if (paymentIntent.status === "succeeded") {
-    //   const paymentInfo = {
-    //     transactionId: paymentIntent.id,
-    //     date: new Date(),
-    //     email: user.email,
-    //     photo: user.photoURL,
-    //     status: "processing",
-    //     paymentStatus: "Success",
-    //     customerInfo,
-    //     car,
-    //   };
-    //   try {
-    //     // save payment information to the server
-    //     await saveSoldCarInfo(paymentInfo);
+      const orderData = {
+        transactionId: paymentIntent.id,
+        orderInfo,
+        userId,
+        plantId,
+        cartId,
+      };
+      console.log(orderData);
+      await makeOrder({ orderData });
+      toast.success(`Payment Successful! Transaction ID: ${paymentIntent.id}`);
+      resetForm();
+      dispatch(resetCart());
+      navigate("/dashboard/cart");
+    }
 
-    //     // Update room status in db
-    //     // await updateStatus(bookingInfo.roomId, true);
-    //     const text = `Booking Successful! ${paymentIntent.id}`;
-    //     toast.success(text);
-    //     // navigate("/dashboard/my-bookings");
-    //     closeModal();
-    //   } catch (err) {
-    //     console.log(err);
-    //     toast.error(err.message);
-    //   } finally {
-    //     setProcessing(false);
-    //   }
-
-    //   setProcessing(false);
-    // }
+    setProcessing(false);
+    setSubmitting(false);
   };
-  // ===============Stripe Form handling End===========================
+
   return (
-    <>
-      <div className="flex items-center justify-center ">
-        <img src={stripeLogo} className="w-[80px] " alt="" />
-      </div>
-      <h1 className="text-center font-bold text-3xl">
-        <span className="text-cyan-600">Stripe</span>{" "}
-        <span className="text-slate-600">Payment</span>
-      </h1>
-      <div className="mt-6 flex items-center justify-center mb-10">
-        <div>
-          <p className="font-bold mr-2">We Allow:</p>
+    <div className="max-w-4xl mx-auto p-6">
+      <ToastContainer
+        position="bottom-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
+      <div className="text-center mb-6">
+        <img src={stripeLogo} className="w-20 mx-auto" alt="Stripe" />
+        <h1 className="text-3xl font-bold">
+          <span className="text-cyan-600">Stripe</span>{" "}
+          <span className="text-slate-600">Payment</span>
+        </h1>
+        <div className="flex items-center justify-center mt-4 space-x-4">
+          {[visa, mastercard, americanExpress, discover, jcb].map((img, i) => (
+            <img key={i} src={img} className="w-12" alt="Payment Option" />
+          ))}
         </div>
-
-        <div className="flex items-center justify-center">
-          <img src={visa} className="w-[50px]" alt="" />
-          <img src={mastercard} className="w-[50px]" alt="" />
-          <img src={americanExpress} className="w-[50px]" alt="" />
-          <img src={discover} className="w-[50px]" alt="" />
-          <img src={jcb} className="w-[50px]" alt="" />
-        </div>
       </div>
 
-      <div>
-        <h1 className="font-bold">Enter Card Number:</h1>
-      </div>
-      <form className="my-2" onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* LEFT: Card Section */}
+        <div className="w-full lg:w-1/2">
+          <DummyCards />
+          <div className="mt-6">
+            <label className="block font-bold mb-1">Enter Card Number:</label>
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#424770",
+                    "::placeholder": {
+                      color: "#aab7c4",
+                    },
+                  },
+                  invalid: {
+                    color: "#9e2146",
+                  },
                 },
-              },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-
-        {/* other details */}
-        <div>
-          {/* billing */}
-          <div className="mt-8">
-            <h1 className="text-xl font-semibold">Billing Info</h1>
-            <hr />
-            <div className="flex gap-2 mt-4">
-              <div className="space-y-1 text-sm">
-                <label htmlFor="biller name" className="block text-gray-600">
-                  Name
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                  name="billerName"
-                  type="text"
-                  placeholder="Biller Name"
-                  required
-                  // defaultValue={user?.displayName}
-                />
-              </div>
-              <div className="space-y-1 text-sm">
-                <label htmlFor="zip code" className="block text-gray-600">
-                  Zip Code
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                  name="zipCodeBiller"
-                  type="text"
-                  placeholder="Zip"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-1 text-sm mt-2">
-              <label htmlFor="biller email" className="block text-gray-600">
-                Email
-              </label>
-              <input
-                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                name="billerEmail"
-                type="text"
-                placeholder="Biller Email"
-                // disabled
-                // defaultValue={user?.email}
-              />
-            </div>
-            <div className="space-y-1 text-sm mt-2">
-              <label
-                htmlFor="biller phone number"
-                className="block text-gray-600"
-              >
-                Phone Number
-              </label>
-              <PhoneInput
-                country={"ar"}
-                value={billerPhoneNumber}
-                onChange={setBillerPhoneNumber}
-                inputStyle={{
-                  width: "100%",
-                  padding: "12px 24px",
-                  border: "1px solid #a855f7",
-                  borderRadius: "8px",
-                  color: "#1f2937",
-                  fontSize: "14px",
-                }}
-                buttonStyle={{
-                  border: "1px solid #a855f7",
-                  borderRadius: "8px 0 0 8px",
-                }}
-                dropdownStyle={{
-                  borderRadius: "8px",
-                  border: "1px solid #a855f7",
-                  maxHeight: "200px",
-                  overflowY: "scroll",
-                }}
-              />
-            </div>
-          </div>
-
-          {/* shipping  */}
-          <div className="mt-8">
-            <h1 className="text-xl font-semibold">Shipping Info</h1>
-            <hr />
-            <div className="space-y-1 text-sm mt-2">
-              <label htmlFor="shipping address" className="block text-gray-600">
-                Shipping Address
-              </label>
-              <input
-                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                name="shippingAddress"
-                type="text"
-                placeholder="Shipping Location"
-                required
-              />
-            </div>
-            <div className="flex gap-2 mt-4">
-              <div className="space-y-1 text-sm">
-                <label htmlFor="receiver name" className="block text-gray-600">
-                  Receiver's Name
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                  name="receiverName"
-                  type="text"
-                  placeholder="Receiver Name"
-                  required
-                />
-              </div>
-              <div className="space-y-1 text-sm">
-                <label htmlFor="zip code" className="block text-gray-600">
-                  Zip Code
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                  name="zipCodeS"
-                  type="text"
-                  placeholder="Zip"
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-1 text-sm mt-2">
-              <label htmlFor="receiver email" className="block text-gray-600">
-                Receiver's Email
-              </label>
-              <input
-                className="w-full px-4 py-3 text-gray-800 border border-green-500 focus:outline-green-700 rounded-md "
-                name="receiverEmail"
-                type="text"
-                placeholder="Receiver Email"
-                required
-              />
-            </div>
-            <div className="space-y-1 text-sm mt-2">
-              <label
-                htmlFor="receiver phone number"
-                className="block text-gray-600"
-              >
-                Phone Number
-              </label>
-              <PhoneInput
-                country={"br"}
-                value={receiverPhoneNumber}
-                onChange={setReceiverPhoneNumber}
-                inputStyle={{
-                  width: "100%",
-                  padding: "12px 24px",
-                  border: "1px solid #a855f7",
-                  borderRadius: "8px",
-                  color: "#1f2937",
-                  fontSize: "14px",
-                }}
-                buttonStyle={{
-                  border: "1px solid #a855f7",
-                  borderRadius: "8px 0 0 8px",
-                }}
-                dropdownStyle={{
-                  borderRadius: "8px",
-                  border: "1px solid #a855f7",
-                  maxHeight: "200px",
-                  overflowY: "scroll",
-                }}
-              />
-            </div>
+              }}
+            />
+            {cardError && <p className="text-red-500 mt-2">{cardError}</p>}
           </div>
         </div>
-        {/* other details */}
-        <div className="flex mt-2 justify-around">
-          <button
-            type="button"
-            className="w-full rounded-md border border-transparent bg-red-700 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus-visible:ring-2 focus-visible:rigreen-700 focus-visible:ring-offset-2"
+
+        {/* RIGHT: Billing and Shipping */}
+        <div className="w-full lg:w-1/2">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+            enableReinitialize
           >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            // disabled={!stripe || !clientSecret || processing}
-            className="w-full ml-2 cursor-pointer rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bglime-border-green-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-          >
-            {/* {processing ? (
-              <ImSpinner9 className="m-auto animate-spin" size={24} />
-            ) : (
-              `Pay ${car?.CarPriceNew}$`
-            )} */}
-            Pay
-          </button>
+            {({ values, setFieldValue, isSubmitting }) => (
+              <Form>
+                <h2 className="text-xl font-semibold mb-2">Billing Info</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label>Name</label>
+                    <Field name="billerName" className="input" disabled />
+                    <ErrorMessage
+                      name="billerName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Zip Code</label>
+                    <Field name="zipCodeBiller" className="input" />
+                    <ErrorMessage
+                      name="zipCodeBiller"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Email</label>
+                    <Field name="billerEmail" className="input" disabled />
+                    <ErrorMessage
+                      name="billerEmail"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Phone</label>
+                    <PhoneInput
+                      country={"us"}
+                      value={values.billerPhone}
+                      onChange={(value) => setFieldValue("billerPhone", value)}
+                      inputStyle={{
+                        width: "100%",
+                        padding: "12px 24px",
+                        border: "1px solid #a855f7",
+                        borderRadius: "8px",
+                        color: "#1f2937",
+                        fontSize: "14px",
+                      }}
+                    />
+                    <ErrorMessage
+                      name="billerPhone"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label>Shipping Address</label>
+                    <Field name="shippingAddress" className="input" />
+                    <ErrorMessage
+                      name="shippingAddress"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold mt-6 mb-2">
+                  Receiver Info
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label>Name</label>
+                    <Field name="receiverName" className="input" />
+                    <ErrorMessage
+                      name="receiverName"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Zip Code</label>
+                    <Field name="zipCodeReceiver" className="input" />
+                    <ErrorMessage
+                      name="zipCodeReceiver"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Email</label>
+                    <Field name="receiverEmail" className="input" />
+                    <ErrorMessage
+                      name="receiverEmail"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label>Phone</label>
+                    <PhoneInput
+                      country={"us"}
+                      value={values.receiverPhone}
+                      onChange={(value) =>
+                        setFieldValue("receiverPhone", value)
+                      }
+                      inputStyle={{
+                        width: "100%",
+                        padding: "12px 24px",
+                        border: "1px solid #a855f7",
+                        borderRadius: "8px",
+                        color: "#1f2937",
+                        fontSize: "14px",
+                      }}
+                    />
+                    <ErrorMessage
+                      name="receiverPhone"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-6 w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 rounded transition"
+                  disabled={isSubmitting || processing}
+                >
+                  {processing ? (
+                    <span className="flex justify-center items-center gap-2">
+                      <ImSpinner9 className="animate-spin" />
+                      Processing...
+                    </span>
+                  ) : (
+                    "Pay Now"
+                  )}
+                </button>
+              </Form>
+            )}
+          </Formik>
         </div>
-      </form>
-      {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-    </>
+      </div>
+    </div>
   );
 };
 

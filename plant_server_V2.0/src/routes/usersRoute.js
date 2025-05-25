@@ -8,13 +8,20 @@ const {
   getCartItem,
   updateCartQuantity,
 } = require("../controllers/user/cartController");
-const { makeOrder } = require("../controllers/user/paymentController");
+const {
+  generateClientSecret,
+} = require("../controllers/user/paymentController");
+const {
+  makeOrder,
+  getUserOrderedItems,
+} = require("../controllers/user/orderController");
 
 // add to cart
 router.post("/cart", addToCart);
 router.get("/userCartItem/:userId", getCartItem);
 router.put("/updateCartQuantity", updateCartQuantity);
-// router.post("/create-payment-intent");
+router.post("/create-payment-intent", generateClientSecret);
 router.post("/saveOrder", makeOrder);
+router.get("/userOrderItem/:userId", getUserOrderedItems);
 
 module.exports = router;

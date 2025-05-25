@@ -33,6 +33,7 @@ export const cld = new Cloudinary({
 
 //---------- payment method (create payment intent for stripe payment)-----------------
 export const createPaymentIntent = async (price) => {
-  const { data } = await axios.post("/create-payment-intent", price);
+  console.log(price);
+  const { data } = await axios.post("/user/create-payment-intent", price);
   return data;
 };

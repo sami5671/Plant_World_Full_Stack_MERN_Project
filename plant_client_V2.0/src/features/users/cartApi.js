@@ -23,7 +23,8 @@ export const cartApi = apiSlice.injectEndpoints({
         url: `/user/userCartItem/${userId}`,
         method: "GET",
       }),
-      providesTags: ["Carts"],
+      // providesTags: ["Carts"],
+      providesTags: (result, error, userId) => [{ type: "Carts", id: userId }],
     }),
     updateCartItem: builder.mutation({
       query: ({ plantId, userId, action }) => ({

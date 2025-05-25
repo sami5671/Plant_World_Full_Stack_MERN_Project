@@ -3,7 +3,6 @@ import { useUpdateCartItemMutation } from "../../../features/users/cartApi";
 import { cartItem } from "../../../features/users/cartSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { FaStripe } from "react-icons/fa";
 
 const UserCart = () => {
   const dispatch = useDispatch();

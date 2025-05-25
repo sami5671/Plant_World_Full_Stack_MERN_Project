@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
+    transactionId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     orderInfo: {
       billerName: {
         type: String,
@@ -42,11 +47,6 @@ const orderSchema = new mongoose.Schema(
       receiverPhone: {
         type: String,
         required: true,
-      },
-      transactionId: {
-        type: String,
-        required: true,
-        unique: true,
       },
       orderStatus: {
         type: String,
