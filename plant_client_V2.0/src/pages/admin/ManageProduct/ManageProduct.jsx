@@ -166,8 +166,8 @@ const ManageProduct = () => {
           </div>
         </div>
         {/* data table */}
-        <div className="overflow-x-auto">
-          <table className="table mt-8">
+        <div className="overflow-x-auto h-[650px]">
+          <table className="table table-pin-rows mt-8">
             {/* head */}
             <thead>
               <tr>
@@ -182,7 +182,7 @@ const ManageProduct = () => {
                 <th>Delete</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {/* row 1 */}
 
               {filteredProducts?.map((item, index) => (

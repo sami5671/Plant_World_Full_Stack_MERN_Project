@@ -20,6 +20,7 @@ import ModeratorDashboard from "./../pages/moderator/ModeratorDashboard/Moderato
 import PaymentPage from "../pages/payment/paymentPage";
 import Profile from "../pages/profile/Profile";
 import RecentOrder from "../pages/user/RecentOrder/RecentOrder";
+import ShoppingActivity from "../pages/user/ShoppingAcitivity/ShoppingActivity";
 
 const router = createBrowserRouter([
   {
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
       {
         path: "recent-order",
         element: <RecentOrder />,
+      },
+      {
+        path: "shopping-activity",
+        element: <ShoppingActivity />,
       },
 
       // users routes end

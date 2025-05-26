@@ -11,7 +11,8 @@ const makeOrder = async (req, res) => {
       return res.status(400).json({ message: "Order data is required." });
     }
 
-    const { orderInfo, userId, plantId, cartId, transactionId } = orderData;
+    const { orderInfo, userId, cartId, plantIdWithQuantity, transactionId } =
+      orderData;
 
     if (!transactionId) {
       return res.status(400).json({ message: "Transaction ID is required." });
@@ -23,8 +24,7 @@ const makeOrder = async (req, res) => {
       transactionId,
       orderInfo,
       userId,
-      plantId,
-      cartId,
+      plantIdWithQuantity,
     });
 
     const savedOrder = await newOrder.save();
@@ -54,14 +54,17 @@ const makeOrder = async (req, res) => {
 
 const getUserOrderedItems = async (req, res) => {
   const userId = req.params.userId;
-  console.log("User ID:", userId);
+  //   console.log("User ID:", userId);
 
   try {
-    const orders = await Order.find({ userId }).sort({ createdAt: -1 }); // latest first
+    const orders = await Order.find({ userId }).populate(
+      "plantIdWithQuantity.plantId"
+    );
 
     if (!orders || orders.length === 0) {
       return apiResponse(res, 404, false, "No orders found for this user", []);
     }
+    // console.log(orders);
     return apiResponse(
       res,
       200,

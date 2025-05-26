@@ -12,7 +12,7 @@ import Logo from "../shared/logo/Logo";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
-  const isAdmin = false;
+  const isAdmin = true;
   const isModerator = false;
   // =================================================================
   const handleToggle = () => {

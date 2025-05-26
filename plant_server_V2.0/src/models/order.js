@@ -64,11 +64,18 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    plantId: [
+    plantIdWithQuantity: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: "Plant",
-        required: true,
+        plantId: {
+          type: mongoose.Types.ObjectId,
+          ref: "Plant",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
       },
     ],
     cartId: {

@@ -22,12 +22,6 @@ const UserMenu = () => {
         label="Shopping Activity"
         address="shopping-activity"
       />
-      <MenuItem
-        icon={RiBillFill}
-        label="Billing & Shipping Info"
-        address="billing-shipping-info"
-      />
-
       <hr />
       <hr />
 
