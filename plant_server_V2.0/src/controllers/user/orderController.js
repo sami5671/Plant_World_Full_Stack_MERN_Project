@@ -14,6 +14,8 @@ const makeOrder = async (req, res) => {
     const { orderInfo, userId, cartId, plantIdWithQuantity, transactionId } =
       orderData;
 
+    console.log(plantIdWithQuantity);
+
     if (!transactionId) {
       return res.status(400).json({ message: "Transaction ID is required." });
     }

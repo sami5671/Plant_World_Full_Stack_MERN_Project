@@ -4,6 +4,7 @@ import authSliceReducer from "../features/auth/authSlice";
 import productSliceReducer from "../features/products/productsSlice";
 import manageProductSliceReducer from "../features/adminControl/manageProductControlSlice";
 import manageUserSliceReducer from "../features/adminControl/manageUsersControlSlice";
+import manageOrderSliceReducer from "../features/adminControl/manageOrderSlice";
 import cartSliceReducer from "../features/users/cartSlice";
 
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
     cart: cartSliceReducer,
     manageProducts: manageProductSliceReducer,
     manageUsers: manageUserSliceReducer,
+    manageOrders: manageOrderSliceReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares().concat(apiSlice.middleware),

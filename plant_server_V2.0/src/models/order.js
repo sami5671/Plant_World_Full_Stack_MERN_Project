@@ -48,6 +48,10 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+      paidAmount: {
+        type: Number,
+        required: true,
+      },
       orderStatus: {
         type: String,
         enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
@@ -66,6 +70,7 @@ const orderSchema = new mongoose.Schema(
     },
     plantIdWithQuantity: [
       {
+        _id: false,
         plantId: {
           type: mongoose.Types.ObjectId,
           ref: "Plant",

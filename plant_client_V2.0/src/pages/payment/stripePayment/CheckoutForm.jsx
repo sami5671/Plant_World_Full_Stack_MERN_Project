@@ -63,7 +63,7 @@ const CheckoutForm = () => {
   const cartId = cart?.cart?._id;
   const userId = user?._id;
 
-  console.log(plantIdWithQuantity);
+  // console.log(plantIdWithQuantity);
 
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
   const [
@@ -166,6 +166,7 @@ const CheckoutForm = () => {
         receiverEmail: values.receiverEmail,
         receiverZipCode: values.zipCodeReceiver,
         receiverPhone: values.receiverPhone,
+        paidAmount: price,
         orderStatus: "pending",
         paymentStatus: "paid",
       };
