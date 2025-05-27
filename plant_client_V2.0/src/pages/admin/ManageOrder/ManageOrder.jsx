@@ -39,7 +39,6 @@ const ManageOrder = () => {
   // sort by price
   const handleOrdersByPriceSort = (value) => {
     setValue(value);
-    console.log(value);
     dispatch(sortOrders(value));
   };
   useEffect(() => {
@@ -47,7 +46,7 @@ const ManageOrder = () => {
       dispatch(allOrders(orders));
     }
   }, [dispatch, orders, isOrderSuccess]);
-
+  console.log(filteredOrders);
   return (
     <>
       <ToastContainer

@@ -35,13 +35,14 @@ const manageOrderSlice = createSlice({
     },
     sortOrders: (state, action) => {
       const option = action.payload.value;
+
       if (option === "lowToHigh") {
-        state.filteredOrders = state.orders.orderInfo.sort(
-          (a, b) => a.paidAmount - b.paidAmount
+        state.filteredOrders = [...state.filteredOrders].sort(
+          (a, b) => a.orderInfo.paidAmount - b.orderInfo.paidAmount
         );
       } else if (option === "highToLow") {
-        state.filteredOrders = state.orders.orderInfo.sort(
-          (a, b) => b.paidAmount - a.paidAmount
+        state.filteredOrders = [...state.filteredOrders].sort(
+          (a, b) => b.orderInfo.paidAmount - a.orderInfo.paidAmount
         );
       } else {
         state.filteredOrders = state.orders;
