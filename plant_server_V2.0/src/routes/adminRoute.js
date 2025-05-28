@@ -12,7 +12,10 @@ const {
   deletePlantInfo,
 } = require("../controllers/admin/PlantController");
 const { checkFirebaseAdmin } = require("../middlewares/firebaseCheckAdmin");
-const { getAllOrders } = require("../controllers/admin/OrdersController");
+const {
+  getAllOrders,
+  updateOrderStatus,
+} = require("../controllers/admin/OrdersController");
 
 // get all users
 router.get("/users", getAllUsers);
@@ -22,6 +25,6 @@ router.delete("/deleteProduct/:id", deletePlantInfo);
 
 // orders
 router.get("/allOrders", getAllOrders);
-
+router.patch("/orderStatusUpdate", updateOrderStatus);
 // export
 module.exports = router;

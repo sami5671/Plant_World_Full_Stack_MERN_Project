@@ -3,7 +3,7 @@ import { IoInformationCircle } from "react-icons/io5";
 import { FaGear, FaTrash } from "react-icons/fa6";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { Select } from "rizzui";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const options = [
@@ -11,7 +11,10 @@ const options = [
   { label: "Low To High 🔼", value: "lowToHigh" },
   { label: "High To Low 🔽", value: "highToLow" },
 ];
-import { useGetAllOrdersQuery } from "../../../features/adminControl/manageOrderApi";
+import {
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
+} from "../../../features/adminControl/manageOrderApi";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,9 +23,16 @@ import {
   searchByOrderId,
   sortOrders,
 } from "../../../features/adminControl/manageOrderSlice";
+import OrderStatusModal from "./OrderStatusModal";
 const ManageOrder = () => {
   const dispatch = useDispatch();
+  const [updateOrder, setUpdateOrder] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const { data: orders, isSuccess: isOrderSuccess } = useGetAllOrdersQuery();
+  const [
+    updateOrderStatus,
+    { isSuccess: isOrderStatusSuccess, isLoading: isOrderStatusLoading },
+  ] = useUpdateOrderStatusMutation();
   // console.log(orders?.data);
   const { filteredOrders } = useSelector((state) => state.manageOrders);
   // console.log(filteredOrders);
@@ -41,12 +51,34 @@ const ManageOrder = () => {
     setValue(value);
     dispatch(sortOrders(value));
   };
+
+  const handleOpenUpdateOrder = (id) => {
+    setSelectedOrderId(id);
+    setUpdateOrder(true);
+  };
+
+  const handleCloseUpdateOrder = () => {
+    setUpdateOrder(false);
+    setSelectedOrderId(null);
+  };
+
+  const modalHandler = (status) => {
+    const orderId = selectedOrderId;
+    updateOrderStatus({ status, orderId });
+  };
+  useEffect(() => {
+    if (isOrderStatusSuccess) {
+      toast.success(`Order status updated`);
+      handleCloseUpdateOrder();
+    }
+  }, [isOrderStatusSuccess]);
+
   useEffect(() => {
     if (isOrderSuccess && orders) {
       dispatch(allOrders(orders));
     }
   }, [dispatch, orders, isOrderSuccess]);
-  console.log(filteredOrders);
+
   return (
     <>
       <ToastContainer
@@ -145,13 +177,14 @@ const ManageOrder = () => {
                   </td>
 
                   <td>
-                    {/* <Link to={`/dashboard/updateProduct/${item._id}`}> */}
-                    <button className="">
+                    <button
+                      onClick={() => handleOpenUpdateOrder(item?._id)}
+                      className=""
+                    >
                       <span className="text-3xl text-primary-dashboardPrimaryColor hover:text-lime-500 ">
                         <FaGear className="hover:animate-spin" />
                       </span>
                     </button>
-                    {/* </Link> */}
                   </td>
 
                   {/* </Link> */}
@@ -172,6 +205,11 @@ const ManageOrder = () => {
             </tbody>
           </table>
         </div>
+        <OrderStatusModal
+          updateOrder={updateOrder}
+          handleCloseUpdateOrder={handleCloseUpdateOrder}
+          modalHandler={modalHandler}
+        />
       </section>
     </>
   );
