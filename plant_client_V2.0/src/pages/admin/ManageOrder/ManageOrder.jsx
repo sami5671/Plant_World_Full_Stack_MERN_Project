@@ -5,6 +5,10 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { Select } from "rizzui";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
+import { MdPendingActions } from "react-icons/md";
+import { FcProcess } from "react-icons/fc";
+import { FaShippingFast } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 
 const options = [
   { label: "All 🌿", value: "all" },
@@ -159,7 +163,37 @@ const ManageOrder = () => {
                   <td className="">{item?.transactionId}</td>
                   <td>
                     <div className="">
-                      <div className="">{item?.orderInfo?.orderStatus}</div>
+                      <div className="text-2xl">
+                        {item?.orderInfo?.orderStatus === "pending" && (
+                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                            Pending
+                            <MdPendingActions className=" text-primary-dashboardPrimaryColor text-2xl" />
+                          </span>
+                        )}
+                        {item?.orderInfo?.orderStatus === "processing" && (
+                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                            Processing
+                            <FcProcess className="animate-spin text-primary-dashboardPrimaryColor text-2xl" />
+                          </span>
+                        )}
+                        {item?.orderInfo?.orderStatus === "shipped" && (
+                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                            Shipped
+                            <FaShippingFast className="text-primary-dashboardPrimaryColor text-2xl" />
+                          </span>
+                        )}
+                        {item?.orderInfo?.orderStatus === "cancelled" && (
+                          <span className="font-bold text-sm text-red-800 flex items-center gap-1">
+                            Canceled
+                            <MdCancel className="text-red-600 text-2xl" />
+                          </span>
+                        )}
+                        {item?.orderInfo?.orderStatus === "delivered" && (
+                          <span className="font-bold text-sm text-green-800">
+                            Delivered
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td>
@@ -167,7 +201,6 @@ const ManageOrder = () => {
                       ${item?.orderInfo?.paidAmount}
                     </span>
                   </td>
-                  {/* <Link to={`/product/${item._id}`}> */}
                   <td>
                     <Link to="">
                       <span className="text-4xl text-primary-dashboardPrimaryColor hover:text-lime-500">

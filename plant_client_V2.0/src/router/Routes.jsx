@@ -21,6 +21,7 @@ import PaymentPage from "../pages/payment/paymentPage";
 import Profile from "../pages/profile/Profile";
 import RecentOrder from "../pages/user/RecentOrder/RecentOrder";
 import ShoppingActivity from "../pages/user/ShoppingAcitivity/ShoppingActivity";
+import OrderDetails from "../pages/user/RecentOrder/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: "recent-order",
         element: <RecentOrder />,
+      },
+      {
+        path: "orderDetails/:id",
+        element: <OrderDetails />,
       },
       {
         path: "shopping-activity",

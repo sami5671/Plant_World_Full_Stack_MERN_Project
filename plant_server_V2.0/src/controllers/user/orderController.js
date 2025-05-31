@@ -80,7 +80,31 @@ const getUserOrderedItems = async (req, res) => {
   }
 };
 
+const getOrderDetails = async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const order = await Order.find({ _id }).populate(
+      "plantIdWithQuantity.plantId"
+    );
+
+    if (!order || order.length === 0) {
+      return apiResponse(res, 404, false, "No orders found for this user", []);
+    }
+    // console.log(order);
+    return apiResponse(
+      res,
+      200,
+      true,
+      "User order fetched successfully",
+      order
+    );
+  } catch (error) {
+    // console.error("Error fetching orders:", error);
+    return apiResponse(res, 500, false, "Server error", null);
+  }
+};
 module.exports = {
   makeOrder,
   getUserOrderedItems,
+  getOrderDetails,
 };

@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { useGetUserOrderQuery } from "../../../features/users/orderApi";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import PDFConverter from "../../../components/shared/pdfConverter/PDFConverter";
 
 const RecentOrder = () => {
   const user = useSelector((state) => state?.auth?.user?.data);
@@ -57,12 +59,12 @@ const RecentOrder = () => {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <button className="bg-yellow-400 text-sm font-semibold px-4 py-2 rounded hover:bg-yellow-500 transition">
-                    Get Invoice
-                  </button>
-                  <button className="border border-green-600 text-sm font-semibold px-4 py-2 rounded hover:bg-primary-dashboardPrimaryColor hover:text-white transition">
-                    View Order Details
-                  </button>
+                  <PDFConverter orders={item} />
+                  <Link to={`/dashboard/orderDetails/${item?._id}`}>
+                    <button className="border border-green-600 text-sm font-semibold px-4 py-2 rounded hover:bg-primary-dashboardPrimaryColor hover:text-white transition">
+                      View Order Details
+                    </button>
+                  </Link>
                   <button className="bg-red-400 text-sm font-semibold px-4 py-2 rounded hover:bg-red-600 transition">
                     Cancel order
                   </button>

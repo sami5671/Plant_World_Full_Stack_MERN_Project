@@ -7,6 +7,7 @@ export const manageOrderApi = apiSlice.injectEndpoints({
         url: "/admin/allOrders",
         method: "GET",
       }),
+      providesTags: ["Orders"],
     }),
     updateOrderStatus: builder.mutation({
       query: ({ status, orderId }) => ({
@@ -14,6 +15,7 @@ export const manageOrderApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { status, orderId },
       }),
+      invalidatesTags: ["Orders"],
     }),
   }),
 });

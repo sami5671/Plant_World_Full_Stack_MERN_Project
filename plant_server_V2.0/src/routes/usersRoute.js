@@ -14,6 +14,7 @@ const {
 const {
   makeOrder,
   getUserOrderedItems,
+  getOrderDetails,
 } = require("../controllers/user/orderController");
 
 // add to cart
@@ -23,5 +24,6 @@ router.put("/updateCartQuantity", updateCartQuantity);
 router.post("/create-payment-intent", generateClientSecret);
 router.post("/saveOrder", makeOrder);
 router.get("/userOrderItem/:userId", getUserOrderedItems);
+router.get("/orderDetails/:id", getOrderDetails);
 
 module.exports = router;

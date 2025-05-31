@@ -18,7 +18,17 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getOrderDetails: builder.query({
+      query: ({ id }) => ({
+        url: `/user/orderDetails/${id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useMakeOrderMutation, useGetUserOrderQuery } = orderApi;
+export const {
+  useMakeOrderMutation,
+  useGetUserOrderQuery,
+  useGetOrderDetailsQuery,
+} = orderApi;
