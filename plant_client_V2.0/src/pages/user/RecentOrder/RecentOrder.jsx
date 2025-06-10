@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useGetUserOrderQuery } from "../../../features/users/orderApi";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import PDFConverter from "../../../components/shared/pdfConverter/PDFConverter";
+import InvoiceDownloadButton from "../../../components/invoice/InvoiceDownloadButton";
 
 const RecentOrder = () => {
   const user = useSelector((state) => state?.auth?.user?.data);
@@ -59,7 +59,7 @@ const RecentOrder = () => {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <PDFConverter orders={item} />
+                  <InvoiceDownloadButton order={item} />
                   <Link to={`/dashboard/orderDetails/${item?._id}`}>
                     <button className="border border-green-600 text-sm font-semibold px-4 py-2 rounded hover:bg-primary-dashboardPrimaryColor hover:text-white transition">
                       View Order Details

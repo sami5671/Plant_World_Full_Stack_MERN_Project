@@ -59,8 +59,24 @@ const orderSchema = new mongoose.Schema(
       },
       paymentStatus: {
         type: String,
-        enum: ["unpaid", "paid", "refunded"],
+        enum: ["unpaid", "paid", "refunded", "pending"],
         default: "unpaid",
+      },
+      totalPrice: {
+        type: Number,
+        required: true,
+      },
+      totalPriceAfterDiscount: {
+        type: Number,
+        required: true,
+      },
+      shippingDiscount: {
+        type: Number,
+        required: true,
+      },
+      shippingHandling: {
+        type: Number,
+        required: true,
       },
     },
     userId: {

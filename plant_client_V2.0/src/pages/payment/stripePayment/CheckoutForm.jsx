@@ -54,7 +54,7 @@ const CheckoutForm = () => {
   const cartCalculation = useSelector((state) => state?.cart);
   const cart = useSelector((state) => state?.cart);
   const user = useSelector((state) => state?.auth?.user?.data);
-  const price = cartCalculation.totalPriceAfterDiscount;
+  const price = cartCalculation?.totalPriceAfterDiscount;
 
   const plantIdWithQuantity = cart?.cart?.plants?.map((item) => ({
     plantId: item.plant._id,
@@ -63,7 +63,7 @@ const CheckoutForm = () => {
   const cartId = cart?.cart?._id;
   const userId = user?._id;
 
-  // console.log(plantIdWithQuantity);
+  console.log(cart);
 
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
   const [
@@ -168,7 +168,11 @@ const CheckoutForm = () => {
         receiverPhone: values.receiverPhone,
         paidAmount: price,
         orderStatus: "pending",
-        paymentStatus: "paid",
+        paymentStatus: "pending",
+        totalPrice: cart?.totalPrice,
+        totalPriceAfterDiscount: cart?.totalPriceAfterDiscount,
+        shippingDiscount: cart?.shippingDiscount,
+        shippingHandling: cart?.shippingHandling,
       };
 
       const orderData = {

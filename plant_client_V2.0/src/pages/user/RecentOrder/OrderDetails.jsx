@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useGetOrderDetailsQuery } from "../../../features/users/orderApi";
-import PDFConverter from "../../../components/shared/pdfConverter/PDFConverter";
+import InvoiceDownloadButton from "../../../components/invoice/InvoiceDownloadButton";
 
 const OrderDetails = () => {
   const id = useParams();
   const { data: orderDetails, isSuccess: isOrderDetailsSuccess } =
     useGetOrderDetailsQuery(id);
 
-  console.log(orderDetails?.data);
+  console.log(orderDetails?.data?.[0]);
 
   if (!isOrderDetailsSuccess) return <div className="p-4">Loading...</div>;
 
@@ -23,7 +23,7 @@ const OrderDetails = () => {
           </p>
         </div>
         <div>
-          <PDFConverter orders={orders} />
+          <InvoiceDownloadButton order={orders?.[0]} />
         </div>
       </div>
 
