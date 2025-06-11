@@ -9,7 +9,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
-import { useGetUserOrderQuery } from "../../../features/users/orderApi";
 import { useMemo } from "react";
 
 // Register chart.js components
@@ -23,14 +22,8 @@ ChartJS.register(
 );
 
 const ShoppingActivityGraph = () => {
-  const user = useSelector((state) => state?.auth?.user?.data);
-  const userId = user?._id;
-
-  const { data: order, isSuccess: isOrderSuccess } = useGetUserOrderQuery(
-    { userId },
-    { skip: !userId }
-  );
-
+  const { filteredOrder } = useSelector((state) => state?.userOrders);
+  // console.log(filteredOrder);
   // Format like "June 2025"
   const formatMonthYear = (dateStr) => {
     const date = new Date(dateStr);
@@ -43,8 +36,8 @@ const ShoppingActivityGraph = () => {
     const quantityMap = {};
     const priceMap = {};
 
-    if (isOrderSuccess && Array.isArray(order?.data)) {
-      order.data.forEach((ord) => {
+    if (Array.isArray(filteredOrder)) {
+      filteredOrder.forEach((ord) => {
         const label = formatMonthYear(ord.createdAt);
 
         ord.plantIdWithQuantity?.forEach((item) => {
@@ -70,7 +63,7 @@ const ShoppingActivityGraph = () => {
     );
 
     return { labels: sortedLabels, quantityData, priceData };
-  }, [order, isOrderSuccess]);
+  }, [filteredOrder]);
 
   const chartOptions = {
     responsive: true,

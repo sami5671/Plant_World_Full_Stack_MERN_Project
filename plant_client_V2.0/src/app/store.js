@@ -6,6 +6,7 @@ import manageProductSliceReducer from "../features/adminControl/manageProductCon
 import manageUserSliceReducer from "../features/adminControl/manageUsersControlSlice";
 import manageOrderSliceReducer from "../features/adminControl/manageOrderSlice";
 import cartSliceReducer from "../features/users/cartSlice";
+import orderSliceReducer from "../features/users/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     manageProducts: manageProductSliceReducer,
     manageUsers: manageUserSliceReducer,
     manageOrders: manageOrderSliceReducer,
+    userOrders: orderSliceReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares().concat(apiSlice.middleware),
