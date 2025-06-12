@@ -1,19 +1,43 @@
 import { useEffect } from "react";
 import { useGetAllOrdersQuery } from "../../../features/adminControl/manageOrderApi";
-import GeneralOverview from "./GeneralOverview";
 import { useDispatch } from "react-redux";
 import { orderGraphChart } from "../../../features/adminControl/manageOrderSlice";
 import RevenueAndDemographicChart from "./RevenueAndDemographicChart";
+import { useGetAllUsersQuery } from "../../../features/adminControl/manageUsersApi";
+import { calculateUser } from "../../../features/adminControl/manageUsersControlSlice";
+import GeneralOverview from "./GeneralOverview";
+import { useGetProductsQuery } from "../../../features/products/productsApi";
+import { calculateTrendingProductCount } from "../../../features/products/productsSlice";
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const { data: orders, isSuccess: isOrderSuccess } = useGetAllOrdersQuery();
+  const {
+    data: users,
+    isSuccess: isUserSuccess,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useGetAllUsersQuery();
+
+  const { data: plants, isSuccess: isPlantSuccess } = useGetProductsQuery();
+  // console.log(plants?.data);
+  useEffect(() => {
+    if (isPlantSuccess) {
+      dispatch(calculateTrendingProductCount(plants));
+    }
+  }, [dispatch, isPlantSuccess, plants]);
+
+  useEffect(() => {
+    if (isUserSuccess) {
+      dispatch(calculateUser(users));
+    }
+  }, [isUserSuccess, dispatch, users]);
 
   useEffect(() => {
     if (isOrderSuccess) {
       dispatch(orderGraphChart(orders));
     }
-  }, [dispatch, isOrderSuccess, orders]);
+  }, [isOrderSuccess, dispatch, orders]);
 
   return (
     <>

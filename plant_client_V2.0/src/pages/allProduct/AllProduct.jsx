@@ -8,7 +8,7 @@ import { useGetProductsQuery } from "../../features/products/productsApi";
 const AllProduct = () => {
   const dispatch = useDispatch();
   const { data, isSuccess, isLoading, isError } = useGetProductsQuery();
-  const { filteredProducts } = useSelector((state) => state.products);
+  const { filteredProducts } = useSelector((state) => state?.products);
 
   // set to redux local store
   useEffect(() => {

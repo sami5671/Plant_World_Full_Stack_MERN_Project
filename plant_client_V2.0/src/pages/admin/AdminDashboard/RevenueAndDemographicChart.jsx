@@ -72,7 +72,7 @@ const RevenueAndDemographicChart = () => {
       labels: monthLabels,
       datasets: [
         {
-          type: "bar",
+          type: "line",
           label: "Total Orders",
           data: ordersPerMonth,
           backgroundColor: "rgba(79, 121, 66, 0.8)",

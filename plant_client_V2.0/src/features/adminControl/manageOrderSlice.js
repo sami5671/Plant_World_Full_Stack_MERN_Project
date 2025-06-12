@@ -5,6 +5,8 @@ const initialState = {
   filteredOrders: [],
   ordersChart: [],
   filteredOrdersChart: [],
+  totalOrders: 0,
+  totalEarnings: 0,
 };
 
 const manageOrderSlice = createSlice({
@@ -57,23 +59,29 @@ const manageOrderSlice = createSlice({
 
       // Store all orders
       state.ordersChart = allOrders;
-
       // Determine the latest year from data
       const latestYear = Math.max(
         ...allOrders.map((order) => new Date(order.createdAt).getFullYear())
       );
-
       // Filter only latest year’s orders
       const latestYearOrders = allOrders.filter((order) => {
         const orderYear = new Date(order.createdAt).getFullYear();
         return orderYear === latestYear;
       });
-
       // Store filtered orders for the latest year
       state.filteredOrdersChart = latestYearOrders;
 
       // console.log(" Latest Year:", latestYear);
       // console.log(" Orders in Latest Year:", latestYearOrders.length);
+
+      // calculating the total earnings , orders
+      state.totalOrders = state.filteredOrdersChart.length;
+      // Calculate total earnings from paidAmount
+      state.totalEarnings = state.filteredOrdersChart.reduce((total, order) => {
+        return total + (Number(order?.orderInfo?.paidAmount) || 0);
+      }, 0);
+
+      // console.log(state.totalEarnings);
     },
     yearBasedGraphChart: (state, action) => {
       const selectedYear = action.payload.value;
@@ -84,6 +92,13 @@ const manageOrderSlice = createSlice({
         return orderYear === selectedYear;
       });
       state.filteredOrdersChart = filteredOrders;
+
+      // calculate orders, earnings of the year
+      state.totalOrders = state.filteredOrdersChart.length;
+      // Calculate total earnings from paidAmount
+      state.totalEarnings = state.filteredOrdersChart.reduce((total, order) => {
+        return total + (Number(order?.orderInfo?.paidAmount) || 0);
+      }, 0);
     },
   },
 });

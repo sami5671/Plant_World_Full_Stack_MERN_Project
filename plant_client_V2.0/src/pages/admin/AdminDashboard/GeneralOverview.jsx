@@ -5,51 +5,22 @@ import {
   DollarSign,
   ShoppingBag,
   Users,
-  Wallet,
+  ChartNoAxesCombined,
 } from "lucide-react";
 import { dateFormate, getGreeting } from "../../../api/utils";
 import { Link } from "react-router-dom";
 import UseToGetLiveTime from "../../../Hooks/UseToGetLiveTime";
+import StatsCard from "../../../components/dashboard/StatsCard";
 
 const GeneralOverview = () => {
   const greeting = getGreeting();
   const now = UseToGetLiveTime();
   const user = useSelector((state) => state?.auth?.user?.data);
-
-  const stats = [
-    {
-      title: "TOTAL EARNINGS",
-      value: "$559.25k",
-      change: "+16.24%",
-      icon: <DollarSign className="w-6 h-6 text-green-500" />,
-      trendColor: "text-green-500",
-      link: "View net earnings",
-    },
-    {
-      title: "ORDERS",
-      value: "36,894",
-      change: "-3.57%",
-      icon: <ShoppingBag className="w-6 h-6 text-red-500" />,
-      trendColor: "text-red-500",
-      link: "View all orders",
-    },
-    {
-      title: "CUSTOMERS",
-      value: "183.35M",
-      change: "+29.08%",
-      icon: <Users className="w-6 h-6 text-yellow-500" />,
-      trendColor: "text-green-500",
-      link: "See details",
-    },
-    {
-      title: "MY BALANCE",
-      value: "$165.89k",
-      change: "",
-      icon: <Wallet className="w-6 h-6 text-purple-500" />,
-      trendColor: "",
-      link: "Withdraw money",
-    },
-  ];
+  const { totalOrders, totalEarnings } = useSelector(
+    (state) => state?.manageOrders
+  );
+  const { totalUsers } = useSelector((state) => state?.manageUsers);
+  const { totalTrendingProduct } = useSelector((state) => state?.products);
 
   return (
     <div className="p-6">
@@ -79,27 +50,38 @@ const GeneralOverview = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((item, index) => (
-          <div key={index} className="bg-white p-5 rounded-xl shadow border">
-            <div className="text-xs font-medium text-gray-500 mb-1">
-              {item.title}
-            </div>
-            <div className="text-2xl font-semibold mb-3">{item.value}</div>
-            <div className="flex items-center justify-between">
-              <a href="#" className="text-sm text-blue-600 underline">
-                {item.link}
-              </a>
-              <div className="bg-gray-100 p-2 rounded-lg">{item.icon}</div>
-            </div>
-            {item.change && (
-              <div
-                className={`absolute top-3 right-3 text-xs font-medium ${item.trendColor}`}
-              >
-                {item.change}
-              </div>
-            )}
-          </div>
-        ))}
+        <StatsCard
+          title={"TOTAL EARNINGS"}
+          value={`$${totalEarnings}`}
+          link={""}
+          linkName={"view earning graph"}
+          icon={<DollarSign className="w-6 h-6 text-green-500" />}
+          color={"text-green-500"}
+        />
+        <StatsCard
+          title={"ORDERS"}
+          value={totalOrders}
+          link={"/dashboard/manage-order"}
+          linkName={"view all orders"}
+          icon={<ShoppingBag className="w-6 h-6 text-red-500" />}
+          color={"text-red-500"}
+        />
+        <StatsCard
+          title={"CUSTOMERS"}
+          value={totalUsers}
+          link={"/dashboard/manage-users"}
+          linkName={"see details"}
+          icon={<Users className="w-6 h-6 text-yellow-500" />}
+          color={"text-green-500"}
+        />
+        <StatsCard
+          title={"Trending Product"}
+          value={totalTrendingProduct}
+          link={"/dashboard/manage-product"}
+          linkName={"see details"}
+          icon={<ChartNoAxesCombined className="w-6 h-6 text-green-500" />}
+          color={"text-green-500"}
+        />
       </div>
     </div>
   );

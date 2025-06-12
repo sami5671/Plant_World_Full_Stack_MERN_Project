@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   users: [],
   filteredUser: [],
+  totalUsers: 0,
 };
 
 const manageUsersSlice = createSlice({
@@ -13,8 +14,15 @@ const manageUsersSlice = createSlice({
       state.users = action.payload;
       state.filteredUser = action.payload;
     },
+
+    // calculate users
+    calculateUser: (state, action) => {
+      // console.log(action.payload);
+      const users = action.payload.length;
+      state.totalUsers = users;
+    },
   },
 });
 
-export const { allUsers } = manageUsersSlice.actions;
+export const { allUsers, calculateUser } = manageUsersSlice.actions;
 export default manageUsersSlice.reducer;

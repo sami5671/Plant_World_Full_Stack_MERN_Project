@@ -4,6 +4,7 @@ const initialState = {
   products: [],
   filteredProducts: [],
   trendingProducts: [],
+  totalTrendingProduct: 0,
 };
 
 const productSlice = createSlice({
@@ -48,10 +49,22 @@ const productSlice = createSlice({
         );
       }
     },
+    calculateTrendingProductCount: (state, action) => {
+      // console.log(action.payload.data);
+      const trendingCount = (state.trendingProducts =
+        action.payload.data.filter((product) => product.trending === true));
+      // console.log(trendingCount.length);
+      state.totalTrendingProduct = trendingCount.length;
+    },
   },
 });
 
-export const { allPlants, searchByName, filterByCategory, filterByPrice } =
-  productSlice.actions;
+export const {
+  allPlants,
+  searchByName,
+  filterByCategory,
+  filterByPrice,
+  calculateTrendingProductCount,
+} = productSlice.actions;
 
 export default productSlice.reducer;
