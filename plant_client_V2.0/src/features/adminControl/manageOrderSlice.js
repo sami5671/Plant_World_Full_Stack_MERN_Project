@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   orders: [],
   filteredOrders: [],
+  ordersChart: [],
+  filteredOrdersChart: [],
 };
 
 const manageOrderSlice = createSlice({
@@ -48,9 +50,50 @@ const manageOrderSlice = createSlice({
         state.filteredOrders = state.orders;
       }
     },
+
+    // for graph and chart
+    orderGraphChart: (state, action) => {
+      const allOrders = action.payload.data;
+
+      // Store all orders
+      state.ordersChart = allOrders;
+
+      // Determine the latest year from data
+      const latestYear = Math.max(
+        ...allOrders.map((order) => new Date(order.createdAt).getFullYear())
+      );
+
+      // Filter only latest year’s orders
+      const latestYearOrders = allOrders.filter((order) => {
+        const orderYear = new Date(order.createdAt).getFullYear();
+        return orderYear === latestYear;
+      });
+
+      // Store filtered orders for the latest year
+      state.filteredOrdersChart = latestYearOrders;
+
+      // console.log(" Latest Year:", latestYear);
+      // console.log(" Orders in Latest Year:", latestYearOrders.length);
+    },
+    yearBasedGraphChart: (state, action) => {
+      const selectedYear = action.payload.value;
+      const allOrders = state.ordersChart;
+
+      const filteredOrders = allOrders.filter((order) => {
+        const orderYear = new Date(order.createdAt).getFullYear();
+        return orderYear === selectedYear;
+      });
+      state.filteredOrdersChart = filteredOrders;
+    },
   },
 });
 
-export const { allOrders, searchByOrderId, searchByEmail, sortOrders } =
-  manageOrderSlice.actions;
+export const {
+  allOrders,
+  searchByOrderId,
+  searchByEmail,
+  sortOrders,
+  orderGraphChart,
+  yearBasedGraphChart,
+} = manageOrderSlice.actions;
 export default manageOrderSlice.reducer;

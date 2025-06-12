@@ -128,3 +128,8 @@ Order-related notifications
 
 💼 10. Logout Button
 Easy access to securely log out -->
+
+<!-- revenue and demographic chart plant-->
+
+1. revenue(orders, earnings, refunds)
+   ---admin can select year and according to the year it will return chart(jan to dec)

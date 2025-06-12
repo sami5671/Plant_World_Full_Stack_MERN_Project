@@ -1,4 +1,6 @@
 import axios from "axios";
+import moment from "moment";
+
 import { Cloudinary } from "@cloudinary/url-gen";
 
 export const imageUpload = async (image) => {
@@ -36,4 +38,20 @@ export const createPaymentIntent = async (price) => {
   console.log(price);
   const { data } = await axios.post("/user/create-payment-intent", price);
   return data;
+};
+
+export const getGreeting = () => {
+  const currentHour = new Date().getHours();
+  if (currentHour < 12) {
+    return "🌄Good Morning ";
+  } else if (currentHour < 18) {
+    return "🌇Good Afternoon ";
+  } else {
+    return "🌃Good Evening ";
+  }
+};
+
+export const dateFormate = (isoDate) => {
+  const formateDate = moment(isoDate).format("MMMM Do YYYY, h:mm:ss a");
+  return formateDate;
 };

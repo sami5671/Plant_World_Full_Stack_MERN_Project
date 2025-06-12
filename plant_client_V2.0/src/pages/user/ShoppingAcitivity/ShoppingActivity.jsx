@@ -13,7 +13,6 @@ const ShoppingActivity = () => {
     { userId },
     { skip: !userId }
   );
-
   useEffect(() => {
     if (isOrderSuccess) {
       dispatch(orderItem(order?.data));

@@ -202,7 +202,7 @@ const ManageOrder = () => {
                     </span>
                   </td>
                   <td>
-                    <Link to="">
+                    <Link to={`/dashboard/orderDetails/${item?._id}`}>
                       <span className="text-4xl text-primary-dashboardPrimaryColor hover:text-lime-500">
                         <IoInformationCircle />
                       </span>
