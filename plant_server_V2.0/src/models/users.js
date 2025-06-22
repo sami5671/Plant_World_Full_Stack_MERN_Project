@@ -41,9 +41,9 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     DOB: {
-      year: { type: Number },
-      month: { type: Number },
-      day: { type: Number },
+      year: { type: Number, default: null },
+      month: { type: Number, default: null },
+      day: { type: Number, default: null },
     },
     address: {
       type: String,

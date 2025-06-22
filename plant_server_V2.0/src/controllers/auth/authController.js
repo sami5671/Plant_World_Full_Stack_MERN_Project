@@ -11,7 +11,7 @@ const signUp = async (req, res, next) => {
   console.log(req.body);
   try {
     // Validate request body
-    const { fullName, email, password, avatar, address } = req.body;
+    const { fullName, email, password, avatar, address, DOB } = req.body;
 
     if (!fullName || !email || !password) {
       return apiResponse(
@@ -33,6 +33,7 @@ const signUp = async (req, res, next) => {
       password: hashedPassword,
       avatar,
       address,
+      DOB,
     });
 
     await newUser.save();
