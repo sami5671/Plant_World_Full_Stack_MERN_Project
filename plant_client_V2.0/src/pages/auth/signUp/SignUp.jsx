@@ -15,6 +15,7 @@ import { imageUpload } from "../../../api/utils";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../../components/shared/loader/Loader";
 import "./signup.css";
+import { getCurrentAddress } from "../../../features/auth/getCurrentAddress";
 const SignUp = () => {
   const [googleLogin] = useGoogleLoginMutation();
   const [githubLogin] = useGithubLoginMutation();
@@ -23,14 +24,14 @@ const SignUp = () => {
     useRegisterMutation();
 
   const initialValues = {
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     avatar: null,
   };
   // Validation schema
   const registerSchema = Yup.object().shape({
-    name: Yup.string()
+    fullName: Yup.string()
       .required("Name is required!")
       .min(3, "Name must be at least 3 characters."),
     email: Yup.string()
@@ -72,6 +73,9 @@ const SignUp = () => {
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
+      // get location from geolocation
+      const currentAddress = await getCurrentAddress();
+      console.log(currentAddress);
       // upload avatar cloud
       const image = values.avatar;
       const imageData = await imageUpload(image);
@@ -79,10 +83,11 @@ const SignUp = () => {
       // console.log(imageData, values);
       // Registration API call with image URL
       const response = await register({
-        name: values.name,
+        fullName: values.fullName,
         email: values.email,
         password: values.password,
         avatar: imageData?.data?.display_url,
+        address: currentAddress,
       }).unwrap();
 
       console.log(response);
@@ -173,20 +178,20 @@ const SignUp = () => {
                   <Form className="space-y-5">
                     <div className="form-control">
                       <Input
-                        label="Name"
-                        name="name"
-                        value={values.name}
+                        label="Full Name"
+                        name="fullName"
+                        value={values.fullName}
                         onChange={handleChange}
                         placeholder="Enter your name"
                         inputClassName={`border-2 ${
-                          errors.name && touched.name
+                          errors.fullName && touched.fullName
                             ? "border-red-500"
                             : "border-lime-500"
                         } bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
                       />
-                      {errors.name && touched.name && (
+                      {errors.fullName && touched.fullName && (
                         <p className="text-red-500 text-sm mt-1">
-                          {errors.name}
+                          {errors.fullName}
                         </p>
                       )}
                     </div>

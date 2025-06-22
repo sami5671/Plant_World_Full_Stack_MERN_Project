@@ -11,9 +11,9 @@ const signUp = async (req, res, next) => {
   console.log(req.body);
   try {
     // Validate request body
-    const { name, email, password, role, avatar } = req.body;
+    const { fullName, email, password, avatar, address } = req.body;
 
-    if (!name || !email || !password) {
+    if (!fullName || !email || !password) {
       return apiResponse(
         res,
         400,
@@ -28,11 +28,11 @@ const signUp = async (req, res, next) => {
 
     // Create new user instance
     const newUser = new User({
-      name,
+      fullName,
       email,
       password: hashedPassword,
-      role,
       avatar,
+      address,
     });
 
     await newUser.save();
@@ -118,15 +118,27 @@ const login = async (req, res, next) => {
 const socialLogin = async (req, res, next) => {
   // console.log(req.body);
   try {
-    const { name, email, avatar, providerId, provider } = req.body;
+    const {
+      fullName,
+      email,
+      gender,
+      avatar,
+      address,
+      DOB,
+      providerId,
+      provider,
+    } = req.body;
     const user = await User.findOne({ $or: [{ email }, { providerId }] });
 
     if (!user) {
       // Create new user instance
       const newUser = new User({
-        name,
+        fullName,
         email,
+        gender,
         avatar,
+        address,
+        DOB,
         providerId,
         provider,
       });

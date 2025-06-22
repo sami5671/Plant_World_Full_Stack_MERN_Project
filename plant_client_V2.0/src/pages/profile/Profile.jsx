@@ -1,5 +1,9 @@
 import { useState } from "react";
-
+import { Input, Radio, RadioGroup, Select } from "rizzui";
+const GenderOptions = [
+  { label: "Male 👨‍🦰", value: "male" },
+  { label: "Female 👩‍🦰", value: "female" },
+];
 const Profile = () => {
   const [image, setImage] = useState(null);
 
@@ -90,31 +94,25 @@ const Profile = () => {
           </div>
           <div>
             <label className="block text-sm font-medium">Role</label>
-            <select
+            <p
               className="mt-1 w-full border px-3 py-2 rounded"
               defaultValue="Subscriber"
             >
-              <option>Subscriber</option>
-              <option>Admin</option>
-              <option>Editor</option>
-            </select>
+              Admin
+            </p>
           </div>
           <div>
-            <label className="block text-sm font-medium">Last Name</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="Rodriguez"
-              readOnly
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">
-              Display Name Publicly as
-            </label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="Gene"
-              readOnly
+            <Select
+              label="Select Gender"
+              options={GenderOptions}
+              // value={PlantTypeOptions.find(
+              //   (option) => option.value === values.plantType
+              // )}
+              // onChange={(selected) =>
+              //   setFieldValue("plantType", selected.value)
+              // }
+              dropdownClassName="bg-white"
+              selectClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
             />
           </div>
         </div>
@@ -122,12 +120,11 @@ const Profile = () => {
         <h2 className="text-xl font-semibold mt-6 mb-4">Contact Info</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium">
-              Email (required)
-            </label>
+            <label className="block text-sm font-medium">Email</label>
             <input
               className="mt-1 w-full border px-3 py-2 rounded"
               value="gene.rodrig@gmail.com"
+              readOnly
             />
           </div>
           <div>
@@ -138,7 +135,7 @@ const Profile = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Website</label>
+            <label className="block text-sm font-medium">Website Link</label>
             <input
               className="mt-1 w-full border px-3 py-2 rounded"
               value="gene-roding.webflow.io"

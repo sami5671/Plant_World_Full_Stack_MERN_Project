@@ -1,12 +1,19 @@
 ----------- Authentication Schema model -------------
-- name 
+- fullName 
 - email 
-- mobile
+- primaryNumber
+- alternativeNumber
+- alternativeEmail
 - password
+- occupation
+- gender
+- age
+- address
 - avatar
 - role
+- providerId
+- provider
 - timestamps
-
 
 
 ----------- Plant Schema model -------------
