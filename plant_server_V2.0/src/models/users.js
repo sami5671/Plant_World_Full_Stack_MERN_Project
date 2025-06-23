@@ -58,6 +58,10 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin", "moderator"],
       default: "user",
     },
+    biography: {
+      type: String,
+      default: "",
+    },
     providerId: {
       type: String, // Store unique provider ID from Google/GitHub
       unique: true,

@@ -55,3 +55,13 @@ export const dateFormate = (isoDate) => {
   const formateDate = moment(isoDate).format("MMMM Do YYYY, h:mm:ss a");
   return formateDate;
 };
+
+// datepicker date format
+export const formattedDOB = (rawDate) => {
+  // console.log(rawDate);
+  const year = rawDate?.getUTCFullYear() || null;
+  const month = rawDate ? rawDate.getUTCMonth() + 1 : null; // getUTCMonth is 0-based
+  const day = rawDate?.getUTCDate() + 1 || null;
+
+  return { year, month, day };
+};

@@ -18,6 +18,8 @@ import "./signup.css";
 import { getCurrentAddress } from "../../../features/auth/getCurrentAddress";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaRegCalendarAlt } from "react-icons/fa";
+
 const SignUp = () => {
   const [googleLogin] = useGoogleLoginMutation();
   const [githubLogin] = useGithubLoginMutation();
@@ -259,16 +261,24 @@ const SignUp = () => {
                       )}
                     </div>
 
-                    <div className="form-control">
+                    <div className="form-control w-full">
                       <label className="text-sm font-medium text-gray-700 mb-1">
                         Date of Birth
                       </label>
-                      <ReactDatePicker
-                        selected={values.dateOfBirth}
-                        onChange={(date) => setFieldValue("dateOfBirth", date)}
-                        placeholderText="Select Date"
-                        className="w-full p-2 border-2 rounded-md bg-white opacity-80 border-lime-500 focus:outline-lime-500 outline-none focus:outline-none"
-                      />
+                      <div className="relative">
+                        <ReactDatePicker
+                          selected={values.dateOfBirth}
+                          onChange={(date) =>
+                            setFieldValue("dateOfBirth", date)
+                          }
+                          placeholderText="Select Date"
+                          className="w-full p-2 pr-10 border-2 rounded-md bg-white opacity-80 border-lime-500 focus:outline-none focus:border-lime-500"
+                        />
+                        <FaRegCalendarAlt
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"
+                          size={18}
+                        />
+                      </div>
                       {errors.dateOfBirth && touched.dateOfBirth && (
                         <p className="text-red-500 text-sm mt-1">
                           {errors.dateOfBirth}

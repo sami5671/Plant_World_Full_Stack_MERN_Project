@@ -7,7 +7,7 @@
 - password
 - occupation
 - gender
-- age
+- DOB
 - address
 - avatar
 - role

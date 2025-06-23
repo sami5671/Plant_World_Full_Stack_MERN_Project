@@ -1,10 +1,55 @@
-import { useState } from "react";
-import { Input, Radio, RadioGroup, Select } from "rizzui";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Input, Select } from "rizzui";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import {
+  useGetUserProfileInfoQuery,
+  useUpdateUserProfileInfoMutation,
+} from "../../features/users/userApi";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import { formattedDOB } from "../../api/utils";
+import { toast } from "react-toastify";
+
 const GenderOptions = [
   { label: "Male 👨‍🦰", value: "male" },
   { label: "Female 👩‍🦰", value: "female" },
 ];
+
+const validationSchema = Yup.object({
+  fullName: Yup.string().required("Full Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  gender: Yup.string().required("Gender is required"),
+});
+
 const Profile = () => {
+  const [initialValues, setInitialValues] = useState({
+    fullName: "",
+    email: "",
+    alternativeEmail: "",
+    primaryNumber: "",
+    alternativeNumber: "",
+    occupation: "",
+    gender: "",
+    DOB: null,
+    address: "",
+    role: "",
+    biography: "",
+  });
+
+  const user = useSelector((state) => state?.auth?.user?.data);
+  const userId = user?._id;
+
+  const { data: userInfo, isSuccess: isUserInfoSuccess } =
+    useGetUserProfileInfoQuery({ userId });
+
+  const [
+    updateUserProfileInfo,
+    { isSuccess: isUpdateUserInfoSuccess, isLoading: isUpdateUserInfoLoading },
+  ] = useUpdateUserProfileInfoMutation();
+
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -12,15 +57,67 @@ const Profile = () => {
     setImage(URL.createObjectURL(file));
   };
 
+  // form submit
+  const handleSubmit = async (values, { setSubmitting }) => {
+    console.log("Submitted:", values);
+
+    const dateOfBirth = await formattedDOB(values?.DOB);
+    try {
+      updateUserProfileInfo({
+        id: user._id,
+        fullName: values.fullName,
+        email: values.email,
+        alternativeEmail: values.alternativeEmail,
+        primaryNumber: values.primaryNumber,
+        alternativeNumber: values.alternativeNumber,
+        occupation: values.occupation,
+        gender: values.gender,
+        DOB: dateOfBirth,
+        address: values.address,
+        role: values.role,
+        biography: values.biography,
+      });
+      toast(`${values?.fullName} profile updated successfully`);
+      setSubmitting(false);
+    } catch (error) {
+      toast.error(error);
+    }
+    // console.log(dateOfBirth);
+  };
+
+  useEffect(() => {
+    if (isUserInfoSuccess && userInfo?.data) {
+      const { year, month, day } = userInfo?.data?.DOB || {};
+      const dateOfBirth =
+        year && month && day ? new Date(year, month - 1, day) : null;
+
+      setInitialValues({
+        fullName: userInfo.data.fullName || "",
+        email: userInfo.data.email || "",
+        alternativeEmail: userInfo.data.alternativeEmail || "",
+        primaryNumber: userInfo.data.primaryNumber || "",
+        alternativeNumber: userInfo.data.alternativeNumber || "",
+        occupation: userInfo.data.occupation || "",
+        gender: userInfo.data.gender || "",
+        DOB: dateOfBirth || { year: 0, month: 0, day: 0 },
+        address: userInfo.data.address || "",
+        avatar: userInfo.data.avatar || "",
+        role: userInfo.data.role || "",
+        biography: userInfo.data.biography || "",
+      });
+    }
+  }, [isUserInfoSuccess, userInfo?.data]);
+
+  // console.log(initialValues?.DOB);
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6 bg-gray-50 min-h-screen">
-      {/* Left Panel */}
+      {/* Left panel omitted for brevity */}
       <div className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow">
         <div className="flex flex-col items-center">
           <div className="relative">
             <img
               src={image || "https://i.pravatar.cc/150?img=3"}
-              alt="Profile"
+              alt="img"
               className="w-40 h-40 object-cover rounded-full"
             />
             <button className="absolute top-0 right-0 bg-gray-200 text-gray-600 rounded-full w-6 h-6 flex items-center justify-center">
@@ -64,102 +161,191 @@ const Profile = () => {
         </button>
       </div>
 
-      {/* Right Panel */}
-      <div className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Username</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="gene.rodrig"
-              readOnly
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">First Name</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="Gene"
-              readOnly
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Nickname</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="Gene.r"
-              readOnly
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Role</label>
-            <p
-              className="mt-1 w-full border px-3 py-2 rounded"
-              defaultValue="Subscriber"
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+      >
+        {({ values, setFieldValue }) => (
+          <Form className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Full Name */}
+              <div>
+                <label className="block text-sm mb-1">Full Name</label>
+                <Field name="fullName" as={Input} placeholder="Full name" />
+                <ErrorMessage
+                  name="fullName"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm mb-1">Primary Email</label>
+                <Field
+                  name="email"
+                  as={Input}
+                  placeholder="Email"
+                  readOnly
+                  className="bg-gray-100"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Alternative Email */}
+              <div>
+                <label className="block text-sm mb-1">Alternative Email</label>
+                <Field
+                  name="alternativeEmail"
+                  as={Input}
+                  placeholder="Alternative email"
+                />
+                <ErrorMessage
+                  name="alternativeEmail"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Primary Number */}
+              <div>
+                <label className="block text-sm mb-1">Primary Number</label>
+                <Field
+                  name="primaryNumber"
+                  as={Input}
+                  placeholder="Primary number"
+                />
+                <ErrorMessage
+                  name="primaryNumber"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Alternative Number */}
+              <div>
+                <label className="block text-sm mb-1">Alternative Number</label>
+                <Field
+                  name="alternativeNumber"
+                  as={Input}
+                  placeholder="Alternative number"
+                />
+                <ErrorMessage
+                  name="alternativeNumber"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Occupation */}
+              <div>
+                <label className="block text-sm mb-1">Occupation</label>
+                <Field name="occupation" as={Input} placeholder="Occupation" />
+                <ErrorMessage
+                  name="occupation"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Gender */}
+              <div>
+                <label className="block text-sm mb-1">Gender</label>
+                <Select
+                  options={GenderOptions}
+                  value={GenderOptions.find(
+                    (opt) => opt.value === values.gender
+                  )}
+                  onChange={(option) => setFieldValue("gender", option.value)}
+                />
+                <ErrorMessage
+                  name="gender"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Role */}
+              <div>
+                <label className="block text-sm mb-1">Role</label>
+                <Field
+                  name="role"
+                  as={Input}
+                  placeholder="User role"
+                  readOnly
+                  className="bg-gray-100"
+                />
+                <ErrorMessage
+                  name="role"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+
+              {/* Date of Birth */}
+              <div className="md:col-span-2 grid grid-cols-3 gap-2">
+                <div className="form-control">
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    Date of Birth
+                  </label>
+                  <div className="relative">
+                    <ReactDatePicker
+                      selected={values.DOB}
+                      onChange={(date) => setFieldValue("DOB", date)}
+                      placeholderText="Select Date"
+                      className="w-full p-2 pr-10 border-2 rounded-md bg-white opacity-80 border-lime-500 focus:outline-lime-500 outline-none"
+                    />
+                    <FaRegCalendarAlt className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Address */}
+              <div className="md:col-span-2">
+                <label className="block text-sm mb-1">Address</label>
+                <Field name="address" as={Input} placeholder="Address" />
+                <ErrorMessage
+                  name="address"
+                  component="div"
+                  className="text-red-500 text-sm"
+                />
+              </div>
+            </div>
+
+            {/* Biography */}
+            <div className="mt-6">
+              <label className="block text-sm mb-1">Biography</label>
+              <Field
+                as="textarea"
+                name="biography"
+                rows={4}
+                className="w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="Write something about yourself..."
+              />
+              <ErrorMessage
+                name="biography"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
             >
-              Admin
-            </p>
-          </div>
-          <div>
-            <Select
-              label="Select Gender"
-              options={GenderOptions}
-              // value={PlantTypeOptions.find(
-              //   (option) => option.value === values.plantType
-              // )}
-              // onChange={(selected) =>
-              //   setFieldValue("plantType", selected.value)
-              // }
-              dropdownClassName="bg-white"
-              selectClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
-            />
-          </div>
-        </div>
-
-        <h2 className="text-xl font-semibold mt-6 mb-4">Contact Info</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium">Email</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="gene.rodrig@gmail.com"
-              readOnly
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">WhatsApp</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="@gene-rod"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Website Link</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="gene-roding.webflow.io"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Telegram</label>
-            <input
-              className="mt-1 w-full border px-3 py-2 rounded"
-              value="@gene-rod"
-            />
-          </div>
-        </div>
-
-        <h2 className="text-xl font-semibold mt-6 mb-4">About the User</h2>
-        <div>
-          <label className="block text-sm font-medium">Biographical Info</label>
-          <textarea
-            rows={4}
-            className="mt-1 w-full border px-3 py-2 rounded"
-            defaultValue="Albert Einstein was a German mathematician and physicist who developed the special and general theories of relativity. In 1921, he won the Nobel Prize for physics for his explanation of the photoelectric effect. In the following decade."
-          />
-        </div>
-      </div>
+              Save Changes
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
