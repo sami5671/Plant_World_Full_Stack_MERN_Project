@@ -59,7 +59,7 @@ const Profile = () => {
 
   // form submit
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("Submitted:", values);
+    // console.log("Submitted:", values);
 
     const dateOfBirth = await formattedDOB(values?.DOB);
     try {
@@ -99,7 +99,7 @@ const Profile = () => {
         alternativeNumber: userInfo.data.alternativeNumber || "",
         occupation: userInfo.data.occupation || "",
         gender: userInfo.data.gender || "",
-        DOB: dateOfBirth || { year: 0, month: 0, day: 0 },
+        DOB: dateOfBirth || null,
         address: userInfo.data.address || "",
         avatar: userInfo.data.avatar || "",
         role: userInfo.data.role || "",
@@ -303,7 +303,6 @@ const Profile = () => {
                       placeholderText="Select Date"
                       className="w-full p-2 pr-10 border-2 rounded-md bg-white opacity-80 border-lime-500 focus:outline-lime-500 outline-none"
                     />
-                    <FaRegCalendarAlt className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
                   </div>
                 </div>
               </div>

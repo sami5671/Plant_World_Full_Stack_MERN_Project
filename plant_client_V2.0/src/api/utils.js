@@ -58,10 +58,11 @@ export const dateFormate = (isoDate) => {
 
 // datepicker date format
 export const formattedDOB = (rawDate) => {
-  // console.log(rawDate);
-  const year = rawDate?.getUTCFullYear() || null;
-  const month = rawDate ? rawDate.getUTCMonth() + 1 : null; // getUTCMonth is 0-based
-  const day = rawDate?.getUTCDate() + 1 || null;
+  if (!rawDate || !(rawDate instanceof Date)) return null;
 
-  return { year, month, day };
+  return {
+    year: rawDate.getUTCFullYear(),
+    month: rawDate.getUTCMonth() + 1,
+    day: rawDate.getUTCDate(),
+  };
 };
