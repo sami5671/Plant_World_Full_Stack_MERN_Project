@@ -9,9 +9,9 @@ import {
 } from "../../features/users/userApi";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { formattedDOB } from "../../api/utils";
 import { toast } from "react-toastify";
+import { ImSpinner2 } from "react-icons/im";
 
 const GenderOptions = [
   { label: "Male 👨‍🦰", value: "male" },
@@ -167,7 +167,7 @@ const Profile = () => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, isSubmitting }) => (
           <Form className="w-full md:w-2/3 bg-white p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
 
@@ -175,7 +175,12 @@ const Profile = () => {
               {/* Full Name */}
               <div>
                 <label className="block text-sm mb-1">Full Name</label>
-                <Field name="fullName" as={Input} placeholder="Full name" />
+                <Field
+                  name="fullName"
+                  as={Input}
+                  placeholder="Full name"
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
+                />
                 <ErrorMessage
                   name="fullName"
                   component="div"
@@ -191,7 +196,7 @@ const Profile = () => {
                   as={Input}
                   placeholder="Email"
                   readOnly
-                  className="bg-gray-100"
+                  inputClassName="border-lime-500 bg-gray-200 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 />
                 <ErrorMessage
                   name="email"
@@ -206,6 +211,7 @@ const Profile = () => {
                 <Field
                   name="alternativeEmail"
                   as={Input}
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                   placeholder="Alternative email"
                 />
                 <ErrorMessage
@@ -222,6 +228,7 @@ const Profile = () => {
                   name="primaryNumber"
                   as={Input}
                   placeholder="Primary number"
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 />
                 <ErrorMessage
                   name="primaryNumber"
@@ -237,6 +244,7 @@ const Profile = () => {
                   name="alternativeNumber"
                   as={Input}
                   placeholder="Alternative number"
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 />
                 <ErrorMessage
                   name="alternativeNumber"
@@ -248,7 +256,12 @@ const Profile = () => {
               {/* Occupation */}
               <div>
                 <label className="block text-sm mb-1">Occupation</label>
-                <Field name="occupation" as={Input} placeholder="Occupation" />
+                <Field
+                  name="occupation"
+                  as={Input}
+                  placeholder="Occupation"
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
+                />
                 <ErrorMessage
                   name="occupation"
                   component="div"
@@ -265,6 +278,8 @@ const Profile = () => {
                     (opt) => opt.value === values.gender
                   )}
                   onChange={(option) => setFieldValue("gender", option.value)}
+                  dropdownClassName="bg-white"
+                  selectClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 />
                 <ErrorMessage
                   name="gender"
@@ -281,7 +296,7 @@ const Profile = () => {
                   as={Input}
                   placeholder="User role"
                   readOnly
-                  className="bg-gray-100"
+                  inputClassName="border-lime-500 bg-gray-200 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 />
                 <ErrorMessage
                   name="role"
@@ -310,7 +325,12 @@ const Profile = () => {
               {/* Address */}
               <div className="md:col-span-2">
                 <label className="block text-sm mb-1">Address</label>
-                <Field name="address" as={Input} placeholder="Address" />
+                <Field
+                  name="address"
+                  as={Input}
+                  placeholder="Address"
+                  inputClassName="border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
+                />
                 <ErrorMessage
                   name="address"
                   component="div"
@@ -326,7 +346,7 @@ const Profile = () => {
                 as="textarea"
                 name="biography"
                 rows={4}
-                className="w-full border border-gray-300 rounded px-3 py-2"
+                className="w-full border border-lime-500 opacity-80 focus:border-lime-600 focus:ring-lime-600 hover:border-lime-600 hover:ring-lime-600 text-gray-800 rounded-md p-2 outline-none"
                 placeholder="Write something about yourself..."
               />
               <ErrorMessage
@@ -338,9 +358,13 @@ const Profile = () => {
 
             <button
               type="submit"
-              className="mt-6 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              className="bg-primary-dashboardPrimaryTextColor mt-5 text-[10px] lg:text-[14px] text-white lg:px-4 lg:py-2 rounded-full font-bold hover:bg-lime-500"
             >
-              Save Changes
+              {isUpdateUserInfoLoading || isSubmitting ? (
+                <ImSpinner2 className="animate-spin" />
+              ) : (
+                "Add Product"
+              )}
             </button>
           </Form>
         )}

@@ -63,6 +63,6 @@ export const formattedDOB = (rawDate) => {
   return {
     year: rawDate.getUTCFullYear(),
     month: rawDate.getUTCMonth() + 1,
-    day: rawDate.getUTCDate(),
+    day: rawDate.getUTCDate() + 1,
   };
 };
