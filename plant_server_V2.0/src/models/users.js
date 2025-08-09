@@ -16,8 +16,9 @@ const userSchema = new mongoose.Schema(
     alternativeEmail: {
       type: String,
       unique: true,
+      sparse: true, // allows multiple docs without the field
       trim: true,
-      default: "",
+      // ❌ No default here, so if you don't pass it, it won't exist
     },
     primaryNumber: {
       type: String,

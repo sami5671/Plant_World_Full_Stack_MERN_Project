@@ -15,7 +15,7 @@ export const getCurrentAddress = async () => {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
-    console.log("Latitude:", lat, "Longitude:", lon);
+    // console.log("Latitude:", lat, "Longitude:", lon);
 
     const response = await fetch(
       `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${OPEN_CAGE_API_KEY}&language=en&pretty=1`
@@ -24,7 +24,7 @@ export const getCurrentAddress = async () => {
     const data = await response.json();
 
     if (data.results && data.results.length > 0) {
-      console.log("Full result:", data.results[0]);
+      // console.log("Full result:", data.results[0]);
       return data.results[0].formatted;
     }
 

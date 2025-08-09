@@ -10,6 +10,7 @@ import { uploadCloudinary } from "../../../api/utils";
 import { useAddProductMutation } from "../../../features/adminControl/adminControlApi";
 import { ToastContainer, toast } from "react-toastify";
 import { ImSpinner2 } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 const PlantTypeOptions = [
   { label: "Epiphytic Plant 🌱🌲", value: "Epiphytic" },
@@ -50,6 +51,9 @@ const AddProduct = () => {
 
   const [addProduct, { isLoading, error: responseError }] =
     useAddProductMutation();
+  const user = useSelector((state) => state?.auth?.user?.data);
+  const userId = user?._id;
+  // console.log(userId);
   const editor = useRef(null);
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -84,6 +88,7 @@ const AddProduct = () => {
         material: values.material,
         category: values.category,
         description: values.description,
+        userId: userId,
         images: arr,
       });
       toast(`Product added successfully`);

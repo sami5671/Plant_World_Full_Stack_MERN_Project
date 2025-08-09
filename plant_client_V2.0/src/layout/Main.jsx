@@ -26,10 +26,14 @@ const Main = () => {
   // set data to localStorage
   useEffect(() => {
     if (localStorage.length > 0) {
-      const user = localStorage.getItem("auth");
-      if (user) {
-        const data = JSON.parse(user);
-        dispatch(userLoggedIn(data));
+      const authData = localStorage.getItem("auth");
+      if (authData) {
+        const parsedData = JSON.parse(authData);
+        const token = parsedData?.token;
+        const user = parsedData?.user;
+        if (token && user) {
+          dispatch(userLoggedIn({ user, token }));
+        }
       }
     }
   }, [dispatch]);

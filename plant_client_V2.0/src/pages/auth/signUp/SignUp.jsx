@@ -94,7 +94,7 @@ const SignUp = () => {
         month: rawDate ? rawDate.getUTCMonth() + 1 : null, // getUTCMonth is 0-based
         day: rawDate?.getUTCDate() || null,
       };
-      console.log(formattedDOB);
+      // console.log(formattedDOB);
       // console.log(imageData, values);
       // Registration API call with image URL
 
@@ -108,20 +108,20 @@ const SignUp = () => {
         gender: values.gender,
       }).unwrap();
 
-      console.log(response);
+      // console.log(isSuccess);
 
-      if (isSuccess) {
-        resetForm();
-        setSubmitting(false);
-        toast.success(`Welcome, ${values.name}!! You registered successfully`);
-        navigate("/");
-      }
+      resetForm();
+      toast.success(
+        `Welcome, ${values.fullName}!! You registered successfully`
+      );
+      navigate("/");
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
       setSubmitting(false);
     }
   };
+
   const handleGoogleLogin = async () => {
     await googleLogin();
   };

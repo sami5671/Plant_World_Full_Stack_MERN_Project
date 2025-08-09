@@ -10,8 +10,8 @@ import orderSliceReducer from "../features/users/orderSlice";
 
 export const store = configureStore({
   reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authSliceReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
     products: productSliceReducer,
     cart: cartSliceReducer,
     manageProducts: manageProductSliceReducer,

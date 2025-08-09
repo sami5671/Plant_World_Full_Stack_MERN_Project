@@ -7,6 +7,7 @@ import {
 } from "../../firebase/firebase.config";
 import { signInWithPopup } from "firebase/auth";
 import { getCurrentAddress } from "./getCurrentAddress";
+import { getToken } from "../../api/auth";
 
 googleProvider.addScope("https://www.googleapis.com/auth/userinfo.profile");
 googleProvider.addScope("https://www.googleapis.com/auth/user.gender.read");
@@ -25,8 +26,17 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           // console.log(result);
-          localStorage.setItem("auth", JSON.stringify({ user: result.data }));
-          dispatch(userLoggedIn({ user: result.data }));
+          const email = result?.data?.email;
+
+          // GET JWT TOKEN
+          const { token } = await getToken(email);
+          // console.log("JWT Access Token:", token);
+
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({ user: result.data, token })
+          );
+          dispatch(userLoggedIn({ user: result.data, token: token }));
         } catch (err) {
           console.error("Registration error:", err);
         }
@@ -42,8 +52,17 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           // console.log(result);
-          localStorage.setItem("auth", JSON.stringify({ user: result.data }));
-          dispatch(userLoggedIn({ user: result.data }));
+          const email = result?.data?.email;
+
+          // GET JWT TOKEN
+          const { token } = await getToken(email);
+          // console.log("JWT Access Token:", token);
+
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({ user: result.data, token })
+          );
+          dispatch(userLoggedIn({ user: result.data, token: token }));
         } catch (err) {
           console.error("Login error:", err);
         }
@@ -58,9 +77,19 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          // console.log(result);
-          localStorage.setItem("auth", JSON.stringify({ user: result.data }));
-          dispatch(userLoggedIn({ user: result.data }));
+          // console.log(result.data);
+          const email = result?.data?.email;
+          // console.log(email);
+
+          // GET JWT TOKEN
+          const { token } = await getToken(email);
+          // console.log("JWT Access Token:", token);
+
+          localStorage.setItem(
+            "auth",
+            JSON.stringify({ user: result.data, token })
+          );
+          dispatch(userLoggedIn({ user: result.data, token: token }));
         } catch (err) {
           console.error("Social login error:", err);
         }
@@ -70,7 +99,7 @@ export const authApi = apiSlice.injectEndpoints({
       queryFn: async (_, { dispatch }) => {
         try {
           const result = await signInWithPopup(auth, googleProvider);
-          // console.log(result);
+          // console.log(result.data);
           const { displayName, email, photoURL, uid } = result.user;
 
           // Get access token

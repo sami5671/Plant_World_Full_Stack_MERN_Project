@@ -8,6 +8,10 @@ const {
   login,
   socialLogin,
 } = require("../controllers/auth/authController");
+const { createJWT } = require("../middlewares/authMiddlewares");
+
+// jwt
+router.post("/jwt", createJWT);
 
 // signUp route
 router.post("/signup", signUp);

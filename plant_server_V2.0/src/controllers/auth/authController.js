@@ -8,7 +8,7 @@ const { apiResponse } = require("../../helpers");
 
 // User registration(signUp)
 const signUp = async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     // Validate request body
     const { fullName, email, password, avatar, address, DOB } = req.body;
@@ -43,29 +43,6 @@ const signUp = async (req, res, next) => {
     return apiResponse(res, 200, true, "Successfully registered!", {
       user,
     });
-    // if (!user) {
-    //   return apiResponse(res, 500, false, "User creation failed!");
-    // }
-
-    // // Construct user object (avoid sending password)
-    // const userObject = {
-    //   userId: user._id,
-    //   userName: user.name,
-    //   email: user.email,
-    //   role: user.role,
-    //   avatar: user.avatar,
-    //   createdAt: user.createdAt,
-    // };
-
-    // // Generate token
-    // const token = jwt.sign(userObject, process.env.JWT_SECRET, {
-    //   expiresIn: process.env.JWT_EXPIRY || "7d", // Default expiry if missing
-    // });
-
-    // return apiResponse(res, 200, true, "Successfully registered!", {
-    //   user: userObject,
-    //   token,
-    // });
   } catch (error) {
     console.error("Error during registration:", error);
     return apiResponse(res, 500, false, "Unknown error during registration!");
