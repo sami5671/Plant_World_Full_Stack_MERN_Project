@@ -51,7 +51,7 @@ const AddProduct = () => {
 
   const [addProduct, { isLoading, error: responseError }] =
     useAddProductMutation();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const userId = user?._id;
   // console.log(userId);
   const editor = useRef(null);

@@ -37,9 +37,10 @@ const Profile = () => {
     address: "",
     role: "",
     biography: "",
+    avatar: "",
   });
 
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const userId = user?._id;
 
   const { data: userInfo, isSuccess: isUserInfoSuccess } =
@@ -108,7 +109,7 @@ const Profile = () => {
     }
   }, [isUserInfoSuccess, userInfo?.data]);
 
-  // console.log(initialValues?.DOB);
+  console.log(initialValues);
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6 bg-gray-50 min-h-screen">
       {/* Left panel omitted for brevity */}
@@ -363,7 +364,7 @@ const Profile = () => {
               {isUpdateUserInfoLoading || isSubmitting ? (
                 <ImSpinner2 className="animate-spin" />
               ) : (
-                "Add Product"
+                "Update Profile"
               )}
             </button>
           </Form>

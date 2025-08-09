@@ -7,6 +7,9 @@ export const userApi = apiSlice.injectEndpoints({
         url: `/user/userProfileInfo/${userId}`,
         method: "GET",
       }),
+      providesTags: (result, error, { userId }) => [
+        { type: "User", id: userId },
+      ],
     }),
     // update profile info
     updateUserProfileInfo: builder.mutation({
@@ -15,6 +18,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: (result, error, { id }) => [{ type: "User", id }],
     }),
   }),
 });

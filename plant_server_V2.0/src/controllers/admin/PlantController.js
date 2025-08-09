@@ -11,6 +11,7 @@ const addPlant = async (req, res, next) => {
   //   console.log(req.body);
   try {
     const newPlant = new Plant(req.body);
+    // console.log(req.body);
     await newPlant.save();
     return apiResponse(res, 201, true, "Plant added successfully!");
   } catch (error) {

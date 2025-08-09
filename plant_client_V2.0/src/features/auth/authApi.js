@@ -34,9 +34,9 @@ export const authApi = apiSlice.injectEndpoints({
 
           localStorage.setItem(
             "auth",
-            JSON.stringify({ user: result.data, token })
+            JSON.stringify({ user: result.data.data.user, token })
           );
-          dispatch(userLoggedIn({ user: result.data, token: token }));
+          dispatch(userLoggedIn({ user: result.data.data.user, token: token }));
         } catch (err) {
           console.error("Registration error:", err);
         }
@@ -51,7 +51,7 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          // console.log(result);
+          console.log(result);
           const email = result?.data?.email;
 
           // GET JWT TOKEN
@@ -60,9 +60,9 @@ export const authApi = apiSlice.injectEndpoints({
 
           localStorage.setItem(
             "auth",
-            JSON.stringify({ user: result.data, token })
+            JSON.stringify({ user: result.data.data.data, token })
           );
-          dispatch(userLoggedIn({ user: result.data, token: token }));
+          dispatch(userLoggedIn({ user: result.data.data.data, token: token }));
         } catch (err) {
           console.error("Login error:", err);
         }
@@ -87,9 +87,9 @@ export const authApi = apiSlice.injectEndpoints({
 
           localStorage.setItem(
             "auth",
-            JSON.stringify({ user: result.data, token })
+            JSON.stringify({ user: result.data.data, token })
           );
-          dispatch(userLoggedIn({ user: result.data, token: token }));
+          dispatch(userLoggedIn({ user: result.data.data, token: token }));
         } catch (err) {
           console.error("Social login error:", err);
         }

@@ -9,13 +9,11 @@ import { resetCart } from "../../../features/users/cartSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
 
-  // console.log(cart);
+  const { email, fullName, avatar, mobile, role } = user || {};
 
-  const { email, userName, avatar, mobile, role } = user || {};
-
-  // console.log(avatar);
+  // console.log();
 
   const getRole = UseAuth();
   // console.log(getRole);
@@ -166,7 +164,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img src={user?.avatar} alt="photo" />
+                  <img src={avatar} alt="photo" />
                 </div>
               </div>
             ) : (
@@ -179,7 +177,7 @@ const Navbar = () => {
             >
               <li>
                 <a className="justify-between">
-                  {userName || user?.name}
+                  {fullName || email}
                   {getRole === "admin" ? (
                     <span className="badge">Admin</span>
                   ) : getRole === "moderator" ? (
