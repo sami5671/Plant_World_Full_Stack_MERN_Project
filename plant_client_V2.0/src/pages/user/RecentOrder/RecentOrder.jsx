@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import InvoiceDownloadButton from "../../../components/invoice/InvoiceDownloadButton";
 
 const RecentOrder = () => {
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const userId = user?._id;
 
   const {
@@ -104,7 +104,8 @@ const RecentOrder = () => {
                         Qty: {plantItem?.quantity}
                       </p>
                       <p className="font-semibold text-gray-800">
-                        Price: ${plant?.newPrice}
+                        Price: ${plant?.newPrice}{" "}
+                        <span className="text-green-600">(Per Quantity)</span>
                       </p>
                     </div>
                   </div>

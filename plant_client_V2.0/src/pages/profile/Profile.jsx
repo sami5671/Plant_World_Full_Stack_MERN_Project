@@ -5,11 +5,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
   useGetUserProfileInfoQuery,
+  useUpdateUserPasswordMutation,
   useUpdateUserProfileInfoMutation,
 } from "../../features/users/userApi";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formattedDOB } from "../../api/utils";
+import { formattedDOB, imageUpload } from "../../api/utils";
 import { toast } from "react-toastify";
 import { ImSpinner2 } from "react-icons/im";
 
@@ -21,7 +22,6 @@ const GenderOptions = [
 const validationSchema = Yup.object({
   fullName: Yup.string().required("Full Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
-  gender: Yup.string().required("Gender is required"),
 });
 
 const Profile = () => {
@@ -51,11 +51,41 @@ const Profile = () => {
     { isSuccess: isUpdateUserInfoSuccess, isLoading: isUpdateUserInfoLoading },
   ] = useUpdateUserProfileInfoMutation();
 
+  const [
+    updateUserPassword,
+    { isSuccess: isUpdatePasswordSuccess, isLoading: isUpdatePasswordLoading },
+  ] = useUpdateUserPasswordMutation();
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setImage(URL.createObjectURL(file));
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSaveImage = async () => {
+    if (!image) {
+      toast.info("Please select an image first", { position: "top-center" });
+      return;
+    }
+    const imageData = await imageUpload(image);
+    // console.log(imageData?.data?.display_url);
+    try {
+      updateUserProfileInfo({
+        id: user._id,
+        avatar: imageData?.data?.display_url,
+      });
+      toast("Image uploaded successfully", { position: "top-center" });
+    } catch (error) {
+      toast.error("Failed to upload image");
+    }
   };
 
   // form submit
@@ -78,12 +108,34 @@ const Profile = () => {
         role: values.role,
         biography: values.biography,
       });
-      toast(`${values?.fullName} profile updated successfully`);
+      toast("profile updated successfully");
       setSubmitting(false);
     } catch (error) {
       toast.error(error);
     }
     // console.log(dateOfBirth);
+  };
+
+  // password change
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+
+    if (!oldPassword || !newPassword) {
+      toast.error("Both old and new passwords are required", {
+        position: "top-center",
+      });
+      return;
+    }
+
+    try {
+      updateUserPassword({
+        id: user._id,
+        oldPassword,
+        newPassword,
+      });
+    } catch (error) {
+      toast.error("Failed to change password");
+    }
   };
 
   useEffect(() => {
@@ -109,7 +161,7 @@ const Profile = () => {
     }
   }, [isUserInfoSuccess, userInfo?.data]);
 
-  console.log(initialValues);
+  // console.log(initialValues);
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6 bg-gray-50 min-h-screen">
       {/* Left panel omitted for brevity */}
@@ -117,49 +169,67 @@ const Profile = () => {
         <div className="flex flex-col items-center">
           <div className="relative">
             <img
-              src={image || "https://i.pravatar.cc/150?img=3"}
-              alt="img"
+              src={
+                preview ||
+                initialValues?.avatar ||
+                "https://i.pravatar.cc/150?img=3"
+              }
+              alt="Profile"
               className="w-40 h-40 object-cover rounded-full"
             />
-            <button className="absolute top-0 right-0 bg-gray-200 text-gray-600 rounded-full w-6 h-6 flex items-center justify-center">
-              ×
-            </button>
           </div>
           <label className="mt-4 w-full text-center">
-            <div className="bg-gray-100 hover:bg-gray-200 py-2 px-4 rounded cursor-pointer">
-              Upload Photo
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
+            <div className="flex items-center gap-3 justify-center text-white font-semibold">
+              <div className="bg-primary-dashboardPrimaryColor hover:bg-primary-dashboardPrimaryTextColor py-2 px-4 rounded cursor-pointer">
+                Upload Photo
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              </div>
+              {/* Save Button */}
+              <button
+                onClick={handleSaveImage}
+                className="bg-yellow-500 hover:bg-yellow-600 py-2 px-4 rounded cursor-pointer"
+              >
+                Save Photo
+              </button>
             </div>
           </label>
         </div>
 
-        <div className="mt-6">
-          <label className="block text-sm font-medium text-gray-700">
-            Old Password
-          </label>
-          <input
-            type="password"
-            className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
-          />
-        </div>
+        <form onSubmit={handleChangePassword}>
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700">
+              Old Password
+            </label>
+            <input
+              type="password"
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
+            />
+          </div>
 
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">
-            New Password
-          </label>
-          <input
-            type="password"
-            className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
-          />
-        </div>
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              New Password
+            </label>
+            <input
+              type="password"
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
+            />
+          </div>
 
-        <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          Change Password
-        </button>
+          <button
+            type="submit"
+            className="mt-6 w-full bg-primary-dashboardPrimaryColor text-white py-2 rounded hover:bg-blue-700"
+          >
+            Change Password
+          </button>
+        </form>
       </div>
 
       <Formik

@@ -8,9 +8,11 @@ const UserCart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state?.cart?.cart);
   const cartCalculation = useSelector((state) => state?.cart);
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const [updateCartItem, { data, error, isLoading, isSuccess, isError }] =
     useUpdateCartItemMutation();
+
+  const isCartEmpty = Number(cartCalculation?.totalPrice) === 0;
 
   // console.log(cartCalculation.totalCartItem);
   // ==============================================
@@ -33,6 +35,10 @@ const UserCart = () => {
     } catch (error) {
       toast.error("Can not update cart quantity");
     }
+  };
+
+  const handleCheckoutToast = () => {
+    toast.info("Please add plant to cart", { position: "top-center" });
   };
 
   // ==============================================
@@ -157,11 +163,20 @@ const UserCart = () => {
             )}
           </div>
           <div>
-            <Link to="/dashboard/payment">
-              <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+            {isCartEmpty ? (
+              <button
+                onClick={handleCheckoutToast}
+                className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor"
+              >
                 Checkout
               </button>
-            </Link>
+            ) : (
+              <Link to="/dashboard/payment">
+                <button className="w-full mt-4 bg-primary-dashboardPrimaryColor py-2 rounded-lg text-white font-semibold hover:bg-primary-dashboardPrimaryTextColor">
+                  Checkout
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

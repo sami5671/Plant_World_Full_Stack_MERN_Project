@@ -82,9 +82,11 @@ const Login = () => {
             <div className="flex-shrink-0 w-full rounded-2xl shadow-2xl lg:px-28 bg-white bg-opacity-30 p-8">
               {/* Header Section */}
               <div className="text-center mb-8">
-                <span className="flex justify-center text-lime-500 text-3xl lg:text-6xl">
-                  <FaTree />
-                </span>
+                <Link to="/">
+                  <span className="flex justify-center text-lime-500 text-3xl lg:text-6xl">
+                    <FaTree />
+                  </span>
+                </Link>
                 <h1 className="text-2xl font-bold text-slate-500 mb-2">
                   Already have an account?
                 </h1>

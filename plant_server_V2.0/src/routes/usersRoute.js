@@ -19,16 +19,19 @@ const {
 const {
   getUserProfile,
   updateUserProfile,
+  updatePassword,
 } = require("../controllers/user/userProfileController");
+const { verifyToken } = require("../middlewares/authMiddlewares");
 
-// add to cart
-router.post("/cart", addToCart);
+// user routes
+router.post("/cart", verifyToken, addToCart);
 router.get("/userCartItem/:userId", getCartItem);
-router.put("/updateCartQuantity", updateCartQuantity);
+router.put("/updateCartQuantity", verifyToken, updateCartQuantity);
 router.post("/create-payment-intent", generateClientSecret);
-router.post("/saveOrder", makeOrder);
-router.get("/userOrderItem/:userId", getUserOrderedItems);
-router.get("/orderDetails/:id", getOrderDetails);
-router.get("/userProfileInfo/:id", getUserProfile);
-router.patch("/updateProfileInfo", updateUserProfile);
+router.post("/saveOrder", verifyToken, makeOrder);
+router.get("/userOrderItem/:userId", verifyToken, getUserOrderedItems);
+router.get("/orderDetails/:id", verifyToken, getOrderDetails);
+router.get("/userProfileInfo/:id", verifyToken, getUserProfile);
+router.patch("/updateProfileInfo", verifyToken, updateUserProfile);
+router.patch("/updatePassword", verifyToken, updatePassword);
 module.exports = router;

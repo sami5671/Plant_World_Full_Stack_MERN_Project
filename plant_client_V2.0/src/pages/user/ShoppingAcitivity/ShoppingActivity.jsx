@@ -6,7 +6,7 @@ import { orderItem } from "../../../features/users/orderSlice";
 import { useEffect } from "react";
 const ShoppingActivity = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const userId = user?._id;
 
   const { data: order, isSuccess: isOrderSuccess } = useGetUserOrderQuery(

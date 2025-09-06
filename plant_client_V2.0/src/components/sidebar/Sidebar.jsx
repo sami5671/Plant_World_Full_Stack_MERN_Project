@@ -9,15 +9,27 @@ import ModeratorMenu from "./ModeratorMenu";
 import UserMenu from "./UserMenu";
 import MenuItem from "./MenuItem";
 import Logo from "../shared/logo/Logo";
+import { useDispatch } from "react-redux";
+import { userLoggedOut } from "../../features/auth/authSlice";
+import { resetCart } from "../../features/users/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isAdmin = true;
   const isModerator = false;
   // =================================================================
   const handleToggle = () => {
     setActive(!isActive);
   };
+  const handleLogOut = () => {
+    dispatch(userLoggedOut());
+    dispatch(resetCart());
+    navigate("/login");
+  };
+
   // =================================================================
   return (
     <>
@@ -99,7 +111,7 @@ const Sidebar = () => {
             address="/dashboard/my-profile"
           />
           <button
-            // onClick={logOut}
+            onClick={handleLogOut}
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-300 hover:bg-white hover:text-black transition-colors duration-300 transform"
           >
             <RiLogoutCircleLine />

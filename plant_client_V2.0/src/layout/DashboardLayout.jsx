@@ -7,7 +7,7 @@ import { cartItem } from "../features/users/cartSlice";
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const {
     data: cart,
     isSuccess: isCartSuccess,

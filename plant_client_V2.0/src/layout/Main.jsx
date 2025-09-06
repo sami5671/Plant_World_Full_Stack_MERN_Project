@@ -12,7 +12,7 @@ const Main = () => {
   const location = useLocation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
   const {
     data: cart,
     isSuccess: isCartSuccess,

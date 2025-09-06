@@ -19,12 +19,12 @@ const getAllOrders = async (req, res) => {
 const updateOrderStatus = async (req, res) => {
   try {
     const { status, orderId } = req.body;
-    console.log(status, orderId);
+    // console.log(status, orderId);
     if (!status || !orderId) {
       return apiResponse(res, 400, false, "Missing status or orderId");
     }
     const order = await Order.findById(orderId);
-    console.log(order);
+    // console.log(order);
     if (!order) {
       return apiResponse(res, 404, false, "Order not found");
     }

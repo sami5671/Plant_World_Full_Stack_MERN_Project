@@ -6,10 +6,10 @@ import { cartItem } from "../features/users/cartSlice";
 const useHandleCart = () => {
   const dispatch = useDispatch();
   const [addCart] = useAddCartMutation();
-  const user = useSelector((state) => state?.auth?.user?.data);
+  const user = useSelector((state) => state?.auth?.user);
 
   const handleCart = async (plantId) => {
-    // console.log(plantId);
+    console.log(plantId);
     if (!user?._id) {
       toast.error("Please Login First");
       return;

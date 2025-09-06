@@ -20,7 +20,7 @@ const makeOrder = async (req, res) => {
       return res.status(400).json({ message: "Transaction ID is required." });
     }
 
-    console.log("Transaction ID:", transactionId);
+    // console.log("Transaction ID:", transactionId);
 
     const newOrder = new Order({
       transactionId,

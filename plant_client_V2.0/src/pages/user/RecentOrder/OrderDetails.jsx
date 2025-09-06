@@ -7,7 +7,7 @@ const OrderDetails = () => {
   const { data: orderDetails, isSuccess: isOrderDetailsSuccess } =
     useGetOrderDetailsQuery(id);
 
-  console.log(orderDetails?.data?.[0]);
+  // console.log(orderDetails?.data?.[0]);
 
   if (!isOrderDetailsSuccess) return <div className="p-4">Loading...</div>;
 

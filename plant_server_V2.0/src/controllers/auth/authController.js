@@ -62,28 +62,25 @@ const login = async (req, res, next) => {
       return apiResponse(res, 401, false, "Invalid Email or Password!!");
     } else {
       const userObject = {
-        userId: user._id,
-        userName: user.name,
+        _id: user._id,
+        fullName: user.fullName,
         email: user.email,
-        role: user.role,
-        avatar: user.avatar,
+        password: user.password,
+        gender: user.gender,
         createdAt: user.createdAt,
       };
-
       // Generate token
       const token = jwt.sign(userObject, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRY,
       });
-
-      // Set cookie
-      res.cookie(process.env.COOKIE_NAME, token, {
-        maxAge: parseInt(process.env.JWT_EXPIRY, 10), // Ensure maxAge is a number
-        httpOnly: true,
-        signed: true,
-      });
-
+      // // Set cookie
+      // res.cookie(process.env.COOKIE_NAME, token, {
+      //   maxAge: parseInt(process.env.JWT_EXPIRY, 10), // Ensure maxAge is a number
+      //   httpOnly: true,
+      //   signed: true,
+      // });
       return apiResponse(res, 200, true, "Successfully logged in!!", {
-        data: userObject,
+        data: user,
         token,
       });
     }

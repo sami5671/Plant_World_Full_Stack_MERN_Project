@@ -2,14 +2,13 @@ import { FaCartShopping } from "react-icons/fa6";
 import "react-toastify/dist/ReactToastify.css";
 import { cld } from "./../../../api/utils";
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
-import { scale } from "@cloudinary/url-gen/actions/resize";
 import { Link } from "react-router-dom";
 import useHandleCart from "../../../Hooks/UseHandleCart";
 
 const ProductCard = ({ plants }) => {
   const { handleCart } = useHandleCart();
   const { _id, name, newPrice, previousPrice, stock, images } = plants;
-
+  // console.log(_id);
   return (
     <>
       <section>

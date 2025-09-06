@@ -20,8 +20,19 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "User", id }],
     }),
+    updateUserPassword: builder.mutation({
+      query: (data) => ({
+        url: `/user/updatePassword`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "User", id }],
+    }),
   }),
 });
 
-export const { useGetUserProfileInfoQuery, useUpdateUserProfileInfoMutation } =
-  userApi;
+export const {
+  useGetUserProfileInfoQuery,
+  useUpdateUserProfileInfoMutation,
+  useUpdateUserPasswordMutation,
+} = userApi;

@@ -4,7 +4,8 @@ const createJWT = async (req, res) => {
   try {
     const user = req.body; // This should contain at least email or user id
     const token = jwt.sign(user, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      // expire in 15 days
+      expiresIn: "15d",
     });
     res.send({ token: token });
   } catch (error) {
