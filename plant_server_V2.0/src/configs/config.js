@@ -1,12 +1,18 @@
 const config = {
   development: {
-    corsOptions: { origin: process.env.CORS_ORIGINS, credentials: true },
+    corsOptions: {
+      origin: process.env.CORS_ORIGINS,
+      credentials: true,
+      optionSuccessStatus: 200,
+    },
     databaseURI: process.env.DEV_DATABASE_URL,
   },
   production: {
     corsOptions: {
+      // origin: "https://plant-world-v2.web.app",
       origin: process.env.CORS_ORIGINS, // Update this for production if needed
       credentials: true,
+      optionSuccessStatus: 200,
     },
     databaseURI: process.env.PROD_DATABASE_URL,
   },

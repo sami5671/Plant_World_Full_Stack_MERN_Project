@@ -17,7 +17,7 @@ const adminRoute = require("../routes/adminRoute");
 
 // Create app instance
 const app = express();
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || "production";
 
 // Middleware
 app.use(helmet());
