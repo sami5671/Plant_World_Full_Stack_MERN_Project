@@ -18,12 +18,13 @@ const Sidebar = () => {
   const [isActive, setActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAdmin = true;
+  const isAdmin = false;
   const isModerator = false;
   // =================================================================
   const handleToggle = () => {
     setActive(!isActive);
   };
+
   const handleLogOut = () => {
     dispatch(userLoggedOut());
     dispatch(resetCart());

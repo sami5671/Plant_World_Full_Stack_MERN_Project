@@ -4,6 +4,8 @@ const initialState = {
   users: [],
   filteredUser: [],
   totalUsers: 0,
+  male: 0,
+  female: 0,
 };
 
 const manageUsersSlice = createSlice({
@@ -13,16 +15,22 @@ const manageUsersSlice = createSlice({
     allUsers: (state, action) => {
       state.users = action.payload;
       state.filteredUser = action.payload;
-    },
 
-    // calculate users
-    calculateUser: (state, action) => {
-      // console.log(action.payload);
+      // count male & female
+      const male = state.users.filter((user) => user.gender == "male").length;
+      const female = state.users.filter(
+        (user) => user.gender == "female"
+      ).length;
+
+      state.male = male;
+      state.female = female;
+
+      // total users
       const users = action.payload.length;
       state.totalUsers = users;
     },
   },
 });
 
-export const { allUsers, calculateUser } = manageUsersSlice.actions;
+export const { allUsers } = manageUsersSlice.actions;
 export default manageUsersSlice.reducer;

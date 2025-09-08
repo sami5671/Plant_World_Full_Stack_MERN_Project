@@ -1,26 +1,23 @@
-import { useSelector } from "react-redux";
+import StatsCard from "./../../../components/dashboard/StatsCard";
 import {
   Calendar,
-  PlusCircle,
   DollarSign,
   ShoppingBag,
-  Users,
   ChartNoAxesCombined,
 } from "lucide-react";
 import { dateFormate, getGreeting } from "../../../api/utils";
 import { Link } from "react-router-dom";
 import UseToGetLiveTime from "../../../Hooks/UseToGetLiveTime";
-import StatsCard from "../../../components/dashboard/StatsCard";
-
+import { useSelector } from "react-redux";
+import { FcProcess } from "react-icons/fc";
+import { GiFruitTree } from "react-icons/gi";
 const GeneralOverview = () => {
   const greeting = getGreeting();
   const now = UseToGetLiveTime();
   const user = useSelector((state) => state?.auth?.user);
-  const { totalOrders, totalEarnings } = useSelector(
-    (state) => state?.manageOrders
-  );
-  const { totalUsers } = useSelector((state) => state?.manageUsers);
-  const { totalTrendingProduct } = useSelector((state) => state?.products);
+
+  const { totalBuy, totalOrders, pendingOrders, totalTrendingProduct } =
+    useSelector((state) => state?.userOrders);
 
   return (
     <div className="p-6">
@@ -39,10 +36,10 @@ const GeneralOverview = () => {
             <Calendar className="w-4 h-4 mr-2 text-gray-500" />
             {dateFormate(now)}
           </div>
-          <Link to={`/dashboard/add-product`}>
+          <Link to={`/allProduct`}>
             <button className="flex items-center gap-1 px-4 py-2 bg-green-100 text-green-700 text-sm rounded-lg shadow-sm hover:bg-green-200">
-              <PlusCircle className="w-4 h-4" />
-              Add Product
+              <GiFruitTree className="w-4 h-4" />
+              Buy Plants
             </button>
           </Link>
         </div>
@@ -51,33 +48,33 @@ const GeneralOverview = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
-          title={"TOTAL EARNINGS"}
-          value={`$${totalEarnings}`}
-          link={""}
-          linkName={"view earning graph"}
+          title={"TOTAL BUY"}
+          value={`$${totalBuy}`}
+          link={"/dashboard/shopping-activity"}
+          linkName={"view Shopping graph"}
           icon={<DollarSign className="w-6 h-6 text-green-500" />}
           color={"text-green-500"}
         />
         <StatsCard
-          title={"ORDERS"}
+          title={"TOTAL ORDERS"}
           value={totalOrders}
-          link={"/dashboard/manage-order"}
+          link={""}
           linkName={"view all orders"}
           icon={<ShoppingBag className="w-6 h-6 text-red-500" />}
           color={"text-red-500"}
         />
         <StatsCard
-          title={"CUSTOMERS"}
-          value={totalUsers}
-          link={"/dashboard/manage-users"}
+          title={"PENDING ORDERS"}
+          value={pendingOrders}
+          link={""}
           linkName={"see details"}
-          icon={<Users className="w-6 h-6 text-yellow-500" />}
+          icon={<FcProcess className="w-6 h-6 text-yellow-500 animate-spin" />}
           color={"text-green-500"}
         />
         <StatsCard
-          title={"Trending Product"}
+          title={"TRENDING PRODUCTS"}
           value={totalTrendingProduct}
-          link={"/dashboard/manage-product"}
+          link={""}
           linkName={"see details"}
           icon={<ChartNoAxesCombined className="w-6 h-6 text-green-500" />}
           color={"text-green-500"}

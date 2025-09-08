@@ -161,7 +161,7 @@ const Profile = () => {
     }
   }, [isUserInfoSuccess, userInfo?.data]);
 
-  // console.log(initialValues);
+  console.log(user);
   return (
     <div className="flex flex-col md:flex-row p-6 gap-6 bg-gray-50 min-h-screen">
       {/* Left panel omitted for brevity */}
@@ -199,37 +199,40 @@ const Profile = () => {
             </div>
           </label>
         </div>
+        {user?.provider === "local" ? (
+          <form onSubmit={handleChangePassword}>
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-gray-700">
+                Old Password
+              </label>
+              <input
+                type="password"
+                onChange={(e) => setOldPassword(e.target.value)}
+                className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
+              />
+            </div>
 
-        <form onSubmit={handleChangePassword}>
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700">
-              Old Password
-            </label>
-            <input
-              type="password"
-              onChange={(e) => setOldPassword(e.target.value)}
-              className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
-            />
-          </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                New Password
+              </label>
+              <input
+                type="password"
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
+              />
+            </div>
 
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">
-              New Password
-            </label>
-            <input
-              type="password"
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="mt-1 block w-full border rounded px-3 py-2 focus:outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="mt-6 w-full bg-primary-dashboardPrimaryColor text-white py-2 rounded hover:bg-blue-700"
-          >
-            Change Password
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="mt-6 w-full bg-primary-dashboardPrimaryColor text-white py-2 rounded hover:bg-blue-700"
+            >
+              Change Password
+            </button>
+          </form>
+        ) : (
+          ""
+        )}
       </div>
 
       <Formik

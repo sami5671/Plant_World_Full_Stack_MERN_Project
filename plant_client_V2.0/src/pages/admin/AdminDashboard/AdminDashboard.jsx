@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { orderGraphChart } from "../../../features/adminControl/manageOrderSlice";
 import RevenueAndDemographicChart from "./RevenueAndDemographicChart";
 import { useGetAllUsersQuery } from "../../../features/adminControl/manageUsersApi";
-import { calculateUser } from "../../../features/adminControl/manageUsersControlSlice";
+import { allUsers } from "../../../features/adminControl/manageUsersControlSlice";
 import GeneralOverview from "./GeneralOverview";
 import { useGetProductsQuery } from "../../../features/products/productsApi";
 import { calculateTrendingProductCount } from "../../../features/products/productsSlice";
@@ -28,16 +28,16 @@ const AdminDashboard = () => {
   }, [dispatch, isPlantSuccess, plants]);
 
   useEffect(() => {
-    if (isUserSuccess) {
-      dispatch(calculateUser(users));
-    }
-  }, [isUserSuccess, dispatch, users]);
-
-  useEffect(() => {
     if (isOrderSuccess) {
       dispatch(orderGraphChart(orders));
     }
   }, [isOrderSuccess, dispatch, orders]);
+
+  useEffect(() => {
+    if (isUserSuccess) {
+      dispatch(allUsers(users));
+    }
+  }, [dispatch, isUserSuccess, users]);
 
   return (
     <>

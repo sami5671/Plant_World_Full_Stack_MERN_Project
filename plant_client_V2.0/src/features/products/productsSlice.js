@@ -17,6 +17,7 @@ const productSlice = createSlice({
       state.trendingProducts = action.payload.data.filter(
         (product) => product.trending === true
       );
+      state.totalTrendingProduct = state.trendingProducts.length;
     },
     searchByName: (state, action) => {
       const searchedTerm = action.payload.toLowerCase();

@@ -22,7 +22,7 @@ const AllProduct = () => {
       <section className="px-12 py-24">
         <div className="flex justify-between gap-6 mt-12">
           {/* filtering plants */}
-          <div className="bg-primary-backgroundColor w-1/4 px-12 py-8 rounded-xl">
+          <div className="bg-primary-backgroundColor w-1/4 h-fit px-12 lg:py-16 rounded-xl">
             <SearchAndFilterProduct />
           </div>
           {/* all plants */}

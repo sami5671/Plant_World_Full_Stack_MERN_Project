@@ -3,6 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   order: [],
   filteredOrder: [],
+  trendingProducts: [],
+  totalTrendingProduct: 0,
+  totalBuy: 0,
+  totalOrders: 0,
+  pendingOrders: 0,
 };
 
 const orderSlice = createSlice({
@@ -10,11 +15,28 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     orderItem: (state, action) => {
+      // set all orders to state
+      state.order = action.payload;
+      // set filtered orders to state
       const filterProduct = (state.filteredOrder = action.payload.filter(
         (item) => item?.orderInfo?.orderStatus?.toLowerCase() === "delivered"
       ));
-      state.order = filterProduct;
       state.filteredOrder = filterProduct;
+
+      // calculate total buy amount
+      const totalBuy = filterProduct.reduce(
+        (total, item) => total + item?.orderInfo?.paidAmount,
+        0
+      );
+      state.totalBuy = totalBuy;
+
+      // calculate total orders
+      state.totalOrders = action.payload.length;
+      // calculate pending orders
+      const pendingOrders = action.payload.filter(
+        (item) => item?.orderInfo?.orderStatus?.toLowerCase() !== "delivered"
+      );
+      state.pendingOrders = pendingOrders.length;
     },
     searchByOrderId: (state, action) => {
       const searchTerm = action.payload.toLowerCase();
@@ -53,6 +75,13 @@ const orderSlice = createSlice({
         state.filteredOrder = state.order;
       }
     },
+    // trending products
+    trendingItems: (state, action) => {
+      state.trendingProducts = action.payload.data.filter(
+        (product) => product.trending === true
+      );
+      state.totalTrendingProduct = state.trendingProducts.length;
+    },
   },
 });
 
@@ -61,5 +90,6 @@ export const {
   searchByOrderId,
   searchByPlantName,
   sortOrdersByPrice,
+  trendingItems,
 } = orderSlice.actions;
 export default orderSlice.reducer;

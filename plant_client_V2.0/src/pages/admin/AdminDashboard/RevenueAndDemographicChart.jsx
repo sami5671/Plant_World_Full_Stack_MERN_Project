@@ -9,12 +9,16 @@ import {
   Tooltip,
   Legend,
   Title,
+  ArcElement,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import { useMemo, useState } from "react";
 import { Select } from "rizzui";
+
 import { yearBasedGraphChart } from "../../../features/adminControl/manageOrderSlice";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -23,7 +27,8 @@ ChartJS.register(
   PointElement,
   Tooltip,
   Legend,
-  Title
+  Title,
+  ArcElement
 );
 
 const yearOptions = [
@@ -34,6 +39,7 @@ const yearOptions = [
 const RevenueAndDemographicChart = () => {
   const dispatch = useDispatch();
   const { filteredOrdersChart } = useSelector((state) => state?.manageOrders);
+  const { male, female } = useSelector((state) => state?.manageUsers);
   const [value, setValue] = useState(null);
   const handleYearBasedGraph = (year) => {
     // console.log(year);
@@ -141,9 +147,37 @@ const RevenueAndDemographicChart = () => {
     },
   };
 
+  // Pie chart data for user demographics
+  const data = {
+    labels: ["Female", "Male"],
+    datasets: [
+      {
+        label: "User Demographics",
+        data: [female, male],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
-    <div className="p-6 rounded-xl shadow">
-      <div className="w-2/4 bg-white p-6 rounded-xl shadow-lg">
+    <div className="p-6 rounded-xl shadow flex lg:flex-row flex-col gap-6">
+      <div className="lg:w-2/4 bg-white p-6 rounded-xl shadow-lg">
         <div>
           <Select
             label="Select Year"
@@ -156,7 +190,16 @@ const RevenueAndDemographicChart = () => {
         </div>
         <Chart type="bar" data={chartData} options={options} />
       </div>
-      <div></div>
+      <div className="lg:w-2/4 lg:h-[480px] bg-white p-6 rounded-xl shadow-lg flex flex-col gap-5 items-center justify-center">
+        <div>
+          <h1 className="bg-primary-dashboardPrimaryColor text-white font-semibold rounded-md px-1">
+            Demographic Divident
+          </h1>
+        </div>
+        <div>
+          <Pie data={data} />
+        </div>
+      </div>
     </div>
   );
 };
