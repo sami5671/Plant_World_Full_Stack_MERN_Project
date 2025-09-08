@@ -13,18 +13,19 @@ import { useDispatch } from "react-redux";
 import { userLoggedOut } from "../../features/auth/authSlice";
 import { resetCart } from "../../features/users/cartSlice";
 import { useNavigate } from "react-router-dom";
+import UseAdmin from "../../Hooks/UseAdmin";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAdmin = false;
+  const isAdmin = UseAdmin();
   const isModerator = false;
   // =================================================================
   const handleToggle = () => {
     setActive(!isActive);
   };
-
+  // console.log(isAdmin);
   const handleLogOut = () => {
     dispatch(userLoggedOut());
     dispatch(resetCart());

@@ -10,7 +10,12 @@ const AdminMenu = () => {
     <div>
       <MenuItem
         icon={MdDashboard}
-        label="Dashboard"
+        label="My Dashboard"
+        address="user-dashboard"
+      />
+      <MenuItem
+        icon={MdDashboard}
+        label="Business Dashboard"
         address="admin-dashboard"
       />
       <MenuItem icon={GiTreeGrowth} label="Add Product" address="add-product" />

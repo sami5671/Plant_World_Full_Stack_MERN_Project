@@ -6,6 +6,7 @@ import UseAuth from "../../../Hooks/UseAuth";
 import LargeScreenLogo from "../logo/LargeScreenLogo";
 import { userLoggedOut } from "../../../features/auth/authSlice";
 import { resetCart } from "../../../features/users/cartSlice";
+import UseAdmin from "../../../Hooks/UseAdmin";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,6 @@ const Navbar = () => {
 
   const getRole = UseAuth();
   // console.log(getRole);
-
-  // const user = true;
-  const isAdmin = true;
 
   const handleLogOut = () => {
     dispatch(userLoggedOut());

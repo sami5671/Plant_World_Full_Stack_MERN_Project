@@ -22,6 +22,7 @@ import Profile from "../pages/profile/Profile";
 import RecentOrder from "../pages/user/RecentOrder/RecentOrder";
 import ShoppingActivity from "../pages/user/ShoppingAcitivity/ShoppingActivity";
 import OrderDetails from "../pages/user/RecentOrder/OrderDetails";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -62,27 +63,51 @@ const router = createBrowserRouter([
     children: [
       {
         path: "admin-dashboard",
-        element: <AdminDashboard />,
+        element: (
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        ),
       },
       {
         path: "add-product",
-        element: <AddProduct />,
+        element: (
+          <AdminRoute>
+            <AddProduct />
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-product",
-        element: <ManageProduct />,
+        element: (
+          <AdminRoute>
+            <ManageProduct />
+          </AdminRoute>
+        ),
       },
       {
         path: "updateProduct/:id",
-        element: <UpdateProduct />,
+        element: (
+          <AdminRoute>
+            <UpdateProduct />
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-order",
-        element: <ManageOrder />,
+        element: (
+          <AdminRoute>
+            <ManageOrder />
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
       {
         path: "payment",

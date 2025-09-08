@@ -4,9 +4,10 @@ import { cld } from "./../../../api/utils";
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
 import { Link } from "react-router-dom";
 import useHandleCart from "../../../Hooks/UseHandleCart";
+import { ImSpinner9 } from "react-icons/im";
 
 const ProductCard = ({ plants }) => {
-  const { handleCart } = useHandleCart();
+  const { handleCart, isLoading, isSuccess } = useHandleCart();
   const { _id, name, newPrice, previousPrice, stock, images } = plants;
   // console.log(_id);
   return (
@@ -32,29 +33,34 @@ const ProductCard = ({ plants }) => {
           {/* </Link> */}
 
           <div className="p-3">
-            <Link to={`/product/${_id}`}>
-              <h1 className="mt-3 text-lg font-semibold hover:text-lime-600 transition">
-                {name.split(" ").slice(0, 8).join(" ")}
-              </h1>
-            </Link>
-
-            <span className="absolute top-3 right-3 bg-slate-500 text-white text-xs px-2 py-1 rounded-md shadow-md">
-              In stock: {stock}
-            </span>
-
-            <p className="mt-2 text-lg">
-              <span className="font-bold text-2xl text-lime-600">
-                ${newPrice}
+            <div className="h-40">
+              <Link to={`/product/${_id}`}>
+                <h1 className="mt-3 text-lg font-semibold hover:text-lime-600 transition">
+                  {name.split(" ").slice(0, 8).join(" ")}
+                </h1>
+              </Link>
+              <span className="absolute top-3 right-3 bg-slate-500 text-white text-xs px-2 py-1 rounded-md shadow-md">
+                In stock: {stock}
               </span>
-              <del className="ml-2 text-gray-500">${previousPrice}</del>
-            </p>
-
-            <button
-              onClick={() => handleCart(_id)}
-              className="flex items-center justify-center gap-2 mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full"
-            >
-              Add to Cart <FaCartShopping />
-            </button>
+              <p className="mt-2 text-lg">
+                <span className="font-bold text-2xl text-lime-600">
+                  ${newPrice}
+                </span>
+                <del className="ml-2 text-gray-500">${previousPrice}</del>
+              </p>
+            </div>
+            {isLoading ? (
+              <button className="flex items-center justify-center gap-2 mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full">
+                Processing <ImSpinner9 className="animate-spin" />
+              </button>
+            ) : (
+              <button
+                onClick={() => handleCart(_id)}
+                className="flex items-center justify-center gap-2 mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full"
+              >
+                Add to Cart <FaCartShopping />
+              </button>
+            )}
           </div>
         </div>
       </section>

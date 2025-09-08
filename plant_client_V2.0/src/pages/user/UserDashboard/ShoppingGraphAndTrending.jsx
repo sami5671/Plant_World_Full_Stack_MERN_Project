@@ -21,7 +21,7 @@ const ShoppingGraphAndTrending = () => {
         </div>
         <ShoppingActivityGraph />
       </div>
-      <div className="lg:w-2/4 lg:h-[480px] bg-white p-4 rounded-xl shadow-lg flex flex-col gap-1 items-center justify-center">
+      <div className="lg:w-2/4 lg:h-[400px] bg-white p-4 rounded-xl shadow-lg flex flex-col gap-1 items-center justify-center">
         <div>
           <h1 className="bg-primary-dashboardPrimaryColor text-white font-semibold rounded-md px-1 flex items-center gap-2">
             Trending Products <GiFruitTree />

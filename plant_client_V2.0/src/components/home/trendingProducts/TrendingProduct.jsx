@@ -15,7 +15,7 @@ const TrendingProduct = () => {
 
         {/* product cards */}
         <div className="px-24 py-24">
-          <div className="w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 lg:gap-3 2xl:gap-12">
+          <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 lg:gap-3 2xl:gap-12">
             {trendingProducts?.map((plant) => (
               <ProductCard key={plant._id} plants={plant} />
             ))}

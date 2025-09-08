@@ -27,9 +27,7 @@ const GeneralOverview = () => {
           <h2 className="text-xl font-semibold">
             {greeting}, {user?.fullName || "User"}!
           </h2>
-          <p className="text-gray-500 text-sm">
-            Here's what's happening with your store today.
-          </p>
+          <p className="text-gray-500 text-sm">Here's is your bucket today.</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center border px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 shadow-sm">
