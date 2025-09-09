@@ -26,8 +26,8 @@ export const authApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           // console.log(result);
-          const email = result?.data?.email;
-
+          const { email } = result.data.data.user;
+          // console.log(email);
           // GET JWT TOKEN
           const { token } = await getToken(email);
           // console.log("JWT Access Token:", token);
@@ -51,9 +51,9 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          console.log(result);
-          const email = result?.data?.email;
-
+          // console.log(result);
+          const { email } = result.data.data.data;
+          // console.log(email);
           // GET JWT TOKEN
           const { token } = await getToken(email);
           // console.log("JWT Access Token:", token);
@@ -77,9 +77,9 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          // console.log(result.data);
-          const email = result?.data?.email;
-          // console.log(email);
+          // console.log(result);
+          const { email } = result.data.data;
+          console.log(email);
 
           // GET JWT TOKEN
           const { token } = await getToken(email);

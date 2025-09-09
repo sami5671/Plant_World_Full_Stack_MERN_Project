@@ -1,16 +1,34 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/users");
 
 const createJWT = async (req, res) => {
   try {
-    const user = req.body; // This should contain at least email or user id
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
-      // expire in 15 days
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // ✅ Only include safe info
+    const payload = {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    };
+    // console.log(payload);
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "15d",
     });
+
     res.send({ token: token });
   } catch (error) {
     console.error("JWT creation failed:", error);
-    res.status(500).send({ error: "Token creation failed" });
+    res.status(500).json({ error: "Token creation failed" });
   }
 };
 

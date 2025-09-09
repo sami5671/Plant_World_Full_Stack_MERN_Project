@@ -16,15 +16,22 @@ const {
   getAllOrders,
   updateOrderStatus,
 } = require("../controllers/admin/OrdersController");
+const { verifyToken } = require("../middlewares/authMiddlewares");
+const { verifyAdmin } = require("../middlewares/adminMiddlewares");
 
 // get all users
-router.get("/users", getAllUsers);
-router.delete("/deleteUser/:uid/:userId", checkFirebaseAdmin, deleteUser);
-router.patch("/updatePlantInfo", updatePlantInfo);
-router.delete("/deleteProduct/:id", deletePlantInfo);
+router.get("/users", verifyToken, verifyAdmin, getAllUsers);
+router.delete(
+  "/deleteUser/:uid/:userId",
+  verifyToken,
+  checkFirebaseAdmin,
+  deleteUser
+);
+router.patch("/updatePlantInfo", verifyToken, verifyAdmin, updatePlantInfo);
+router.delete("/deleteProduct/:id", verifyToken, verifyAdmin, deletePlantInfo);
 
 // orders
-router.get("/allOrders", getAllOrders);
-router.patch("/orderStatusUpdate", updateOrderStatus);
+router.get("/allOrders", verifyToken, verifyAdmin, getAllOrders);
+router.patch("/orderStatusUpdate", verifyToken, verifyAdmin, updateOrderStatus);
 // export
 module.exports = router;

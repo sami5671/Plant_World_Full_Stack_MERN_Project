@@ -25,7 +25,7 @@ const { verifyToken } = require("../middlewares/authMiddlewares");
 
 // user routes
 router.post("/cart", verifyToken, addToCart);
-router.get("/userCartItem/:userId", getCartItem);
+router.get("/userCartItem/:userId", verifyToken, getCartItem);
 router.put("/updateCartQuantity", verifyToken, updateCartQuantity);
 router.post("/create-payment-intent", generateClientSecret);
 router.post("/saveOrder", verifyToken, makeOrder);

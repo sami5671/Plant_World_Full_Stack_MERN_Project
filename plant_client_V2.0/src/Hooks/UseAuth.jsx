@@ -9,8 +9,10 @@ const UseAuth = () => {
     return "admin";
   } else if (role === "moderator") {
     return "moderator";
-  } else {
+  } else if (role === "user") {
     return "user";
+  } else {
+    return "";
   }
 };
 

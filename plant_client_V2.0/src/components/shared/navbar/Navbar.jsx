@@ -6,8 +6,7 @@ import UseAuth from "../../../Hooks/UseAuth";
 import LargeScreenLogo from "../logo/LargeScreenLogo";
 import { userLoggedOut } from "../../../features/auth/authSlice";
 import { resetCart } from "../../../features/users/cartSlice";
-import UseAdmin from "../../../Hooks/UseAdmin";
-
+import defaultAvater from "../../../../public/Images/profile.png";
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth?.user);
@@ -146,9 +145,13 @@ const Navbar = () => {
               " "
             ) : (
               <Link to="/login">
-                <button className="border-2 border-lime-500 transition duration-300 ease-in-out hover:border-white hover:text-white hover:bg-lime-300 lg:px-6 py-1">
-                  Login
-                </button>
+                <div className="w-10 rounded-full">
+                  <img
+                    src={avatar || defaultAvater}
+                    alt="photo"
+                    className="rounded-full"
+                  />
+                </div>
               </Link>
             )}
           </div>
@@ -162,7 +165,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img src={avatar} alt="photo" />
+                  <img src={avatar || defaultAvater} alt="photo" />
                 </div>
               </div>
             ) : (
@@ -180,8 +183,10 @@ const Navbar = () => {
                     <span className="badge">Admin</span>
                   ) : getRole === "moderator" ? (
                     <span className="badge">Moderator</span>
-                  ) : (
+                  ) : getRole === "user" ? (
                     <span className="badge">User</span>
+                  ) : (
+                    ""
                   )}
                 </a>
               </li>

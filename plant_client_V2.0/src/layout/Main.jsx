@@ -18,7 +18,7 @@ const Main = () => {
     isSuccess: isCartSuccess,
     isLoading: isCartLoading,
     isError: isCartError,
-  } = useGetUserCartItemQuery(user?._id);
+  } = useGetUserCartItemQuery(user?._id, { skip: !user });
   // Determine if Navbar and Footer should be hidden
   const noHeaderFooter =
     location.pathname.includes("login") || location.pathname.includes("signup");
@@ -40,10 +40,10 @@ const Main = () => {
 
   // fetch cart item to redux local store
   useEffect(() => {
-    if (isCartSuccess) {
+    if (user && isCartSuccess) {
       dispatch(cartItem(cart.data));
     }
-  }, [cart, isCartSuccess, dispatch]);
+  }, [cart, user, isCartSuccess, dispatch]);
 
   return (
     <div className="">
