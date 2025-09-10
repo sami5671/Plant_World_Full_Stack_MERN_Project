@@ -1,103 +1,45 @@
-import { RiPlantFill } from "react-icons/ri";
-import { FaSunPlantWilt } from "react-icons/fa6";
-import { TbTruckDelivery } from "react-icons/tb";
-import { MdForum } from "react-icons/md";
 import { Link } from "react-router-dom";
-import banner from "../../../assets/images/banner.png";
+import banner from "../../../assets/images/banner1.png";
+import BusinessFeatures from "./BusinessFeatures";
 
 const Banner = () => {
   return (
-    <section className="">
-      {/* banner  */}
-      <div className="relative bg-cover bg-center h-80 md:h-96 lg:h-screen flex items-center">
-        <img
-          className="absolute w-full h-full object-cover object-center"
-          src={banner}
-          alt="Banner"
-        />
+    <section className="relative px-4 sm:px-6 lg:px-12 pt-16 lg:pt-16">
+      {/* Hero Section */}
+      <div className="w-full h-[85vh] flex flex-col lg:flex-row items-center justify-between bg-lime-50 rounded-3xl overflow-hidden shadow-xl">
+        {/* Left Content */}
+        <div className="px-4 sm:px-6 md:px-10 lg:w-1/2 text-center lg:text-left py-10 lg:py-0">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            Bring <span className="text-lime-600">Nature</span> into Your Home
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-md mx-auto lg:mx-0">
+            Elevate your living or working space with vibrant, healthy plants.
+            Create a cozy, eco-friendly environment filled with calm and
+            freshness.
+          </p>
+          <Link to="/allProduct">
+            <button
+              className="px-8 py-3 mt-6 font-Rancho text-lg sm:text-xl text-white rounded-full 
+              bg-gradient-to-r from-lime-600 to-lime-500 shadow-lg 
+              hover:from-lime-500 hover:to-lime-400 transition"
+            >
+              Shop Now
+            </button>
+          </Link>
+        </div>
 
-        <div className="absolute flex items-start justify-center lg:w-1/2 mt-12">
-          <div className="text-left px-2 lg:ml-6">
-            <h2 className="font-Rancho bg-gradient-to-tr from-lime-400 to-green-700 text-transparent bg-clip-text text-2xl lg:text-6xl uppercase mt-2 mb-4 ">
-              Organize Your Home & Office with live tree
-            </h2>
-            <p className="text-[12px] lg:text-[18px] text-white">
-              Live Tree transforms your home and office organization. Experience
-              the perfect blend of nature and functionality with eco-friendly
-              storage solutions. From stylish furniture to smart organizers,
-              Live Tree elevates your space, creating a harmonious environment
-              that enhances productivity and tranquility.
-            </p>
-            <Link to="/allProduct">
-              <button className="px-8 py-1 mt-3 font-Rancho text-xl text-white rounded-br-full bg-lime-600 transition duration-300 ease-in-out hover:bg-lime-400">
-                Shop Now
-              </button>
-            </Link>
-          </div>
+        {/* Right Side Image */}
+        <div className="lg:w-1/2 w-full">
+          <img
+            // className="w-full h-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[650px] object-contain"
+            src={banner}
+            alt="Person holding plant"
+          />
         </div>
       </div>
 
-      {/* banner */}
-
-      <div className="lg:ml-12 lg:mr-12 lg:absolute lg:-mt-8">
-        <section className="grid lg:grid-cols-4 lg:rounded-tl-full lg:rounded-br-full lg:px-24 py-6 gap-12 bg-[#ECEAE3]">
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <RiPlantFill className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Flourish Tree</h1>
-                <p className="text-[12px]">
-                  Creating a peaceful and tranquil atmosphere with its presence
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <MdForum className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Message Support</h1>
-                <p className="text-[12px]">
-                  Consistent and trustworthy support to address user needs
-                  effectively
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <FaSunPlantWilt className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Maintenance</h1>
-                <p className="text-[12px]">
-                  Continuous care and attention to keep something in good
-                  condition
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <TbTruckDelivery className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Free Delivery</h1>
-                <p className="text-[12px]">
-                  Zero-cost delivery service for a budget-friendly and seamless
-                  shopping experience
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+      {/* Features Section */}
+      <BusinessFeatures />
     </section>
   );
 };

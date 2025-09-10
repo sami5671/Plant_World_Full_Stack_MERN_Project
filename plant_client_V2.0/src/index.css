@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .mainThemeColor {
+    @apply bg-gradient-to-r from-lime-600 to-lime-500 text-white;
+  }
+}

@@ -19,14 +19,14 @@ const AllProduct = () => {
 
   return (
     <>
-      <section className="px-12 py-24">
-        <div className="flex justify-between gap-6 mt-12">
+      <section className="lg:px-12 lg:py-24 px-4 py-8">
+        <div className="flex flex-col lg:flex-row justify-between gap-6 mt-12">
           {/* filtering plants */}
-          <div className="bg-primary-backgroundColor w-1/4 h-fit px-12 lg:py-16 rounded-xl">
+          <div className="bg-primary-backgroundColor lg:w-1/4 h-fit px-6 lg:px-12 py-10 lg:py-16 rounded-xl">
             <SearchAndFilterProduct />
           </div>
           {/* all plants */}
-          <div className="w-3/4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 lg:gap-3 2xl:gap-12">
+          <div className="w-full lg:w-3/4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-3 2xl:gap-12">
             {filteredProducts?.map((plant) => (
               <ProductCard key={plant._id} plants={plant} />
             ))}
