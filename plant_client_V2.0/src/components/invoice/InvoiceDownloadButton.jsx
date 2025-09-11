@@ -3,7 +3,7 @@ import InvoicePDFDocument from "./InvoicePDFDocument";
 
 const InvoiceDownloadButton = ({ order }) => {
   return (
-    <div className="bg-yellow-500 flex items-center p-2 rounded-lg font-semibold hover:bg-yellow-400 cursor-pointer">
+    <div className="bg-yellow-500 flex items-center p-2 rounded-lg font-semibold hover:bg-yellow-400 cursor-pointer text-[10px] lg:text-[16px]">
       <PDFDownloadLink
         document={<InvoicePDFDocument order={order} />}
         fileName={`invoice-${order?.transactionId || "order"}.pdf`}

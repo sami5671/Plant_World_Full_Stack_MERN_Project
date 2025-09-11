@@ -27,7 +27,7 @@ const ShoppingGraphAndTrending = () => {
             Trending Products <GiFruitTree />
           </h1>
         </div>
-        <div className="overflow-x-auto h-[350px]">
+        <div className="overflow-x-auto h-[350px] w-full">
           <table className="table table-pin-rows mt-3">
             <thead>
               <tr>

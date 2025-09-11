@@ -15,7 +15,7 @@ const OrderDetails = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto ">
-      <div className="bg-primary-dashboardPrimaryColor text-white p-4 rounded-lg flex justify-between items-center">
+      <div className="bg-primary-dashboardPrimaryColor text-white p-4 rounded-lg flex flex-col lg:flex-row justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold mb-2">Order Details</h2>
           <p className="text-sm  mb-6">
@@ -41,10 +41,10 @@ const OrderDetails = () => {
         } = order;
 
         return (
-          <div key={_id} className="p-12 shadow-lg rounded-lg">
+          <div key={_id} className="p-2 lg:p-12 shadow-lg rounded-lg">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Left: Order Info */}
-              <div className="space-y-6 w-1/2">
+              <div className="space-y-6 lg:w-1/2">
                 {/* Order Meta Info */}
                 <div className="bg-white shadow rounded-lg p-4">
                   <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
@@ -133,22 +133,27 @@ const OrderDetails = () => {
                       const plant = item.plantId;
                       return (
                         <div key={idx} className="border p-4 rounded-lg">
-                          <div className="flex gap-4">
+                          <div className="flex flex-col sm:flex-row gap-4">
+                            {/* Image */}
                             <img
                               src={plant.images[1]?.url || plant.images[0]}
                               alt={plant.name}
-                              className="w-28 h-28 object-cover rounded"
+                              className="w-full sm:w-28 h-40 sm:h-28 object-cover rounded"
                             />
+
+                            {/* Details */}
                             <div className="flex-1">
                               <h4 className="text-lg font-semibold">
                                 {plant.name}
                               </h4>
                               <p
-                                className="text-sm text-gray-600"
+                                className="text-sm text-gray-600 mt-1"
                                 dangerouslySetInnerHTML={{
                                   __html: plant.description,
                                 }}
                               ></p>
+
+                              {/* Tags */}
                               <div className="mt-4 flex flex-wrap gap-2">
                                 <p className="bg-slate-100 px-3 py-1 rounded text-sm">
                                   <strong>Category:</strong> {plant.category}

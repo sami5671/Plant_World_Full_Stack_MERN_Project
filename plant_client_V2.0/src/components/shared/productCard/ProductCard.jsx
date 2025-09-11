@@ -13,7 +13,7 @@ const ProductCard = ({ plants }) => {
   return (
     <>
       <section>
-        <div className="w-[150px] md:w-[180px] h-full lg:w-[240px] font-Rancho rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 bg-primary-backgroundColor p-4 relative">
+        <div className="w-[150px] md:w-[180px] h-full lg:w-[240px] font-arapey rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 bg-primary-backgroundColor p-4 relative">
           {/* <Link to={`/product/${_id}`}> */}
           <div className="flex justify-center items-center">
             <Link to={`/product/${_id}`}>
@@ -35,7 +35,7 @@ const ProductCard = ({ plants }) => {
           <div className="p-3">
             <div className="h-40">
               <Link to={`/product/${_id}`}>
-                <h1 className="mt-3 text-sm lg:text-lg font-semibold hover:text-lime-600 transition">
+                <h1 className="mt-3 text-sm lg:text-xl font-semibold hover:text-lime-600 transition">
                   {name.split(" ").slice(0, 8).join(" ")}
                 </h1>
               </Link>

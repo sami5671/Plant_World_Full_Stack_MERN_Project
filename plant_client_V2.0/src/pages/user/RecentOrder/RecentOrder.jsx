@@ -16,7 +16,7 @@ const RecentOrder = () => {
   } = useGetUserOrderQuery({ userId }, { skip: !userId });
 
   return (
-    <div className="max-w-6xl mx-auto font-sans shadow-lg mt-12 p-6">
+    <div className="max-w-6xl mx-auto font-sans shadow-lg lg:mt-12 p-6">
       <div className="bg-primary-dashboardPrimaryColor text-white p-4 rounded-lg">
         <h2 className="text-2xl font-bold mb-2">My Orders</h2>
         <p className="text-sm  mb-6">
@@ -33,7 +33,7 @@ const RecentOrder = () => {
               className="bg-white shadow-md rounded-lg p-5 mb-8"
             >
               {/* Order Header */}
-              <div className="flex justify-between items-center border-b pb-4 mb-4">
+              <div className="flex flex-col lg:flex-row  gap-3 justify-between items-center border-b pb-4 mb-4">
                 <div>
                   <p className="text-sm text-gray-500">
                     Order ID:
@@ -61,11 +61,11 @@ const RecentOrder = () => {
                 <div className="flex gap-2">
                   <InvoiceDownloadButton order={item} />
                   <Link to={`/dashboard/orderDetails/${item?._id}`}>
-                    <button className="border border-green-600 text-sm font-semibold px-4 py-2 rounded hover:bg-primary-dashboardPrimaryColor hover:text-white transition">
+                    <button className="border border-green-600 text-[10px] lg:text-sm font-semibold px-1 lg:px-4 py-2 rounded hover:bg-primary-dashboardPrimaryColor hover:text-white transition">
                       View Order Details
                     </button>
                   </Link>
-                  <button className="bg-red-400 text-sm font-semibold px-4 py-2 rounded hover:bg-red-600 transition">
+                  <button className="bg-red-400 text-[10px] lg:text-sm font-semibold lg:px-4 lg:py-2 rounded hover:bg-red-600 transition">
                     Cancel order
                   </button>
                 </div>
@@ -88,7 +88,7 @@ const RecentOrder = () => {
                 return (
                   <div
                     key={plantItem._id}
-                    className="flex items-start border-t pt-4 mt-4"
+                    className="flex flex-col lg:flex-row items-center justify-center border-t pt-4 mt-4"
                   >
                     <img
                       src={plant?.images?.[0]?.url}

@@ -17,7 +17,7 @@ const ProductDetails = () => {
   const plantImg = plant?.images;
 
   return (
-    <section className="px-4 py-6 lg:px-12 lg:py-24">
+    <section className="px-4 py-20 lg:px-12 lg:py-24 ">
       {/* Product Carousel and Order Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-12">
         {/* Image Carousel */}
@@ -26,7 +26,7 @@ const ProductDetails = () => {
         </div>
 
         {/* Product Details Table */}
-        <div className="">
+        <div className="font-arapey">
           <ProductDetailsTable plant={plant} />
         </div>
 
@@ -37,7 +37,7 @@ const ProductDetails = () => {
       </div>
 
       {/* About Section */}
-      <div className="mt-6 bg-gray-100 px-4 py-6 lg:px-12 lg:py-12 rounded-2xl shadow-2xl max-h-[550px] overflow-y-auto lg:h-auto lg:overflow-y-hidden">
+      <div className=" mt-6 bg-gray-100 px-4 py-6 lg:px-12 lg:py-12 rounded-2xl shadow-2xl max-h-[550px] overflow-y-auto lg:h-auto lg:overflow-y-hidden">
         <h3 className="text-2xl font-bold underline">About Plant:</h3>
         <br />
         <p

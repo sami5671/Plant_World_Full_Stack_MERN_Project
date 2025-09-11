@@ -11,6 +11,9 @@ export default {
     extend: {
       fontFamily: {
         rancho: ["Rancho", "serif"], // Correctly define custom font family
+        bungee: ["Bungee", "sans-serif"],
+        openSans: ["Open Sans", "sans-serif"],
+        arapey: ["Arapey", "serif"],
       },
       colors: {
         primary: {

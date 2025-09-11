@@ -46,7 +46,7 @@ const PreviousShoppingInfo = () => {
         </div>
         {/* searching and filtering */}
 
-        <div className="flex justify-end gap-6">
+        <div className="flex flex-col lg:flex-row justify-end gap-6">
           <div>
             <Input
               label="Search By Order ID"

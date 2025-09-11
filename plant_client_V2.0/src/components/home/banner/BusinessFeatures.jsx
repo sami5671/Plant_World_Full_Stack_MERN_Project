@@ -40,8 +40,8 @@ const BusinessFeatures = () => {
   return (
     <>
       {/* Features Section */}
-      <div className="lg:ml-12 lg:mr-12 lg:absolute lg:-mt-20">
-        <section className="grid lg:grid-cols-4 lg:rounded-tl-full lg:rounded-br-full lg:px-24 py-6 gap-12 bg-lime-100">
+      <div className="mt-4 lg:ml-12 lg:mr-12 lg:absolute lg:-mt-20">
+        <section className="grid rounded-2xl lg:grid-cols-4 lg:rounded-tl-full lg:rounded-br-full lg:px-24 py-6 gap-12 bg-lime-100">
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
               <span className="block">

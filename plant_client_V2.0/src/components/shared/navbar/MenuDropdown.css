@@ -1,0 +1,15 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+    border-color: hsl(264, 74%, 65%);
+  }
+  to {
+    transform: rotate(0deg);
+    border-color: hsl(300, 100%, 50%);
+  }
+}
+
+.animate-spinner {
+  animation: spin 5s linear infinite;
+  border: 3px solid;
+}

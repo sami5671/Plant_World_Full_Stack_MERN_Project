@@ -22,7 +22,7 @@ const GeneralOverview = () => {
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col lg:flex-row gap-3 items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-semibold">
             {greeting}, {user?.fullName || "User"}!

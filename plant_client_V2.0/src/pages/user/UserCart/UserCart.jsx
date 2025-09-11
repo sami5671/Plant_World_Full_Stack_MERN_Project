@@ -54,7 +54,7 @@ const UserCart = () => {
 
       {/* Free shipping progress */}
       {/* Free shipping progress */}
-      <div className="border p-4 rounded-lg mb-6 flex items-center justify-between text-white bg-primary-dashboardPrimaryColor">
+      <div className="border p-4 rounded-lg mb-6 flex flex-col lg:flex-row lg:gap-0 gap-5 items-center justify-between text-white bg-primary-dashboardPrimaryColor">
         {cartCalculation?.totalPrice === "0.00" ? (
           <div className="flex flex-col gap-2 w-full">
             <p className="text-sm font-medium">
@@ -91,13 +91,13 @@ const UserCart = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96 px-4 py-6">
+      <div className="flex flex-col lg:flex-row gap-8 shadow-xl lg:min-h-96 px-4 py-6 ">
         {/* Product Area */}
         <div className="flex-1 rounded-lg p-4 max-h-[350px] overflow-y-auto">
           {cart?.plants?.map((item) => (
             <div
               key={item?.plant?._id}
-              className="flex items-center justify-between gap-6  mt-4 px-4 py-2 rounded-2xl shadow-md"
+              className="flex flex-col lg:flex-row items-center justify-between gap-6  mt-4 px-4 py-2 rounded-2xl shadow-md"
             >
               <img
                 src={item?.plant?.images?.[3]?.url}
@@ -125,7 +125,13 @@ const UserCart = () => {
                   </button>
                 </div>
               </div>
-              <p className="text-lg font-bold">${item?.plant?.newPrice}</p>
+              <p className="text-lg font-bold">
+                ${item?.plant?.newPrice}{" "}
+                <span className="text-gray-500 font-semibold text-sm">
+                  {" "}
+                  (per piece)
+                </span>
+              </p>
             </div>
           ))}
         </div>

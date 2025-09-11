@@ -432,7 +432,7 @@ const Profile = () => {
 
             <button
               type="submit"
-              className="bg-primary-dashboardPrimaryTextColor mt-5 text-[10px] lg:text-[14px] text-white lg:px-4 lg:py-2 rounded-full font-bold hover:bg-lime-500"
+              className="bg-primary-dashboardPrimaryTextColor mt-5 text-[10px] lg:text-[14px] text-white px-4 py-2 rounded-full font-bold hover:bg-lime-500"
             >
               {isUpdateUserInfoLoading || isSubmitting ? (
                 <ImSpinner2 className="animate-spin" />
