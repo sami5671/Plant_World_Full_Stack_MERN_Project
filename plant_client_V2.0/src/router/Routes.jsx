@@ -1,28 +1,28 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../layout/Main";
 import ErrorPage from "../components/shared/error/ErrorPage";
-import Home from "../pages/home/Home";
-import Login from "../pages/auth/login/Login";
-import SignUp from "../pages/auth/signUp/SignUp";
-import AllProduct from "../pages/allProduct/AllProduct";
 import DashboardLayout from "../layout/DashboardLayout";
-import AdminDashboard from "../pages/admin/AdminDashboard/AdminDashboard";
+import Main from "../layout/Main";
 import AddProduct from "../pages/admin/AddProduct/AddProduct";
+import AdminDashboard from "../pages/admin/AdminDashboard/AdminDashboard";
+import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
 import ManageProduct from "../pages/admin/ManageProduct/ManageProduct";
 import ManageUsers from "../pages/admin/ManageUsers/ManageUsers";
-import ManageOrder from "../pages/admin/ManageOrder/ManageOrder";
-import ProductDetails from "../pages/productDetails/ProductDetails";
 import UpdateProduct from "../pages/admin/UpdateProduct/UpdateProduct";
-import UserCart from "../pages/user/UserCart/UserCart";
-import PrivateRoute from "./PrivateRoute";
-import UserDashboard from "../pages/user/UserDashboard/UserDashboard";
-import ModeratorDashboard from "./../pages/moderator/ModeratorDashboard/ModeratorDashboard";
+import AllProduct from "../pages/allProduct/AllProduct";
+import Login from "../pages/auth/login/Login";
+import SignUp from "../pages/auth/signUp/SignUp";
+import Home from "../pages/home/Home";
 import PaymentPage from "../pages/payment/paymentPage";
+import ProductDetails from "../pages/productDetails/ProductDetails";
 import Profile from "../pages/profile/Profile";
+import OrderDetails from "../pages/user/RecentOrder/OrderDetails";
 import RecentOrder from "../pages/user/RecentOrder/RecentOrder";
 import ShoppingActivity from "../pages/user/ShoppingAcitivity/ShoppingActivity";
-import OrderDetails from "../pages/user/RecentOrder/OrderDetails";
-import AdminRoute from "./AdminRoute";
+import UserCart from "../pages/user/UserCart/UserCart";
+import UserDashboard from "../pages/user/UserDashboard/UserDashboard";
+import ModeratorDashboard from "./../pages/moderator/ModeratorDashboard/ModeratorDashboard";
+import PrivateRoute from "./PrivateRoute";
+import RoleRoute from "./RoleRoute";
 
 const router = createBrowserRouter([
   {
@@ -64,49 +64,49 @@ const router = createBrowserRouter([
       {
         path: "admin-dashboard",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin"]}>
             <AdminDashboard />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {
         path: "add-product",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin", "moderator"]}>
             <AddProduct />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {
         path: "manage-product",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin", "moderator"]}>
             <ManageProduct />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {
         path: "updateProduct/:id",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin", "moderator"]}>
             <UpdateProduct />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {
         path: "manage-order",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin", "moderator"]}>
             <ManageOrder />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {
         path: "manage-users",
         element: (
-          <AdminRoute>
+          <RoleRoute allowedRoles={["admin"]}>
             <ManageUsers />
-          </AdminRoute>
+          </RoleRoute>
         ),
       },
       {

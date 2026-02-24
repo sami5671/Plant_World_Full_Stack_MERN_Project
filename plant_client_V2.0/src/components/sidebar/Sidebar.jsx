@@ -1,31 +1,32 @@
-import { RiLogoutCircleLine } from "react-icons/ri";
-import { IoSettingsSharp } from "react-icons/io5";
-import { GiPalmTree } from "react-icons/gi";
-import { MdMenu } from "react-icons/md";
-import { FaHome } from "react-icons/fa";
 import { useState } from "react";
-import AdminMenu from "./AdminMenu";
-import ModeratorMenu from "./ModeratorMenu";
-import UserMenu from "./UserMenu";
-import MenuItem from "./MenuItem";
-import Logo from "../shared/logo/Logo";
+import { FaHome } from "react-icons/fa";
+import { GiPalmTree } from "react-icons/gi";
+import { IoSettingsSharp } from "react-icons/io5";
+import { MdMenu } from "react-icons/md";
+import { RiLogoutCircleLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userLoggedOut } from "../../features/auth/authSlice";
 import { resetCart } from "../../features/users/cartSlice";
-import { useNavigate } from "react-router-dom";
 import UseAdmin from "../../Hooks/UseAdmin";
+import UseModerator from "../../Hooks/UseModerator";
+import Logo from "../shared/logo/Logo";
+import AdminMenu from "./AdminMenu";
+import MenuItem from "./MenuItem";
+import ModeratorMenu from "./ModeratorMenu";
+import UserMenu from "./UserMenu";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAdmin = UseAdmin();
-  const isModerator = false;
+  const isModerator = UseModerator();
   // =================================================================
   const handleToggle = () => {
     setActive(!isActive);
   };
-  // console.log(isAdmin);
+  console.log(isModerator);
   const handleLogOut = () => {
     dispatch(userLoggedOut());
     dispatch(resetCart());
@@ -45,10 +46,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <button
-          onClick={handleToggle}
-          className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200"
-        >
+        <button onClick={handleToggle} className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200">
           <MdMenu className="h-5 w-5" />
         </button>
       </div>
@@ -72,13 +70,7 @@ const Sidebar = () => {
 
           <div>
             <h1 className="text-center text-white font-bold">
-              {isAdmin ? (
-                <p>Admin</p>
-              ) : isModerator ? (
-                <p>Moderator</p>
-              ) : (
-                <p>User</p>
-              )}
+              {isAdmin ? <p>Admin</p> : isModerator ? <p>Moderator</p> : <p>User</p>}
             </h1>
           </div>
 
@@ -87,31 +79,17 @@ const Sidebar = () => {
             {/* If a user is host */}
             {/* {role === "host" ? <ToggleBtn toggleHandler={toggleHandler} /> : ""} */}
             <nav>
-              {isAdmin ? (
-                <AdminMenu />
-              ) : isModerator ? (
-                <ModeratorMenu />
-              ) : (
-                <UserMenu />
-              )}
+              {isAdmin ? <AdminMenu /> : isModerator ? <ModeratorMenu /> : <UserMenu />}
 
               <MenuItem icon={FaHome} label="Home" address="/" />
-              <MenuItem
-                icon={GiPalmTree}
-                label="All Products"
-                address="/allProduct"
-              />
+              <MenuItem icon={GiPalmTree} label="All Products" address="/allProduct" />
             </nav>
           </div>
         </div>
 
         <div>
           <hr />
-          <MenuItem
-            icon={IoSettingsSharp}
-            label="Profile"
-            address="/dashboard/my-profile"
-          />
+          <MenuItem icon={IoSettingsSharp} label="Profile" address="/dashboard/my-profile" />
           <button
             onClick={handleLogOut}
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-300 hover:bg-white hover:text-black transition-colors duration-300 transform"
