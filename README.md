@@ -1,7 +1,7 @@
 # 🌿 Plant World – Full Stack E-Commerce Platform
 
 ![Homepage
-Banner](https://via.placeholder.com/1200x400.png?text=Plant+World+Homepage)
+Banner](https://github.com/sami5671/Plant_World_Full_Stack_MERN_Project/blob/main/plant_client_V2.0/public/Images/plantWorld.png)
 
 > A modern full-stack plant e-commerce platform built with **React
 > (Vite)**, **Node.js (Express)**, **MongoDB**, **Firebase**, and
