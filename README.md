@@ -7,7 +7,7 @@ Banner](https://github.com/sami5671/Plant_World_Full_Stack_MERN_Project/blob/mai
 > (Vite)**, **Node.js (Express)**, **MongoDB**, **Firebase**, and
 > **Stripe**.
 
-------------------------------------------------------------------------
+---
 
 ## 🚀 Project Overview
 
@@ -15,16 +15,46 @@ Plant World is a complete full-stack web application designed for
 selling plants online.  
 It includes:
 
--   🔐 Authentication (JWT + Firebase Admin)
--   🛒 Product Management
--   👤 User & Admin Roles
--   💳 Stripe Payment Integration
--   ☁️ Cloudinary Image Upload
--   📊 Dashboard & Analytics
--   📄 Invoice Generation (PDF)
--   🔥 Modern UI with TailwindCSS & Redux Toolkit
+- 🔐 Authentication (JWT + Firebase Admin)
+- 🛒 Product Management
+- 👤 User & Admin Roles
+- 💳 Stripe Payment Integration
+- ☁️ Cloudinary Image Upload
+- 📊 Dashboard & Analytics
+- 📄 Invoice Generation (PDF)
+- 🔥 Modern UI with TailwindCSS & Redux Toolkit
 
-------------------------------------------------------------------------
+---
+
+### 1. Admin
+
+```bash
+jamil@gmail.com
+```
+
+```bash
+plant124P@
+```
+
+### 2. Moderator
+
+```bash
+kamal@gmail.com
+```
+
+```bash
+plant124P@
+```
+
+### 3. User
+
+```bash
+nabil@gmail.com
+```
+
+```bash
+plant124P@
+```
 
 # 🏗️ Project Structure
 
@@ -50,35 +80,9 @@ It includes:
 
 ### ⚙️ Backend Setup
 
-### 1. Admin
-
-``` bash
-jamil@gmail.com
-```
-``` bash
-plant124P@
-```
-### 2. Moderator
-
-``` bash
-kamal@gmail.com
-```
-``` bash
-plant124P@
-```
-
-### 3. User
-
-``` bash
-nabil@gmail.com
-```
-``` bash
-plant124P@
-```
-
 ### 1️⃣ Install Dependencies
 
-``` bash
+```bash
 cd plant_server_V2.0
 npm install
 ```
@@ -105,13 +109,13 @@ Create a `.env` file inside `plant_server_V2.0`:
 
 Development mode:
 
-``` bash
+```bash
 npm run dev
 ```
 
 Production:
 
-``` bash
+```bash
 npm start
 ```
 
@@ -119,7 +123,7 @@ Backend runs at:
 
     http://localhost:5000
 
-------------------------------------------------------------------------
+---
 
 ## 🔹 Frontend – `plant_client_V2.0`
 
@@ -143,7 +147,7 @@ Backend runs at:
 
 ### 1️⃣ Install Dependencies
 
-``` bash
+```bash
 cd plant_client_V2.0
 npm install
 ```
@@ -163,7 +167,7 @@ Inside `plant_client_V2.0`:
 
 ### 3️⃣ Run Frontend
 
-``` bash
+```bash
 npm run dev
 ```
 
@@ -171,49 +175,49 @@ Frontend runs at:
 
     http://localhost:5173
 
-------------------------------------------------------------------------
+---
 
 # 🔗 Connecting Frontend & Backend
 
 Make sure:
 
--   Backend is running on `http://localhost:5000`
--   `VITE_API_URL` matches backend URL
--   CORS is enabled in Express
+- Backend is running on `http://localhost:5000`
+- `VITE_API_URL` matches backend URL
+- CORS is enabled in Express
 
-------------------------------------------------------------------------
+---
 
 # 🛠️ Tech Stack
 
 ## Frontend
 
--   React 19
--   Vite
--   Redux Toolkit
--   Tailwind CSS
--   Firebase
--   Stripe
--   Chart.js
--   Formik + Yup
+- React 19
+- Vite
+- Redux Toolkit
+- Tailwind CSS
+- Firebase
+- Stripe
+- Chart.js
+- Formik + Yup
 
 ## Backend
 
--   Node.js
--   Express.js
--   MongoDB (Mongoose)
--   Firebase Admin
--   JWT Authentication
--   Stripe API
--   Cloudinary
--   Helmet & CORS
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- Firebase Admin
+- JWT Authentication
+- Stripe API
+- Cloudinary
+- Helmet & CORS
 
-------------------------------------------------------------------------
+---
 
 # 📦 Build for Production
 
 ### Frontend
 
-``` bash
+```bash
 npm run build
 ```
 
@@ -221,45 +225,45 @@ npm run build
 
 Deploy using: - Vercel - Render - Railway - DigitalOcean
 
-------------------------------------------------------------------------
+---
 
 # 🔐 Admin Access
 
 Admin routes are protected with:
 
--   JWT Middleware
--   Role-based Authorization
+- JWT Middleware
+- Role-based Authorization
 
 Make sure admin role is set in database.
 
-------------------------------------------------------------------------
+---
 
 # 📄 API Base URL
 
     http://localhost:5000/api
 
-------------------------------------------------------------------------
+---
 
 # 👨‍💻 Author
 
 **Md. Sami Alam**  
 Full Stack Developer
 
-------------------------------------------------------------------------
+---
 
 # ⭐ Support
 
 If you like this project, give it a ⭐ on GitHub!
 
-------------------------------------------------------------------------
+---
 
 # 🎉 Final Notes
 
--   Always keep `.env` files private
--   Never push secrets to GitHub
--   Use production environment variables when deploying
+- Always keep `.env` files private
+- Never push secrets to GitHub
+- Use production environment variables when deploying
 
-------------------------------------------------------------------------
+---
 
 # 🌍 Homepage Preview
 
@@ -269,6 +273,6 @@ After running frontend:
 You will see the Plant World homepage with products, categories,
 authentication, and payment system ready.
 
-------------------------------------------------------------------------
+---
 
 💚 Happy Coding!
