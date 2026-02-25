@@ -50,6 +50,32 @@ It includes:
 
 ### ⚙️ Backend Setup
 
+### 1. Admin
+
+``` bash
+jamil@gmail.com
+```
+``` bash
+plant124P@
+```
+### 2. Moderator
+
+``` bash
+kamal@gmail.com
+```
+``` bash
+plant124P@
+```
+
+### 3. User
+
+``` bash
+nabil@gmail.com
+```
+``` bash
+plant124P@
+```
+
 ### 1️⃣ Install Dependencies
 
 ``` bash
