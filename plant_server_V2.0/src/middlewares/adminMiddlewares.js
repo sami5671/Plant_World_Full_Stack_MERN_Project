@@ -17,7 +17,7 @@ const verifyAdmin = async (req, res, next) => {
       return apiResponse(res, 404, false, "User not found");
     }
 
-    if (user.role !== "admin" || user.role !== "moderator") {
+    if (user.role !== "admin") {
       return apiResponse(res, 403, false, "Forbidden: Admins only");
     }
 
