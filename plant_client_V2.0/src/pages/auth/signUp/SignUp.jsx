@@ -1,31 +1,26 @@
-import { FaFacebookF, FaTree } from "react-icons/fa6";
-import GitHubLogin from "../../../components/shared/auth/GitHubLogin";
-import GoogleLogin from "../../../components/shared/auth/GoogleLogin";
 import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 import { Form, Formik } from "formik";
-import { Input, Password, FileInput, Radio, RadioGroup } from "rizzui";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  useGithubLoginMutation,
-  useGoogleLoginMutation,
-  useRegisterMutation,
-} from "../../../features/auth/authApi";
-import * as Yup from "yup";
-import { imageUpload } from "../../../api/utils";
-import { ToastContainer, toast } from "react-toastify";
-import Loading from "../../../components/shared/loader/Loader";
-import "./signup.css";
-import { getCurrentAddress } from "../../../features/auth/getCurrentAddress";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaFacebookF, FaTree } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { FileInput, Input, Password, Radio, RadioGroup } from "rizzui";
+import * as Yup from "yup";
+import { imageUpload } from "../../../api/utils";
+import GitHubLogin from "../../../components/shared/auth/GitHubLogin";
+import GoogleLogin from "../../../components/shared/auth/GoogleLogin";
+import Loading from "../../../components/shared/loader/Loader";
+import { useGithubLoginMutation, useGoogleLoginMutation, useRegisterMutation } from "../../../features/auth/authApi";
+import { getCurrentAddress } from "../../../features/auth/getCurrentAddress";
+import "./signup.css";
 
 const SignUp = () => {
   const [googleLogin] = useGoogleLoginMutation();
   const [githubLogin] = useGithubLoginMutation();
   const navigate = useNavigate();
-  const [register, { isLoading, error: responseError, isSuccess }] =
-    useRegisterMutation();
+  const [register, { isLoading, error: responseError, isSuccess }] = useRegisterMutation();
 
   const initialValues = {
     fullName: "",
@@ -37,12 +32,8 @@ const SignUp = () => {
   };
   // Validation schema
   const registerSchema = Yup.object().shape({
-    fullName: Yup.string()
-      .required("Name is required!")
-      .min(3, "Name must be at least 3 characters."),
-    email: Yup.string()
-      .required("Email is required!")
-      .email("Invalid email format."),
+    fullName: Yup.string().required("Name is required!").min(3, "Name must be at least 3 characters."),
+    email: Yup.string().required("Email is required!").email("Invalid email format."),
     dateOfBirth: Yup.date().nullable().required("Date of birth is required"),
     gender: Yup.string().required("Gender is required"),
     password: Yup.string()
@@ -51,25 +42,15 @@ const SignUp = () => {
       .matches(/[a-z]/, "Password must contain at least one lowercase letter.")
       .matches(/[A-Z]/, "Password must contain at least one uppercase letter.")
       .matches(/\d/, "Password must contain at least one number.")
-      .matches(
-        /[@$!%*?&]/,
-        "Password must contain at least one special character."
-      ),
+      .matches(/[@$!%*?&]/, "Password must contain at least one special character."),
     avatar: Yup.mixed()
       .required("Avatar is required!")
       .test("fileSize", "File too large, max size is 2MB.", (value) => {
         return value && value.size <= 2 * 1024 * 1024; // 2MB
       })
-      .test(
-        "fileType",
-        "Unsupported file format. Only images allowed.",
-        (value) => {
-          return (
-            value &&
-            ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-          );
-        }
-      ),
+      .test("fileType", "Unsupported file format. Only images allowed.", (value) => {
+        return value && ["image/jpeg", "image/png", "image/gif"].includes(value.type);
+      }),
   });
   // Background Style
   const bgStyle = {
@@ -100,8 +81,8 @@ const SignUp = () => {
 
       const response = await register({
         fullName: values.fullName,
-        email: values.email,
-        password: values.password,
+        email: values.email.trim(),
+        password: values.password.trim(),
         avatar: imageData?.data?.display_url,
         address: currentAddress,
         DOB: formattedDOB,
@@ -111,9 +92,7 @@ const SignUp = () => {
       // console.log(isSuccess);
 
       resetForm();
-      toast.success(
-        `Welcome, ${values.fullName}!! You registered successfully`
-      );
+      toast.success(`Welcome, ${values.fullName}!! You registered successfully`);
       navigate("/");
     } catch (error) {
       toast.error("Something went wrong!");
@@ -144,10 +123,7 @@ const SignUp = () => {
         theme="light"
         transition:Bounce
       />
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={bgStyle}
-      >
+      <div className="min-h-screen flex items-center justify-center" style={bgStyle}>
         <div className="hero">
           <div className="hero-content flex-col lg:flex-row-reverse">
             <div className="flex-shrink-0 w-full rounded-2xl shadow-2xl lg:px-28 bg-white bg-opacity-30 p-8">
@@ -158,12 +134,8 @@ const SignUp = () => {
                     <FaTree />
                   </span>
                 </Link>
-                <h1 className="text-2xl font-bold text-slate-500 mb-2">
-                  Already have an account?
-                </h1>
-                <p className="text-[14px] font-bold text-slate-500">
-                  Use Social Media Credentials
-                </p>
+                <h1 className="text-2xl font-bold text-slate-500 mb-2">Already have an account?</h1>
+                <p className="text-[14px] font-bold text-slate-500">Use Social Media Credentials</p>
               </div>
 
               {/* Social Login */}
@@ -182,19 +154,8 @@ const SignUp = () => {
               <div className="divider my-6">OR</div>
 
               {/* Formik Form */}
-              <Formik
-                initialValues={initialValues}
-                validationSchema={registerSchema}
-                onSubmit={handleSubmit}
-              >
-                {({
-                  errors,
-                  touched,
-                  values,
-                  handleChange,
-                  setFieldValue,
-                  isSubmitting,
-                }) => (
+              <Formik initialValues={initialValues} validationSchema={registerSchema} onSubmit={handleSubmit}>
+                {({ errors, touched, values, handleChange, setFieldValue, isSubmitting }) => (
                   <Form className="space-y-5">
                     <div className="form-control">
                       <Input
@@ -204,15 +165,11 @@ const SignUp = () => {
                         onChange={handleChange}
                         placeholder="Enter your name"
                         inputClassName={`border-2 ${
-                          errors.fullName && touched.fullName
-                            ? "border-red-500"
-                            : "border-lime-500"
+                          errors.fullName && touched.fullName ? "border-red-500" : "border-lime-500"
                         } bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
                       />
                       {errors.fullName && touched.fullName && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.fullName}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
                       )}
                     </div>
 
@@ -224,16 +181,10 @@ const SignUp = () => {
                         onChange={handleChange}
                         placeholder="Enter your email"
                         inputClassName={`border-2 ${
-                          errors.email && touched.email
-                            ? "border-red-500"
-                            : "border-lime-500"
+                          errors.email && touched.email ? "border-red-500" : "border-lime-500"
                         } bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
                       />
-                      {errors.email && touched.email && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.email}
-                        </p>
-                      )}
+                      {errors.email && touched.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
 
                     <div className="form-control">
@@ -244,35 +195,23 @@ const SignUp = () => {
                         onChange={handleChange}
                         placeholder="Enter your password"
                         inputClassName={`border-2 ${
-                          errors.password && touched.password
-                            ? "border-red-500"
-                            : "border-lime-500"
+                          errors.password && touched.password ? "border-red-500" : "border-lime-500"
                         } bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
                         visibilityToggleIcon={(visible) =>
-                          visible ? (
-                            <LockOpenIcon className="h-auto w-5" />
-                          ) : (
-                            <LockClosedIcon className="h-auto w-5" />
-                          )
+                          visible ? <LockOpenIcon className="h-auto w-5" /> : <LockClosedIcon className="h-auto w-5" />
                         }
                       />
                       {errors.password && touched.password && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.password}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.password}</p>
                       )}
                     </div>
 
                     <div className="form-control w-full">
-                      <label className="text-sm font-medium text-gray-700 mb-1">
-                        Date of Birth
-                      </label>
+                      <label className="text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
                       <div className="relative">
                         <ReactDatePicker
                           selected={values.dateOfBirth}
-                          onChange={(date) =>
-                            setFieldValue("dateOfBirth", date)
-                          }
+                          onChange={(date) => setFieldValue("dateOfBirth", date)}
                           placeholderText="Select Date"
                           className="w-full p-2 pr-10 border-2 rounded-md bg-white opacity-80 border-lime-500 focus:outline-none focus:border-lime-500"
                         />
@@ -282,9 +221,7 @@ const SignUp = () => {
                         />
                       </div>
                       {errors.dateOfBirth && touched.dateOfBirth && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.dateOfBirth}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth}</p>
                       )}
                     </div>
 
@@ -315,20 +252,12 @@ const SignUp = () => {
                         label="Upload Avatar"
                         name="avatar"
                         className="custom-file-input"
-                        onChange={(e) =>
-                          setFieldValue("avatar", e.target.files[0])
-                        }
+                        onChange={(e) => setFieldValue("avatar", e.target.files[0])}
                         inputClassName={`border-2 ${
-                          errors.avatar && touched.avatar
-                            ? "border-red-500"
-                            : "border-lime-500"
+                          errors.avatar && touched.avatar ? "border-red-500" : "border-lime-500"
                         } bg-white opacity-100 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2`}
                       />
-                      {errors.avatar && touched.avatar && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.avatar}
-                        </p>
-                      )}
+                      {errors.avatar && touched.avatar && <p className="text-red-500 text-sm mt-1">{errors.avatar}</p>}
                     </div>
 
                     <div className="mt-6">
@@ -341,8 +270,7 @@ const SignUp = () => {
                       </button>
                       {responseError && (
                         <p className="text-red-500 text-sm mt-2">
-                          {responseError.data?.message ||
-                            "Registration failed!"}
+                          {responseError.data?.message || "Registration failed!"}
                         </p>
                       )}
                     </div>
@@ -355,17 +283,12 @@ const SignUp = () => {
                 <p className="text-[16px]">
                   Don't Have an account?{" "}
                   <Link to="/login">
-                    <span className="text-[12px] ml-2 underline text-blue-600 font-bold">
-                      Login
-                    </span>
+                    <span className="text-[12px] ml-2 underline text-blue-600 font-bold">Login</span>
                   </Link>
                 </p>
                 <p className="text-[12px]">
                   For any issues or assistance, email{" "}
-                  <a
-                    href="mailto:samialam5671@gmail.com"
-                    className="underline text-blue-500"
-                  >
+                  <a href="mailto:samialam5671@gmail.com" className="underline text-blue-500">
                     samialam5671@gmail.com
                   </a>
                 </p>

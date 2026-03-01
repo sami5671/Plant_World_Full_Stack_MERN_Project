@@ -14,12 +14,7 @@ const signUp = async (req, res, next) => {
     const { fullName, email, password, avatar, address, DOB } = req.body;
 
     if (!fullName || !email || !password) {
-      return apiResponse(
-        res,
-        400,
-        false,
-        "Name, Email, and Password are required!"
-      );
+      return apiResponse(res, 400, false, "Name, Email, and Password are required!");
     }
 
     // Hash password with proper validation
@@ -49,60 +44,52 @@ const signUp = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    console.log("login", req.body);
+    const { email, password } = req.body;
 
-    if (!user) {
-      return apiResponse(res, 404, false, "User not found!!");
-    }
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    if (!email || !password) return apiResponse(res, 400, false, "Email and password are required!");
 
-    if (!isMatch) {
-      return apiResponse(res, 401, false, "Invalid Email or Password!!");
-    } else {
-      const userObject = {
-        _id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        password: user.password,
-        gender: user.gender,
-        createdAt: user.createdAt,
-      };
-      // Generate token
-      const token = jwt.sign(userObject, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRY,
-      });
-      // // Set cookie
-      // res.cookie(process.env.COOKIE_NAME, token, {
-      //   maxAge: parseInt(process.env.JWT_EXPIRY, 10), // Ensure maxAge is a number
-      //   httpOnly: true,
-      //   signed: true,
-      // });
-      return apiResponse(res, 200, true, "Successfully logged in!!", {
-        data: user,
-        token,
-      });
-    }
+    const user = await User.findOne({ email });
+
+    if (!user) return apiResponse(res, 404, false, "User not found!");
+
+    if (!user.password) return apiResponse(res, 400, false, "Please login using social provider");
+
+    console.log("Received password:", `"${password}"`); // debug
+    console.log("Hashed password:", user.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) return apiResponse(res, 401, false, "Invalid Email or Password!");
+
+    const userObject = {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      gender: user.gender,
+      createdAt: user.createdAt,
+    };
+
+    const token = jwt.sign(userObject, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRY,
+    });
+
+    return apiResponse(res, 200, true, "Successfully logged in!", {
+      user: userObject,
+      token,
+    });
   } catch (error) {
-    console.error(error); // Log the actual error for debugging
-    return apiResponse(res, 500, false, "Unknown error during login!!");
+    console.error(error);
+    return apiResponse(res, 500, false, "Unknown error during login!");
   }
 };
 
 const socialLogin = async (req, res, next) => {
   // console.log(req.body);
   try {
-    const {
-      fullName,
-      email,
-      gender,
-      avatar,
-      address,
-      DOB,
-      providerId,
-      provider,
-    } = req.body;
+    const { fullName, email, gender, avatar, address, DOB, providerId, provider } = req.body;
     const user = await User.findOne({ $or: [{ email }, { providerId }] });
 
     if (!user) {
