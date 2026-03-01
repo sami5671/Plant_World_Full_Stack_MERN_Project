@@ -1,9 +1,9 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
-import Navbar from "../components/shared/navbar/Navbar";
 import Footer from "../components/shared/footer/Footer";
 import Loader from "../components/shared/loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import Navbar from "../components/shared/navbar/Navbar";
 import { userLoggedIn } from "../features/auth/authSlice";
 import { useGetUserCartItemQuery } from "../features/users/cartApi";
 import { cartItem } from "../features/users/cartSlice";
@@ -20,23 +20,16 @@ const Main = () => {
     isError: isCartError,
   } = useGetUserCartItemQuery(user?._id, { skip: !user });
   // Determine if Navbar and Footer should be hidden
-  const noHeaderFooter =
-    location.pathname.includes("login") || location.pathname.includes("signup");
+  const noHeaderFooter = location.pathname.includes("login") || location.pathname.includes("signup");
 
   // set data to localStorage
   useEffect(() => {
-    if (localStorage.length > 0) {
-      const authData = localStorage.getItem("auth");
-      if (authData) {
-        const parsedData = JSON.parse(authData);
-        const token = parsedData?.token;
-        const user = parsedData?.user;
-        if (token && user) {
-          dispatch(userLoggedIn({ user, token }));
-        }
-      }
+    const authData = localStorage.getItem("auth");
+    if (authData) {
+      const parsedData = JSON.parse(authData);
+      dispatch(userLoggedIn({ user: parsedData.user, token: parsedData.token }));
     }
-  }, [dispatch]);
+  }, []);
 
   // fetch cart item to redux local store
   useEffect(() => {
