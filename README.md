@@ -9,6 +9,11 @@ Banner](https://github.com/sami5671/Plant_World_Full_Stack_MERN_Project/blob/mai
 
 ---
 
+## 🏗️ System Architecture
+
+![System 
+Architecture](https://github.com/sami5671/Plant_World_Full_Stack_MERN_Project/blob/main/plant_client_V2.0/public/Images/Plant%20world%20Full-Stack%20Web%20App.svg)
+
 ## 🚀 Project Overview
 
 Plant World is a complete full-stack web application designed for
