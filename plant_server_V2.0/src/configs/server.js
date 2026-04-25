@@ -3,6 +3,7 @@ const express = require("express");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
 require("dotenv/config");
 
 // Internal imports
@@ -14,13 +15,26 @@ const authenticationRoute = require("../routes/authenticationRoute");
 const plantRoute = require("../routes/plantRoute");
 const userRoute = require("../routes/usersRoute");
 const adminRoute = require("../routes/adminRoute");
+const swaggerSpec = require("./swagger");
 
 // Create app instance
 const app = express();
 const env = process.env.NODE_ENV || "development";
 
 // Middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+        styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+        connectSrc: ["'self'", "https://plant-server-v2-0.vercel.app", "http://localhost:8000"],
+      },
+    },
+  }),
+);
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(cors(config[env].corsOptions));
 app.use(express.json({ limit: "100kb" }));
@@ -33,6 +47,48 @@ app.use("/auth", authenticationRoute);
 app.use("/user", userRoute);
 app.use("/plant", plantRoute);
 app.use("/admin", adminRoute);
+
+// Swagger UI CDN-based HTML
+const swaggerHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plant World API Documentation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css" />
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({
+        url: "/api-docs.json",
+        dom_id: '#swagger-ui',
+        validatorUrl: null,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout",
+      });
+    };
+  </script>
+</body>
+</html>
+`;
+
+app.get("/api-docs", (req, res) => {
+  res.send(swaggerHtml);
+});
+
+// Route to get the Swagger JSON spec
+app.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 // Home route
 app.get("/", (req, res) => {
