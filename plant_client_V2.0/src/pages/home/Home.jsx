@@ -2,13 +2,15 @@ import { useDispatch } from "react-redux";
 import Banner from "../../components/home/banner/Banner";
 import TrendingProduct from "../../components/home/trendingProducts/TrendingProduct";
 import WhoWeAre from "../../components/home/whoWeAre/WhoWeAre";
+import Categories from "../../components/home/categories/Categories";
+import Newsletter from "../../components/home/newsletter/Newsletter";
 import { useEffect } from "react";
 import { useGetProductsQuery } from "../../features/products/productsApi";
 import { allPlants } from "../../features/products/productsSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { data, isSuccess, isLoading, isError } = useGetProductsQuery();
+  const { data, isSuccess } = useGetProductsQuery();
 
   // set to redux local store
   useEffect(() => {
@@ -18,11 +20,13 @@ const Home = () => {
   }, [data, dispatch, isSuccess]);
 
   return (
-    <>
+    <main className="overflow-x-hidden">
       <Banner />
+      <Categories />
       <WhoWeAre />
       <TrendingProduct />
-    </>
+      <Newsletter />
+    </main>
   );
 };
 

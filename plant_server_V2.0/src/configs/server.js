@@ -38,6 +38,7 @@ app.use(
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(cors(config[env].corsOptions));
 app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 // Connect to MongoDB
 connectToDatabase(config[env].databaseURI);

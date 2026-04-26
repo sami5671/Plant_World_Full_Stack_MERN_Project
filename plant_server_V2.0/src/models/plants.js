@@ -8,15 +8,15 @@ const plantSchema = new mongoose.Schema(
       trim: true,
     },
     previousPrice: {
-      type: String,
-      trim: true,
+      type: Number,
+      default: 0,
     },
     newPrice: {
-      type: String,
+      type: Number,
       required: true,
     },
     stock: {
-      type: String,
+      type: Number,
       required: true,
     },
     color: {

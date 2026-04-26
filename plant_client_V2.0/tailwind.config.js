@@ -14,6 +14,8 @@ export default {
         bungee: ["Bungee", "sans-serif"],
         openSans: ["Open Sans", "sans-serif"],
         arapey: ["Arapey", "serif"],
+        inter: ["Inter", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
       },
       colors: {
         primary: {

@@ -13,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { formattedDOB, imageUpload } from "../../api/utils";
 import { toast } from "react-toastify";
 import { ImSpinner2 } from "react-icons/im";
+import { useDispatch } from "react-redux";
+import { updateUserProfile } from "../../features/auth/authSlice";
 
 const GenderOptions = [
   { label: "Male 👨‍🦰", value: "male" },
@@ -42,6 +44,7 @@ const Profile = () => {
 
   const user = useSelector((state) => state?.auth?.user);
   const userId = user?._id;
+  const dispatch = useDispatch();
 
   const { data: userInfo, isSuccess: isUserInfoSuccess } =
     useGetUserProfileInfoQuery({ userId });
@@ -78,10 +81,11 @@ const Profile = () => {
     const imageData = await imageUpload(image);
     // console.log(imageData?.data?.display_url);
     try {
-      updateUserProfileInfo({
+      await updateUserProfileInfo({
         id: user._id,
         avatar: imageData?.data?.display_url,
-      });
+      }).unwrap();
+      dispatch(updateUserProfile({ avatar: imageData?.data?.display_url }));
       toast("Image uploaded successfully", { position: "top-center" });
     } catch (error) {
       toast.error("Failed to upload image");
@@ -94,7 +98,7 @@ const Profile = () => {
 
     const dateOfBirth = await formattedDOB(values?.DOB);
     try {
-      updateUserProfileInfo({
+      await updateUserProfileInfo({
         id: user._id,
         fullName: values.fullName,
         email: values.email,
@@ -107,7 +111,8 @@ const Profile = () => {
         address: values.address,
         role: values.role,
         biography: values.biography,
-      });
+      }).unwrap();
+      dispatch(updateUserProfile({ ...values, DOB: dateOfBirth }));
       toast("profile updated successfully");
       setSubmitting(false);
     } catch (error) {

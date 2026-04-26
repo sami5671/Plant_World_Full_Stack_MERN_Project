@@ -31,35 +31,19 @@ It includes:
 
 ---
 
+### 🔗 API DOCS: https://plant-server-v2-0.vercel.app/api-docs
+
 ### 1. Admin
 
 ```bash
-jamil@gmail.com
+sami56@gmail.com
 ```
 
 ```bash
-plant124P@
+sami123
 ```
 
-### 2. Moderator
-
-```bash
-kamal@gmail.com
-```
-
-```bash
-plant124P@
-```
-
-### 3. User
-
-```bash
-nabil@gmail.com
-```
-
-```bash
-plant124P@
-```
+````
 
 # 🏗️ Project Structure
 
@@ -90,7 +74,7 @@ plant124P@
 ```bash
 cd plant_server_V2.0
 npm install
-```
+````
 
 ### 2️⃣ Create `.env` File
 

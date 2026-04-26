@@ -18,16 +18,6 @@ const { createJWT } = require("../middlewares/authMiddlewares");
  */
 
 // jwt
-/**
- * @swagger
- * /auth/jwt:
- *   post:
- *     summary: Create a JWT token
- *     tags: [Authentication]
- *     responses:
- *       200:
- *         description: JWT token created
- */
 router.post("/jwt", createJWT);
 
 // signUp route
@@ -81,16 +71,6 @@ router.post("/signup", signUp);
 router.post("/login", login);
 
 // social login route
-/**
- * @swagger
- * /auth/socialLogin:
- *   post:
- *     summary: Social login (Google, etc.)
- *     tags: [Authentication]
- *     responses:
- *       200:
- *         description: Social login successful
- */
 router.post("/socialLogin", socialLogin);
 
 // logout route

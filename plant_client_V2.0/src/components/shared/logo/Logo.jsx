@@ -8,7 +8,7 @@ const Logo = ({ color }) => {
       {/* small screen dropdown menu */}
       <div className="dropdown dropdown-start lg:hidden text-lime-600 font-semibold">
         <div tabIndex={0} role="button">
-          <ImMenu3 className="text-white text-2xl ml-4" />
+          <ImMenu3 className="text-white text-3xl ml-2" />
         </div>
         <ul
           tabIndex={0}
@@ -30,15 +30,11 @@ const Logo = ({ color }) => {
       </div>
 
       {/* logo icon */}
-      <div>
-        <GiFruitTree className={`text-2xl ${color}`} />
-      </div>
-
-      {/* logo text - visible only on large screens */}
-      <div>
-        <a className={`hidden lg:block ${color} font-bold text-2xl`}>
+      <div className="flex items-center gap-2">
+        <GiFruitTree className="text-3xl text-white" />
+        <Link to="/" className="hidden lg:block text-white font-bold text-2xl tracking-tight">
           Plant World
-        </a>
+        </Link>
       </div>
     </div>
   );

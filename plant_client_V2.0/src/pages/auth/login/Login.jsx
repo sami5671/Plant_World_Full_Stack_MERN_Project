@@ -34,11 +34,11 @@ const Login = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log(values);
     login({
       email: values.email.trim(),
       password: values.password.trim(),
     });
+    console.log("From login page: ", values);
   };
 
   const handleGoogleLogin = async () => {
