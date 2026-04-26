@@ -24,7 +24,7 @@ const options = {
         description: "Production server",
       },
       {
-        url: "http://localhost:8080",
+        url: "http://localhost:8000",
         description: "Local development server",
       },
     ],
