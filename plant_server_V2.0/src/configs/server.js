@@ -15,6 +15,7 @@ const authenticationRoute = require("../routes/authenticationRoute");
 const plantRoute = require("../routes/plantRoute");
 const userRoute = require("../routes/usersRoute");
 const adminRoute = require("../routes/adminRoute");
+const subscriberRoute = require("../routes/subscriberRoute");
 const swaggerSpec = require("./swagger");
 
 // Create app instance
@@ -48,6 +49,7 @@ app.use("/auth", authenticationRoute);
 app.use("/user", userRoute);
 app.use("/plant", plantRoute);
 app.use("/admin", adminRoute);
+app.use("/subscriber", subscriberRoute);
 
 // Swagger UI CDN-based HTML
 const swaggerHtml = `

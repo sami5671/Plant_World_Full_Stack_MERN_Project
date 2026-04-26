@@ -17,6 +17,7 @@ const options = {
       { name: "Plants", description: "The plants managing API" },
       { name: "Users", description: "User operations including cart, payments, and profile" },
       { name: "Admin", description: "Admin-only operations" },
+      { name: "Newsletter", description: "Newsletter subscription management" },
     ],
     servers: [
       {
