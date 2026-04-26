@@ -39,7 +39,7 @@ const Main = () => {
   }, [cart, user, isCartSuccess, dispatch]);
 
   return (
-    <div className="">
+    <div className="pt-16">
       {/* Global Loader */}
       {navigation.state === "loading" && <Loader />}
 
@@ -47,7 +47,9 @@ const Main = () => {
       {!noHeaderFooter && <Navbar />}
 
       {/* Main Content */}
-      <Outlet />
+      <main className="min-h-[calc(100vh-64px)]">
+        <Outlet />
+      </main>
 
       {/* Conditionally Render Footer */}
       {!noHeaderFooter && <Footer />}

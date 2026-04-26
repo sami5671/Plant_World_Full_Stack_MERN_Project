@@ -33,29 +33,6 @@ const { verifyRoles } = require("../middlewares/verifyRolesMiddleware");
  */
 router.get("/users", verifyToken, verifyAdmin, getAllUsers);
 
-/**
- * @swagger
- * /admin/deleteUser/{uid}/{userId}:
- *   delete:
- *     summary: Delete a user
- *     tags: [Admin]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: uid
- *         required: true
- *         schema:
- *           type: string
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: User deleted
- */
 router.delete("/deleteUser/:uid/:userId", verifyToken, checkFirebaseAdmin, deleteUser);
 
 // plants control

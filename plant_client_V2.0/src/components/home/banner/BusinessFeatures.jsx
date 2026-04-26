@@ -2,104 +2,64 @@ import { RiPlantFill } from "react-icons/ri";
 import { FaSunPlantWilt } from "react-icons/fa6";
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdForum } from "react-icons/md";
+import { motion } from "motion/react";
+
 const features = [
   {
     id: 1,
-    icon: (
-      <RiPlantFill className="text-5xl text-lime-600 group-hover:text-lime-400 transition" />
-    ),
+    icon: <RiPlantFill />,
     title: "Flourish Tree",
     desc: "Creates a peaceful and tranquil atmosphere with its presence",
+    color: "bg-lime-500",
   },
   {
     id: 2,
-    icon: (
-      <MdForum className="text-5xl text-lime-600 group-hover:text-lime-400 transition" />
-    ),
+    icon: <MdForum />,
     title: "Message Support",
     desc: "Reliable and consistent support to address user needs",
+    color: "bg-emerald-500",
   },
   {
     id: 3,
-    icon: (
-      <FaSunPlantWilt className="text-5xl text-lime-600 group-hover:text-lime-400 transition" />
-    ),
+    icon: <FaSunPlantWilt />,
     title: "Maintenance",
     desc: "Continuous care and attention to keep your plants thriving",
+    color: "bg-teal-500",
   },
   {
     id: 4,
-    icon: (
-      <TbTruckDelivery className="text-5xl text-lime-600 group-hover:text-lime-400 transition" />
-    ),
+    icon: <TbTruckDelivery />,
     title: "Free Delivery",
     desc: "Zero-cost delivery for a seamless shopping experience",
+    color: "bg-lime-600",
   },
 ];
+
 const BusinessFeatures = () => {
   return (
-    <>
-      {/* Features Section */}
-      <div className="mt-4 lg:ml-12 lg:mr-12 lg:absolute lg:-mt-20">
-        <section className="grid rounded-2xl lg:grid-cols-4 lg:rounded-tl-full lg:rounded-br-full lg:px-24 py-6 gap-12 bg-lime-100">
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <RiPlantFill className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Flourish Tree</h1>
-                <p className="text-[12px]">
-                  Creating a peaceful and tranquil atmosphere with its presence
-                </p>
-              </div>
+    <section className="relative z-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {features.map((feature, index) => (
+          <motion.div
+            key={feature.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            whileHover={{ y: -10 }}
+            className="group p-8 rounded-3xl bg-white dark:bg-slate-900/50 premium-shadow border border-slate-100 dark:border-slate-800 hover:border-lime-200 dark:hover:border-lime-500/50 transition-all duration-300 backdrop-blur-sm"
+          >
+            <div className={`w-14 h-14 rounded-2xl ${feature.color} flex items-center justify-center text-white text-3xl mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
+              {feature.icon}
             </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <MdForum className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Message Support</h1>
-                <p className="text-[12px]">
-                  Consistent and trustworthy support to address user needs
-                  effectively
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <FaSunPlantWilt className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Maintenance</h1>
-                <p className="text-[12px]">
-                  Continuous care and attention to keep something in good
-                  condition
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center">
-              <span className="block">
-                <TbTruckDelivery className="text-5xl text-lime-600 mx-auto hover:text-lime-400" />
-              </span>
-              <div>
-                <h1 className="text-xl">Free Delivery</h1>
-                <p className="text-[12px]">
-                  Zero-cost delivery service for a budget-friendly and seamless
-                  shopping experience
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">{feature.title}</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+              {feature.desc}
+            </p>
+          </motion.div>
+        ))}
       </div>
-    </>
+    </section>
   );
 };
 

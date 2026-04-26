@@ -5,7 +5,7 @@ const LargeScreenNavbar = () => {
   return (
     <>
       <div className="hidden lg:block ">
-        <ul className="flex items-center gap-10 justify-center text-[16px] font-serif font-semibold text-white text-transparent bg-clip-text">
+        <ul className="flex items-center gap-10 justify-center text-[16px] font-semibold text-white">
           {location.pathname === "/" ? (
             <Link to="/">
               <li className="border-white border-b-2 text-white">Home</li>

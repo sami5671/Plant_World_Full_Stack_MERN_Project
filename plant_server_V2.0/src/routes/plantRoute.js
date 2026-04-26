@@ -32,11 +32,11 @@ const { verifyRoles } = require("../middlewares/verifyRolesMiddleware");
  *           type: string
  *           description: The name of the plant
  *         previousPrice:
- *           type: string
+ *           type: number
  *         newPrice:
- *           type: string
+ *           type: number
  *         stock:
- *           type: string
+ *           type: number
  *         color:
  *           type: string
  *         plantType:

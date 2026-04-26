@@ -12,10 +12,20 @@ const options = {
         name: "Developer",
       },
     },
+    tags: [
+      { name: "Authentication", description: "User authentication and registration" },
+      { name: "Plants", description: "The plants managing API" },
+      { name: "Users", description: "User operations including cart, payments, and profile" },
+      { name: "Admin", description: "Admin-only operations" },
+    ],
     servers: [
       {
         url: "https://plant-server-v2-0.vercel.app",
         description: "Production server",
+      },
+      {
+        url: "http://localhost:8080",
+        description: "Local development server",
       },
     ],
     components: {

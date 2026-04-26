@@ -79,30 +79,8 @@ router.get("/userCartItem/:userId", verifyToken, getCartItem);
  */
 router.put("/updateCartQuantity", verifyToken, updateCartQuantity);
 
-/**
- * @swagger
- * /user/create-payment-intent:
- *   post:
- *     summary: Generate a client secret for payment
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: Payment intent created
- */
 router.post("/create-payment-intent", generateClientSecret);
 
-/**
- * @swagger
- * /user/saveOrder:
- *   post:
- *     summary: Place a new order
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       201:
- *         description: Order placed
- */
 router.post("/saveOrder", verifyToken, makeOrder);
 
 /**

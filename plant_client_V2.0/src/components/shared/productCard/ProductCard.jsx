@@ -1,70 +1,79 @@
-import { FaCartShopping } from "react-icons/fa6";
-import "react-toastify/dist/ReactToastify.css";
-import { cld } from "./../../../api/utils";
 import { backgroundRemoval } from "@cloudinary/url-gen/actions/effect";
-import { Link } from "react-router-dom";
-import useHandleCart from "../../../Hooks/UseHandleCart";
+import { motion } from "motion/react";
+import { FaCartShopping } from "react-icons/fa6";
 import { ImSpinner9 } from "react-icons/im";
+import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import useHandleCart from "../../../Hooks/UseHandleCart";
+import { cld } from "./../../../api/utils";
 
 const ProductCard = ({ plants }) => {
-  const { handleCart, isLoading, isSuccess } = useHandleCart();
+  const { handleCart, isLoading } = useHandleCart();
   const { _id, name, newPrice, previousPrice, stock, images } = plants;
-  // console.log(_id);
-  return (
-    <>
-      <section>
-        <div className="w-[150px] md:w-[180px] h-full lg:w-[240px] font-arapey rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 bg-primary-backgroundColor p-4 relative">
-          {/* <Link to={`/product/${_id}`}> */}
-          <div className="flex justify-center items-center">
-            <Link to={`/product/${_id}`}>
-              <img
-                key={images?.[3]?.publicId}
-                src={cld
-                  .image(images?.[3]?.publicId)
-                  .effect(backgroundRemoval())
-                  .format("auto")
-                  .quality("auto")
-                  .toURL()}
-                // src={images?.[0]?.publicId}
-                className="lg:w-48 lg:h-48 object-cover rounded-xl shadow-md"
-              />
-            </Link>
-          </div>
-          {/* </Link> */}
 
-          <div className="p-3">
-            <div className="h-40">
-              <Link to={`/product/${_id}`}>
-                <h1 className="mt-3 text-sm lg:text-xl font-semibold hover:text-lime-600 transition">
-                  {name.split(" ").slice(0, 8).join(" ")}
-                </h1>
-              </Link>
-              <span className="absolute top-3 right-3 bg-slate-500 text-white text-xs px-2 py-1 rounded-md shadow-md">
-                In stock: {stock}
-              </span>
-              <p className="mt-2 text-[12px] lg:text-lg">
-                <span className="font-bold text-lg lg:text-2xl text-lime-600">
-                  ${newPrice}
-                </span>
-                <del className="ml-2 text-gray-500">${previousPrice}</del>
-              </p>
-            </div>
-            {isLoading ? (
-              <button className="flex items-center justify-center gap-2 text-[12px] lg:text-lg mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full">
-                Processing <ImSpinner9 className="animate-spin" />
-              </button>
-            ) : (
-              <button
-                onClick={() => handleCart(_id)}
-                className="flex items-center justify-center gap-2 text-[12px] lg:text-lg mt-3 py-2 text-white bg-lime-500 hover:bg-lime-700 transition-all rounded-full shadow-md w-full"
-              >
-                Add to Cart <FaCartShopping />
-              </button>
-            )}
-          </div>
+  // Use the first image if the 4th one (index 3) is missing
+  const displayImageId = images?.[3]?.publicId || images?.[0]?.publicId;
+
+  return (
+    <Link to={`/product/${_id}`} className="block">
+      <motion.div
+        whileHover={{ y: -10 }}
+        className="group relative bg-white dark:bg-slate-900/40 rounded-3xl p-4 premium-shadow border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:border-lime-200 dark:hover:border-lime-500/50 backdrop-blur-sm"
+      >
+      {/* Badge */}
+      <span className="absolute top-4 left-4 z-10 bg-lime-100 dark:bg-lime-900/40 text-lime-700 dark:text-lime-400 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border border-lime-200 dark:border-lime-800">
+        {stock > 0 ? "In Stock" : "Out of Stock"}
+      </span>
+
+      {/* Image Container */}
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-800/50 mb-4">
+        {displayImageId && (
+          <motion.img
+            src={cld.image(displayImageId).effect(backgroundRemoval()).format("auto").quality("auto").toURL()}
+            alt={name}
+            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 p-4"
+          />
+        )}
+
+        {/* Quick Add Button (Visible on Hover) */}
+        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+          {isLoading ? (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              className="w-full h-12 flex items-center justify-center gap-2 bg-slate-900 dark:bg-lime-600 text-white rounded-xl shadow-lg"
+            >
+              <ImSpinner9 className="animate-spin" />
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleCart(_id);
+              }}
+              className="w-full h-12 flex items-center justify-center gap-2 bg-lime-600 dark:bg-lime-500 hover:bg-lime-700 dark:hover:bg-lime-400 text-white rounded-xl shadow-lg transition-colors font-bold"
+            >
+              Add to Cart <FaCartShopping />
+            </button>
+          )}
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Product Info */}
+      <div className="px-2 text-left">
+        <h3 className="text-slate-800 dark:text-white font-bold text-lg mb-1 line-clamp-1 group-hover:text-lime-600 dark:group-hover:text-lime-400 transition-colors">
+          {name}
+        </h3>
+        <div className="flex items-center gap-2">
+          <span className="text-lime-600 dark:text-lime-400 font-bold text-xl">${newPrice}</span>
+          {previousPrice && <del className="text-slate-400 dark:text-slate-500 text-sm">${previousPrice}</del>}
+        </div>
+      </div>
+      </motion.div>
+    </Link>
   );
 };
 

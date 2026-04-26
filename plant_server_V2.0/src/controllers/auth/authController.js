@@ -11,35 +11,45 @@ const signUp = async (req, res, next) => {
   // console.log(req.body);
   try {
     // Validate request body
-    const { fullName, email, password, avatar, address, DOB } = req.body;
+    const { fullName, name, email, password, avatar, address, DOB } = req.body;
+    const finalFullName = fullName || name;
 
-    if (!fullName || !email || !password) {
+    if (!finalFullName || !email || !password) {
       return apiResponse(res, 400, false, "Name, Email, and Password are required!");
     }
 
-    // Hash password with proper validation
-    const saltRounds = 10; // Recommended value for bcrypt
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create new user instance
+    // Create new user instance (password will be hashed by User model's pre-save hook)
     const newUser = new User({
-      fullName,
+      fullName: finalFullName,
       email,
-      password: hashedPassword,
+      password,
       avatar,
       address,
       DOB,
     });
 
-    await newUser.save();
+    const savedUser = await newUser.save();
 
-    // Find user after saving
-    const user = await User.findOne({ email });
-    return apiResponse(res, 200, true, "Successfully registered!", {
-      user,
+    // Create a clean user object for the response
+    const userObject = {
+      _id: savedUser._id,
+      fullName: savedUser.fullName,
+      email: savedUser.email,
+      avatar: savedUser.avatar,
+      address: savedUser.address,
+      DOB: savedUser.DOB,
+      role: savedUser.role,
+      createdAt: savedUser.createdAt,
+    };
+
+    return apiResponse(res, 201, true, "Successfully registered!", {
+      user: userObject,
     });
   } catch (error) {
     console.error("Error during registration:", error);
+    if (error.code === 11000) {
+      return apiResponse(res, 400, false, "Email already exists!");
+    }
     return apiResponse(res, 500, false, "Unknown error during registration!");
   }
 };
@@ -69,6 +79,8 @@ const login = async (req, res) => {
       fullName: user.fullName,
       email: user.email,
       gender: user.gender,
+      role: user.role,
+      avatar: user.avatar,
       createdAt: user.createdAt,
     };
 

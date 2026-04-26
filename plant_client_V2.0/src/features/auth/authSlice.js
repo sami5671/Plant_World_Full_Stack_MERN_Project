@@ -19,8 +19,16 @@ const authSlice = createSlice({
       state.accessToken = undefined;
       localStorage.removeItem("auth");
     },
+    updateUserProfile: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+      const auth = JSON.parse(localStorage.getItem("auth"));
+      if (auth) {
+        auth.user = { ...auth.user, ...action.payload };
+        localStorage.setItem("auth", JSON.stringify(auth));
+      }
+    },
   },
 });
 
-export const { userLoggedIn, userLoggedOut } = authSlice.actions;
+export const { userLoggedIn, userLoggedOut, updateUserProfile } = authSlice.actions;
 export default authSlice.reducer;
