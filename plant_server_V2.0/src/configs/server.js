@@ -15,6 +15,7 @@ const authenticationRoute = require("../routes/authenticationRoute");
 const plantRoute = require("../routes/plantRoute");
 const userRoute = require("../routes/usersRoute");
 const adminRoute = require("../routes/adminRoute");
+const subscriberRoute = require("../routes/subscriberRoute");
 const swaggerSpec = require("./swagger");
 
 // Create app instance
@@ -24,15 +25,8 @@ const env = process.env.NODE_ENV || "development";
 // Middleware
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
-        styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-        connectSrc: ["'self'", "https://plant-server-v2-0.vercel.app", "http://localhost:8000"],
-      },
-    },
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -48,6 +42,7 @@ app.use("/auth", authenticationRoute);
 app.use("/user", userRoute);
 app.use("/plant", plantRoute);
 app.use("/admin", adminRoute);
+app.use("/subscriber", subscriberRoute);
 
 // Swagger UI CDN-based HTML
 const swaggerHtml = `

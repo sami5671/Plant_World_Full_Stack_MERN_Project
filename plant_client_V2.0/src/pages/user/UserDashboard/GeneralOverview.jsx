@@ -20,23 +20,23 @@ const GeneralOverview = () => {
     useSelector((state) => state?.userOrders);
 
   return (
-    <div className="p-6">
+    <div className="mb-8">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row gap-3 items-center justify-between mb-6">
+      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-8">
         <div>
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm mb-1">
             {greeting}, {user?.fullName || "User"}!
           </h2>
-          <p className="text-gray-500 text-sm">Here's is your bucket today.</p>
+          <p className="text-slate-500 font-medium tracking-wide">Here is your bucket today.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center border px-3 py-2 rounded-lg text-sm text-gray-700 bg-gray-100 shadow-sm">
-            <Calendar className="w-4 h-4 mr-2 text-gray-500" />
-            {dateFormate(now)}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center bg-white/60 backdrop-blur-md border border-emerald-100/60 px-4 py-2.5 rounded-xl shadow-sm">
+            <Calendar className="w-5 h-5 mr-2 text-emerald-600" />
+            <span className="font-medium tracking-wide text-slate-700">{dateFormate(now)}</span>
           </div>
           <Link to={`/allProduct`}>
-            <button className="flex items-center gap-1 px-4 py-2 bg-green-100 text-green-700 text-sm rounded-lg shadow-sm hover:bg-green-200">
-              <GiFruitTree className="w-4 h-4" />
+            <button className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium rounded-xl shadow-[0_4px_15px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.4)] transition-all duration-300 transform hover:-translate-y-0.5">
+              <GiFruitTree className="w-5 h-5" />
               Buy Plants
             </button>
           </Link>
@@ -44,38 +44,50 @@ const GeneralOverview = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
-          title={"TOTAL BUY"}
+          title={"TOTAL SPENT"}
           value={`$${totalBuy}`}
           link={"/dashboard/shopping-activity"}
-          linkName={"view Shopping graph"}
-          icon={<DollarSign className="w-6 h-6 text-green-500" />}
-          color={"text-green-500"}
+          linkName={"View history"}
+          icon={<DollarSign className="w-6 h-6 text-emerald-600 drop-shadow-[0_2px_10px_rgba(16,185,129,0.4)]" />}
+          color="text-slate-800"
+          gradient="from-emerald-50 to-teal-50"
+          borderColor="border-emerald-100"
+          iconBg="bg-emerald-100/50"
         />
         <StatsCard
           title={"TOTAL ORDERS"}
           value={totalOrders}
           link={""}
-          linkName={"view all orders"}
-          icon={<ShoppingBag className="w-6 h-6 text-red-500" />}
-          color={"text-red-500"}
+          linkName={"View all orders"}
+          icon={<ShoppingBag className="w-6 h-6 text-teal-600 drop-shadow-[0_2px_10px_rgba(20,184,166,0.4)]" />}
+          color="text-slate-800"
+          gradient="from-teal-50 to-cyan-50"
+          borderColor="border-teal-100"
+          iconBg="bg-teal-100/50"
         />
         <StatsCard
           title={"PENDING ORDERS"}
           value={pendingOrders}
           link={""}
-          linkName={"see details"}
-          icon={<FcProcess className="w-6 h-6 text-yellow-500 animate-spin" />}
-          color={"text-green-500"}
+          linkName={"See details"}
+          icon={<FcProcess className="w-6 h-6 animate-spin drop-shadow-[0_2px_10px_rgba(245,158,11,0.4)]" />}
+          color="text-slate-800"
+          gradient="from-lime-50 to-green-50"
+          borderColor="border-lime-100"
+          iconBg="bg-lime-100/50"
         />
         <StatsCard
-          title={"TRENDING PRODUCTS"}
+          title={"TRENDING"}
           value={totalTrendingProduct}
           link={""}
-          linkName={"see details"}
-          icon={<ChartNoAxesCombined className="w-6 h-6 text-green-500" />}
-          color={"text-green-500"}
+          linkName={"See details"}
+          icon={<ChartNoAxesCombined className="w-6 h-6 text-green-600 drop-shadow-[0_2px_10px_rgba(34,197,94,0.4)]" />}
+          color="text-slate-800"
+          gradient="from-green-50 to-emerald-50"
+          borderColor="border-green-100"
+          iconBg="bg-green-100/50"
         />
       </div>
     </div>

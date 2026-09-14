@@ -1,7 +1,21 @@
+const allowedOrigins = [
+  "https://plant-world-v2.web.app",
+  "https://plant-world-v2.firebaseapp.com",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+];
+
 const config = {
   development: {
     corsOptions: {
-      origin: process.env.CORS_ORIGINS,
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || process.env.CORS_ORIGINS?.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(null, true);
+        }
+      },
       credentials: true,
       optionSuccessStatus: 200,
     },
@@ -9,8 +23,13 @@ const config = {
   },
   production: {
     corsOptions: {
-      // origin: "https://plant-world-v2.web.app",
-      origin: process.env.CORS_ORIGINS, // Update this for production if needed
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin) || process.env.CORS_ORIGINS?.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(null, true);
+        }
+      },
       credentials: true,
       optionSuccessStatus: 200,
     },
@@ -21,3 +40,4 @@ const config = {
 module.exports = {
   config,
 };
+

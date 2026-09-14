@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 const WhoWeAre = () => {
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-24 overflow-hidden bg-white dark:bg-[#020617] transition-colors duration-500">
+    <section className="py-24 px-4 sm:px-6 lg:px-24 overflow-hidden bg-transparent transition-colors duration-500">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

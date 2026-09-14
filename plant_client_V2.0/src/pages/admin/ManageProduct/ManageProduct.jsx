@@ -127,130 +127,125 @@ const ManageProduct = () => {
         theme="light"
         transition:Bounce
       />
-      <section className="bg-white px-4 py-4 lg:px-12 lg:py-12 rounded-2xl">
-        <div className="flex justify-end">
-          <h1 className="text-primary-dashboardPrimaryTextColor font-bold text-xl flex items-center gap-2">
-            Manage Product <GiFruitTree />
-          </h1>
-        </div>
-        {/* searching and filtering */}
+      <div className="relative z-10">
 
-        <div className="flex gap-6">
-          <div>
-            <Input
-              label="Search By ID"
-              placeholder="Enter the Product ID "
-              inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
-              onChange={(e) => handleSearchById(e.target.value)}
-            />
+        <section className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl relative z-10">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm flex items-center gap-3">
+              Manage Product <GiFruitTree className="text-emerald-600" />
+            </h1>
           </div>
-          <div>
-            <Input
-              label="Search By Name"
-              placeholder="Enter Plant Name"
-              inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
-              onChange={(e) => handleSearchByName(e.target.value)}
-            />
-          </div>
-          <div>
+          {/* searching and filtering */}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div>
+              <Input
+                label="Search By ID"
+                placeholder="Enter the Product ID "
+                inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
+                onChange={(e) => handleSearchById(e.target.value)}
+              />
+            </div>
+            <div>
+              <Input
+                label="Search By Name"
+                placeholder="Enter Plant Name"
+                inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
+                onChange={(e) => handleSearchByName(e.target.value)}
+              />
+            </div>
             <div>
               <Select
                 label="Select Plant Type"
                 options={options}
                 onChange={handleTrendingProductSearch}
                 value={value}
-                dropdownClassName="bg-white"
-                selectClassName="border-lime-500 bg-white w-[200px] opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-4"
+                dropdownClassName="bg-white border-emerald-100 rounded-xl shadow-lg"
+                selectClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
               />
             </div>
           </div>
-        </div>
         {/* data table */}
-        <div className="overflow-x-auto h-[650px]">
-          <table className="table table-pin-rows mt-8">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Details</th>
-                <th>Make Trending</th>
-                <th>Update</th>
-                <th>Delete</th>
-              </tr>
+          <div className="overflow-x-auto h-[650px] rounded-xl border border-emerald-100/50 shadow-inner bg-white/40">
+            <table className="table table-pin-rows">
+              {/* head */}
+              <thead>
+                <tr className="bg-emerald-50/50 text-slate-600 border-b border-emerald-100/50">
+                  <th className="bg-transparent">No</th>
+                  <th className="bg-transparent">Name</th>
+                  <th className="bg-transparent">Category</th>
+                  <th className="bg-transparent">Image</th>
+                  <th className="bg-transparent">Price</th>
+                  <th className="bg-transparent">Details</th>
+                  <th className="bg-transparent">Make Trending</th>
+                  <th className="bg-transparent">Update</th>
+                  <th className="bg-transparent">Delete</th>
+                </tr>
             </thead>
             <tbody className="">
               {/* row 1 */}
 
-              {filteredProducts?.map((item, index) => (
-                <tr key={item?._id}>
-                  <td>{index + 1}</td>
-                  <td className="lg:w-1/6">{item?.name.slice(0, 50)}...</td>
-                  <td>{item?.category}</td>
-                  <td>
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12">
-                        <img src={item?.images?.[3]?.url} alt="img" />
+                {filteredProducts?.map((item, index) => (
+                  <tr key={item?._id} className="border-b border-slate-100/50 hover:bg-emerald-50/30 transition-colors">
+                    <td className="text-slate-600 font-medium">{index + 1}</td>
+                    <td className="lg:w-1/6 text-slate-700 font-medium">{item?.name.slice(0, 50)}...</td>
+                    <td className="text-slate-600 capitalize">{item?.category}</td>
+                    <td>
+                      <div className="avatar drop-shadow-sm">
+                        <div className="mask mask-squircle h-12 w-12 border border-emerald-100">
+                          <img src={item?.images?.[3]?.url} alt="img" />
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="text-[18px] font-bold">
-                      ${item.newPrice}
-                    </span>
-                    <span className="ml-2">
-                      <del>{item.previousPrice}</del>
-                    </span>
-                  </td>
-                  {/* <Link to={`/product/${item._id}`}> */}
-                  <td>
-                    <Link to={`/product/${item?._id}`}>
-                      <span className="text-4xl text-lime-500 hover:text-lime-800">
-                        <IoInformationCircle />
+                    </td>
+                    <td>
+                      <span className="text-[18px] font-bold text-emerald-700">
+                        ${item.newPrice}
                       </span>
-                    </Link>
-                  </td>
-                  <td>
-                    <button onClick={() => handleTrendingProduct(item?._id)}>
-                      <span className="text-2xl text-lime-500 hover:text-lime-800">
-                        {item?.trending == true ? (
-                          <span className="animate-pulse">🔥</span>
-                        ) : (
-                          <span>❄️</span>
-                        )}
+                      <span className="ml-2 text-slate-400">
+                        <del>{item.previousPrice}</del>
                       </span>
-                    </button>
-                  </td>
-                  {/* </Link> */}
-                  {/* update info */}
-
-                  <td>
-                    <Link to={`/dashboard/updateProduct/${item._id}`}>
-                      <button>
-                        <span className="text-2xl hover:text-lime-700">
-                          <TfiWrite />
+                    </td>
+                    <td>
+                      <Link to={`/product/${item?._id}`}>
+                        <span className="text-3xl text-emerald-500 hover:text-emerald-700 transition-colors inline-block">
+                          <IoInformationCircle />
+                        </span>
+                      </Link>
+                    </td>
+                    <td>
+                      <button onClick={() => handleTrendingProduct(item?._id)} className="transition-transform hover:scale-110">
+                        <span className="text-2xl drop-shadow-sm">
+                          {item?.trending == true ? (
+                            <span className="animate-pulse">🔥</span>
+                          ) : (
+                            <span>❄️</span>
+                          )}
                         </span>
                       </button>
-                    </Link>
-                  </td>
-
-                  {/* delete info */}
-                  <td>
-                    <button onClick={() => handleDeleteProduct(item._id)}>
-                      <span className="text-xl text-red-600 hover:text-orange-500">
-                        <FaTrash />
-                      </span>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+                    </td>
+                    <td>
+                      <Link to={`/dashboard/updateProduct/${item._id}`}>
+                        <button className="transition-transform hover:scale-110">
+                          <span className="text-2xl text-teal-600 hover:text-teal-800">
+                            <TfiWrite />
+                          </span>
+                        </button>
+                      </Link>
+                    </td>
+                    <td>
+                      <button onClick={() => handleDeleteProduct(item._id)} className="transition-transform hover:scale-110">
+                        <span className="text-xl text-rose-500 hover:text-rose-700">
+                          <FaTrash />
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </>
   );
 };

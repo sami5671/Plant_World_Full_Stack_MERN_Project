@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 const Banner = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-12 py-20 overflow-hidden bg-white dark:bg-[#020617] transition-colors duration-500">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-12 py-20 overflow-hidden bg-transparent transition-colors duration-500">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
         <motion.div

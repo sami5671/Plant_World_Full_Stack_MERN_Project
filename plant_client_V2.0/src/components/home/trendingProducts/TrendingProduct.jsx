@@ -8,7 +8,7 @@ const TrendingProduct = () => {
   const { trendingProducts } = useSelector((state) => state.products);
 
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-white dark:bg-[#020617] transition-colors duration-500">
+    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-transparent transition-colors duration-500">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -40,9 +40,9 @@ const TrendingProduct = () => {
       <div className="mt-16 flex justify-center">
         <Link to="/allProduct">
           <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(101, 163, 13, 0.3)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(16, 185, 129, 0.3)" }}
             whileTap={{ scale: 0.95 }}
-            className="px-12 py-4 font-outfit text-lg font-bold text-white rounded-full bg-slate-900 dark:bg-lime-600 hover:bg-lime-600 dark:hover:bg-lime-500 transition-all shadow-xl"
+            className="px-12 py-4 font-outfit text-lg font-bold text-white rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 shadow-xl transition-all"
           >
             View More Products
           </motion.button>

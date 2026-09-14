@@ -1,4 +1,4 @@
-import { LockClosedIcon, LockOpenIcon } from "@heroicons/react/24/outline";
+import { LockClosedIcon, LockOpenIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { FaFacebookF, FaTree } from "react-icons/fa6";
@@ -97,8 +97,41 @@ const Login = () => {
 
               {/* Formik Form */}
               <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleSubmit}>
-                {({ errors, touched, values, handleChange }) => (
+                {({ errors, touched, values, handleChange, setFieldValue }) => (
                   <Form className="space-y-5">
+                    {/* Demo Admin Credentials Quick Autofill Card */}
+                    <div
+                      onClick={() => {
+                        setFieldValue("email", "admin@gmail.com");
+                        setFieldValue("password", "Admin123!");
+                      }}
+                      className="cursor-pointer bg-gradient-to-r from-lime-100 to-emerald-100 hover:from-lime-200 hover:to-emerald-200 border-2 border-lime-500 border-dashed p-3 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md group flex items-center justify-between"
+                      title="Click to auto-fill Admin credentials"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="bg-lime-600 text-white p-2 rounded-lg group-hover:scale-105 transition-transform">
+                          <ShieldCheckIcon className="w-5 h-5" />
+                        </div>
+                        <div className="text-left">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold uppercase tracking-wider text-lime-800 bg-lime-200/80 px-2 py-0.5 rounded-full">
+                              Demo Admin
+                            </span>
+                            <span className="text-[11px] font-semibold text-slate-500 group-hover:text-slate-700">
+                              (Click to Auto-fill)
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-700 font-medium mt-1">
+                            <span className="font-semibold text-slate-900">Email:</span> admin@gmail.com &nbsp;|&nbsp;{" "}
+                            <span className="font-semibold text-slate-900">Pass:</span> Admin123!
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold text-lime-700 bg-white/80 group-hover:bg-lime-600 group-hover:text-white px-3 py-1.5 rounded-lg border border-lime-400 transition-colors shadow-sm">
+                        Fill
+                      </span>
+                    </div>
+
                     <div className="form-control">
                       <Input
                         label="Email"

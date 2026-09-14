@@ -52,24 +52,22 @@ const Sidebar = () => {
       </div>
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-primary-dashboardPrimaryColor w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gradient-to-b from-[#62825D] to-emerald-900 shadow-2xl border-r border-emerald-800 w-64 space-y-6 px-4 py-6 absolute inset-y-0 left-0 transform ${
           isActive && "-translate-x-full"
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        }  md:translate-x-0  transition-all duration-300 ease-in-out`}
       >
         <div>
           <div>
-            <div className="w-full hidden md:flex px-4 py-2 rounded-lg justify-center items-center mx-auto">
+            <div className="w-full hidden md:flex px-4 py-3 rounded-xl justify-center items-center mx-auto bg-white/10 backdrop-blur-md border border-white/20 shadow-inner mb-6">
               {/* logo */}
-              <Logo color={"text-white"} />
+              <Logo color={"text-white drop-shadow-md"} />
               {/* logo */}
             </div>
-            <hr />
-            <hr />
-            <hr />
+            <hr className="border-white/10 mb-6" />
           </div>
 
-          <div>
-            <h1 className="text-center text-white font-bold">
+          <div className="mb-6">
+            <h1 className="text-center text-emerald-50 font-bold uppercase tracking-widest text-[11px] bg-black/20 py-2.5 rounded-lg border border-white/10 shadow-inner backdrop-blur-sm">
               {isAdmin ? <p>Admin</p> : isModerator ? <p>Moderator</p> : <p>User</p>}
             </h1>
           </div>
@@ -88,13 +86,13 @@ const Sidebar = () => {
         </div>
 
         <div>
-          <hr />
+          <hr className="border-white/10 my-4" />
           <MenuItem icon={IoSettingsSharp} label="Profile" address="/dashboard/my-profile" />
           <button
             onClick={handleLogOut}
-            className="flex w-full items-center px-4 py-2 mt-5 text-gray-300 hover:bg-white hover:text-black transition-colors duration-300 transform"
+            className="flex w-full items-center px-4 py-3 mt-2 text-rose-200 hover:bg-rose-500/20 hover:text-rose-100 transition-all duration-300 transform rounded-xl border border-transparent hover:border-rose-500/30 font-medium"
           >
-            <RiLogoutCircleLine />
+            <RiLogoutCircleLine className="w-5 h-5" />
             <span className="mx-4 font-medium">Logout</span>
           </button>
         </div>
