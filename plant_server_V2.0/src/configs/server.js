@@ -25,15 +25,8 @@ const env = process.env.NODE_ENV || "development";
 // Middleware
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
-        styleSrc: ["'self'", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-        connectSrc: ["'self'", "https://plant-server-v2-0.vercel.app", "http://localhost:8000"],
-      },
-    },
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
 app.use(cookieParser(process.env.COOKIE_SECRET));

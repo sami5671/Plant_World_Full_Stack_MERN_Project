@@ -18,22 +18,23 @@ const AllProduct = () => {
   }, [data, dispatch, isSuccess]);
 
   return (
-    <>
-      <section className="lg:px-12 lg:py-24 px-4 py-8">
-        <div className="flex flex-col lg:flex-row justify-between gap-6 mt-12">
+    <div className="relative z-10">
+
+      <section className="lg:px-12 lg:py-24 px-4 py-8 relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between gap-8 mt-12">
           {/* filtering plants */}
-          <div className="bg-primary-backgroundColor lg:w-1/4 h-fit px-6 lg:px-12 py-10 lg:py-16 rounded-xl">
+          <div className="lg:w-1/4 h-fit bg-white/70 backdrop-blur-xl border border-white/50 px-6 lg:px-8 py-10 lg:py-12 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
             <SearchAndFilterProduct />
           </div>
           {/* all plants */}
-          <div className="w-full lg:w-3/4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 lg:gap-3 2xl:gap-12">
+          <div className="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredProducts?.map((plant) => (
               <ProductCard key={plant._id} plants={plant} />
             ))}
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

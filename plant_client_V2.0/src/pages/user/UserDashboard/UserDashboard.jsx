@@ -34,21 +34,19 @@ const UserDashboard = () => {
   }, [dispatch, isOrderSuccess, order?.data]);
 
   return (
-    <>
-      <main className="bg-gray-50">
+    <div className="text-slate-800 font-outfit relative z-10">
+      <main className="max-w-7xl mx-auto space-y-8">
         {/* General overview */}
-        <div>
+        <section>
           <GeneralOverview />
-        </div>
-        {/* General overview */}
+        </section>
 
         {/* graph and trending product*/}
-        <div>
+        <section>
           <ShoppingGraphAndTrending />
-        </div>
-        {/* graph and trending product*/}
+        </section>
       </main>
-    </>
+    </div>
   );
 };
 

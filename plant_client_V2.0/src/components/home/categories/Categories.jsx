@@ -12,7 +12,7 @@ const categories = [
 
 const Categories = () => {
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-slate-50/50 dark:bg-slate-900/20 transition-colors duration-500">
+    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-transparent transition-colors duration-500">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
@@ -50,7 +50,7 @@ const Categories = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -10 }}
-              className={`group p-6 rounded-3xl ${cat.color} dark:bg-slate-800/40 border border-transparent hover:border-white dark:hover:border-lime-500/30 hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl transition-all duration-300 cursor-pointer text-center`}
+              className={`group p-6 rounded-[2rem] bg-white/40 backdrop-blur-xl border border-white/50 hover:border-emerald-200 hover:bg-white/60 hover:shadow-xl transition-all duration-300 cursor-pointer text-center`}
             >
               <div className="text-5xl mb-4 group-hover:scale-125 transition-transform duration-300">
                 {cat.icon}

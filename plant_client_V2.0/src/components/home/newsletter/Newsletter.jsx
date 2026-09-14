@@ -1,8 +1,32 @@
 import { motion } from "motion/react";
+import { useState } from "react";
+import { useSubscribeMutation } from "../../../features/subscriber/subscriberApi";
+import { toast } from "react-toastify";
+import { ImSpinner2 } from "react-icons/im";
 
 const Newsletter = () => {
+  const [email, setEmail] = useState("");
+  const [subscribe, { isLoading }] = useSubscribeMutation();
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      return toast.warning("Please enter your email");
+    }
+
+    try {
+      const response = await subscribe({ email }).unwrap();
+      if (response.success) {
+        toast.success(response.message || "Subscribed successfully!");
+        setEmail("");
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || "Subscription failed. Please try again.");
+    }
+  };
+
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-white dark:bg-[#020617] transition-colors duration-500">
+    <section className="py-24 px-4 sm:px-6 lg:px-24 bg-transparent transition-colors duration-500">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -17,7 +41,7 @@ const Newsletter = () => {
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-lime-400 font-bold tracking-widest uppercase text-sm"
+            className="text-emerald-400 font-bold tracking-widest uppercase text-sm"
           >
             Future Ready
           </motion.span>
@@ -27,7 +51,7 @@ const Newsletter = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold text-white mt-4 mb-6"
           >
-            Join our <span className="text-neon">Green</span> Community
+            Join our <span className="text-emerald-400">Green</span> Community
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -43,19 +67,30 @@ const Newsletter = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-4"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubscribe}
           >
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-grow px-6 py-4 rounded-2xl bg-white/5 dark:bg-white/10 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-lime-500 transition-all backdrop-blur-md"
+              className="flex-grow px-6 py-4 rounded-2xl bg-white/5 dark:bg-white/10 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 transition-all backdrop-blur-md"
+              disabled={isLoading}
             />
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(163, 230, 53, 0.4)" }}
+              disabled={isLoading}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(16, 185, 129, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold rounded-2xl transition-all shadow-lg"
+              className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 min-w-[160px] disabled:opacity-70"
             >
-              Subscribe Now
+              {isLoading ? (
+                <>
+                  <ImSpinner2 className="animate-spin text-xl" />
+                  Subscribing...
+                </>
+              ) : (
+                "Subscribe Now"
+              )}
             </motion.button>
           </motion.form>
           

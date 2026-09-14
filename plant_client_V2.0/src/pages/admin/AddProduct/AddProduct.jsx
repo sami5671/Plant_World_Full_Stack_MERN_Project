@@ -100,7 +100,7 @@ const AddProduct = () => {
   };
 
   return (
-    <section className="bg-white px-4 py-4 lg:px-12 lg:py-12 rounded-2xl">
+    <section className="px-4 py-4 lg:px-2 rounded-2xl relative z-10">
       <ToastContainer
         position="bottom-left"
         autoClose={2000}
@@ -120,32 +120,32 @@ const AddProduct = () => {
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue, isSubmitting }) => (
-          <Form>
-            <div className="flex items-center lg:justify-between mt-4">
-              <h1 className="text-primary-dashboardPrimaryTextColor font-bold text-xl flex items-center gap-2">
-                Add New Product <GiFruitTree />
+          <Form className="relative z-10">
+            <div className="flex items-center justify-between mt-2 mb-6">
+              <h1 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm flex items-center gap-3">
+                Add New Product <GiFruitTree className="text-emerald-600" />
               </h1>
               <button
                 type="submit"
-                className="bg-primary-dashboardPrimaryTextColor text-[10px] lg:text-[14px] text-white lg:px-4 lg:py-2 rounded-full font-bold hover:bg-lime-500"
+                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium rounded-xl shadow-[0_4px_15px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.4)] transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 {isLoading || isSubmitting ? (
-                  <ImSpinner2 className="animate-spin" />
+                  <ImSpinner2 className="animate-spin w-5 h-5" />
                 ) : (
-                  "Add Product"
+                  "Publish Product"
                 )}
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6 lg:my-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
               {/* Plant Name */}
-              <div className="bg-slate-50 px-3 py-3 lg:px-12 lg:py-12 shadow-xl rounded-2xl">
+              <div className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl">
                 <Field
                   as={Input}
                   label="Plant Name"
                   name="plantName"
                   variant="outline"
-                  inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                  inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                 />
                 <ErrorMessage
                   name="plantName"
@@ -154,9 +154,10 @@ const AddProduct = () => {
                 />
 
                 {/* Product Description */}
-                <div className="mt-6">
-                  <label className="font-bold">Product Description</label>
-                  <JoditEditor
+                <div className="mt-8">
+                  <label className="font-semibold text-slate-700 mb-2 block">Product Description</label>
+                  <div className="rounded-xl overflow-hidden border border-emerald-100 shadow-sm">
+                    <JoditEditor
                     ref={editor}
                     key={values.description}
                     value={values.description}
@@ -171,6 +172,7 @@ const AddProduct = () => {
                       style: { overflowY: "auto" },
                     }}
                   />
+                  </div>
                   <ErrorMessage
                     name="description"
                     component="div"
@@ -180,8 +182,8 @@ const AddProduct = () => {
               </div>
 
               {/* Image Upload */}
-              <div className="bg-slate-50 px-12 py-12 shadow-xl rounded-2xl">
-                <h1 className="text-xl text-primary-dashboardPrimaryTextColor font-bold mb-2">
+              <div className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm mb-6">
                   Upload Image
                 </h1>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
@@ -201,15 +203,16 @@ const AddProduct = () => {
                     multiple
                     onChange={(e) => handleImageChange(e, setFieldValue)}
                   />
-                  <div className="w-40 h-20 mt-12 flex items-center justify-center border-dashed shadow-xl border-2 border-lime-700 rounded cursor-pointer font-bold text-3xl text-lime-700">
-                    <FaCirclePlus />
-                  </div>
-                </label>
+                    <div className="w-full h-32 mt-8 flex flex-col items-center justify-center border-dashed bg-emerald-50/50 border-2 border-emerald-300 rounded-xl cursor-pointer text-emerald-600 hover:bg-emerald-100/50 hover:border-emerald-400 transition-colors">
+                      <FaCirclePlus className="text-4xl mb-2" />
+                      <span className="font-medium">Click to upload images</span>
+                    </div>
+                  </label>
               </div>
 
               {/* Pricing & Stock */}
-              <div className="bg-slate-50 px-3 py-3 lg:px-12 lg:py-12 shadow-xl rounded-2xl">
-                <h1 className="text-primary-dashboardPrimaryColor font-bold text-xl mb-4">
+              <div className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl flex flex-col gap-4">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm mb-2">
                   Pricing & Stocks
                 </h1>
                 <Field
@@ -218,7 +221,7 @@ const AddProduct = () => {
                   label="Previous Price"
                   prefix={<CurrencyDollarIcon className="w-5" />}
                   name="previousPrice"
-                  inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                  inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                 />
                 <ErrorMessage
                   name="previousPrice"
@@ -232,7 +235,7 @@ const AddProduct = () => {
                   label="New Price"
                   prefix={<CurrencyDollarIcon className="w-5" />}
                   name="newPrice"
-                  inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                  inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                 />
                 <ErrorMessage
                   name="newPrice"
@@ -245,7 +248,7 @@ const AddProduct = () => {
                   type="number"
                   label="Stock"
                   name="stock"
-                  inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                  inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                 />
                 <ErrorMessage
                   name="stock"
@@ -255,8 +258,8 @@ const AddProduct = () => {
               </div>
 
               {/* Plant Type & Category */}
-              <div className="bg-slate-50 px-3 py-3 lg:px-12 lg:py-12 shadow-xl rounded-2xl">
-                <h1 className="text-primary-dashboardPrimaryColor font-bold text-xl mb-4">
+              <div className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm mb-6">
                   Plant Type & Category
                 </h1>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -270,12 +273,12 @@ const AddProduct = () => {
                       onChange={(selected) =>
                         setFieldValue("plantType", selected.value)
                       }
-                      dropdownClassName="bg-white"
-                      selectClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                      dropdownClassName="bg-white border-emerald-100 rounded-xl shadow-lg"
+                      selectClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                     />
                   </div>
                   <div>
-                    <label htmlFor="material" className="font-semibold mt-4">
+                    <label htmlFor="material" className="font-semibold text-slate-700 mt-4 block">
                       Material
                     </label>
                     <RadioGroup
@@ -301,7 +304,7 @@ const AddProduct = () => {
                       label="Plant Color"
                       name="color"
                       variant="outline"
-                      inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
+                      inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3"
                     />
                     <ErrorMessage
                       name="color"
@@ -310,7 +313,7 @@ const AddProduct = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="category" className="font-semibold mt-4">
+                    <label htmlFor="category" className="font-semibold text-slate-700 mt-4 block">
                       Category
                     </label>
                     <RadioGroup

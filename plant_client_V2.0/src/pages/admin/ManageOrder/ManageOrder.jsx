@@ -98,98 +98,98 @@ const ManageOrder = () => {
         theme="light"
         transition:Bounce
       />
-      <section className="bg-white px-4 py-4 lg:px-12 lg:py-12 rounded-2xl">
-        <div className="flex justify-end">
-          <h1 className="text-primary-dashboardPrimaryTextColor font-bold text-xl flex items-center gap-2">
-            Manage Order <BsFillCartCheckFill />
-          </h1>
-        </div>
-        {/* searching and filtering */}
+      <div className="relative z-10">
 
-        <div className="flex gap-6">
-          <div>
-            <Input
-              label="Search By Order ID"
-              placeholder="Enter the Order ID"
-              inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
-              onChange={(e) => handleSearchByOrderId(e.target.value)}
-            />
+        <section className="bg-white/70 backdrop-blur-xl border border-white/50 px-4 py-6 lg:px-8 lg:py-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl relative z-10">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent drop-shadow-sm flex items-center gap-3">
+              Manage Orders <BsFillCartCheckFill className="text-emerald-600" />
+            </h1>
           </div>
-          <div>
-            <Input
-              label="Search By Email"
-              placeholder="Enter Biller Email"
-              inputClassName="border-lime-500 bg-white opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-2"
-              onChange={(e) => handleSearchByEmail(e.target.value)}
-            />
-          </div>
-          <div>
+          {/* searching and filtering */}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div>
+              <Input
+                label="Search By Order ID"
+                placeholder="Enter the Order ID"
+                inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
+                onChange={(e) => handleSearchByOrderId(e.target.value)}
+              />
+            </div>
+            <div>
+              <Input
+                label="Search By Email"
+                placeholder="Enter Biller Email"
+                inputClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
+                onChange={(e) => handleSearchByEmail(e.target.value)}
+              />
+            </div>
             <div>
               <Select
                 label="Sort by Price"
                 options={options}
                 onChange={handleOrdersByPriceSort}
                 value={value}
-                dropdownClassName="bg-white"
-                selectClassName="border-lime-500 bg-white w-[200px] opacity-80 focus:border-lime-600 focus:ring focus:ring-lime-600 rounded-md p-4"
+                dropdownClassName="bg-white border-emerald-100 rounded-xl shadow-lg"
+                selectClassName="border-emerald-200 bg-white/80 text-slate-800 focus:border-emerald-500 focus:ring focus:ring-emerald-500/20 rounded-xl p-3 w-full"
               />
             </div>
           </div>
-        </div>
         {/* data table */}
-        <div className="overflow-x-auto h-[650px]">
-          <table className="table table-pin-rows mt-8">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>Order No</th>
-                <th>Name</th>
-                <th>TransactionId</th>
-                <th>Status</th>
-                <th>Paid Amount</th>
-                <th>Details</th>
-                <th>Update Status</th>
-                <th>Delete</th>
-              </tr>
+          <div className="overflow-x-auto h-[650px] rounded-xl border border-emerald-100/50 shadow-inner bg-white/40">
+            <table className="table table-pin-rows">
+              {/* head */}
+              <thead>
+                <tr className="bg-emerald-50/50 text-slate-600 border-b border-emerald-100/50">
+                  <th className="bg-transparent">Order No</th>
+                  <th className="bg-transparent">Name</th>
+                  <th className="bg-transparent">TransactionId</th>
+                  <th className="bg-transparent">Status</th>
+                  <th className="bg-transparent">Paid Amount</th>
+                  <th className="bg-transparent">Details</th>
+                  <th className="bg-transparent">Update Status</th>
+                  <th className="bg-transparent">Delete</th>
+                </tr>
             </thead>
             <tbody className="">
               {/* row 1 */}
               {filteredOrders?.map((item, index) => (
-                <tr key={item?._id}>
-                  <td className="text-blue-500">#{item?._id}</td>
-                  <td className="lg:w-1/6">
+                <tr key={item?._id} className="border-b border-slate-100/50 hover:bg-emerald-50/30 transition-colors">
+                  <td className="text-emerald-700 font-medium">#{item?._id}</td>
+                  <td className="lg:w-1/6 text-slate-700 font-medium">
                     {item?.orderInfo?.billerName?.slice(0, 16)}...
                   </td>
-                  <td className="">{item?.transactionId}</td>
+                  <td className="text-slate-600 font-mono text-sm">{item?.transactionId}</td>
                   <td>
                     <div className="">
                       <div className="text-2xl">
                         {item?.orderInfo?.orderStatus === "pending" && (
-                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                          <span className="font-bold text-sm text-amber-600 flex items-center gap-1 bg-amber-100 px-2 py-1 rounded-md w-fit">
                             Pending
-                            <MdPendingActions className=" text-primary-dashboardPrimaryColor text-2xl" />
+                            <MdPendingActions className="text-amber-600 text-xl" />
                           </span>
                         )}
                         {item?.orderInfo?.orderStatus === "processing" && (
-                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                          <span className="font-bold text-sm text-sky-600 flex items-center gap-1 bg-sky-100 px-2 py-1 rounded-md w-fit">
                             Processing
-                            <FcProcess className="animate-spin text-primary-dashboardPrimaryColor text-2xl" />
+                            <FcProcess className="animate-spin text-sky-600 text-xl" />
                           </span>
                         )}
                         {item?.orderInfo?.orderStatus === "shipped" && (
-                          <span className="font-bold text-sm text-green-800 flex items-center gap-1">
+                          <span className="font-bold text-sm text-indigo-600 flex items-center gap-1 bg-indigo-100 px-2 py-1 rounded-md w-fit">
                             Shipped
-                            <FaShippingFast className="text-primary-dashboardPrimaryColor text-2xl" />
+                            <FaShippingFast className="text-indigo-600 text-xl" />
                           </span>
                         )}
                         {item?.orderInfo?.orderStatus === "cancelled" && (
-                          <span className="font-bold text-sm text-red-800 flex items-center gap-1">
+                          <span className="font-bold text-sm text-rose-600 flex items-center gap-1 bg-rose-100 px-2 py-1 rounded-md w-fit">
                             Canceled
-                            <MdCancel className="text-red-600 text-2xl" />
+                            <MdCancel className="text-rose-600 text-xl" />
                           </span>
                         )}
                         {item?.orderInfo?.orderStatus === "delivered" && (
-                          <span className="font-bold text-sm text-green-800">
+                          <span className="font-bold text-sm text-emerald-600 bg-emerald-100 px-2 py-1 rounded-md w-fit">
                             Delivered
                           </span>
                         )}
@@ -197,13 +197,13 @@ const ManageOrder = () => {
                     </div>
                   </td>
                   <td>
-                    <span className="text-[18px] font-semibold text-green-600">
+                    <span className="text-[18px] font-bold text-emerald-700">
                       ${item?.orderInfo?.paidAmount}
                     </span>
                   </td>
                   <td>
                     <Link to={`/dashboard/orderDetails/${item?._id}`}>
-                      <span className="text-4xl text-primary-dashboardPrimaryColor hover:text-lime-500">
+                      <span className="text-3xl text-emerald-500 hover:text-emerald-700 transition-colors inline-block">
                         <IoInformationCircle />
                       </span>
                     </Link>
@@ -212,9 +212,9 @@ const ManageOrder = () => {
                   <td>
                     <button
                       onClick={() => handleOpenUpdateOrder(item?._id)}
-                      className=""
+                      className="transition-transform hover:scale-110"
                     >
-                      <span className="text-3xl text-primary-dashboardPrimaryColor hover:text-lime-500 ">
+                      <span className="text-2xl text-teal-600 hover:text-teal-800 inline-block">
                         <FaGear className="hover:animate-spin" />
                       </span>
                     </button>
@@ -225,10 +225,10 @@ const ManageOrder = () => {
                   {/* delete info */}
                   <td>
                     <button
-
+                      className="transition-transform hover:scale-110"
                     // onClick={() => handleDeleteProduct(item._id)}
                     >
-                      <span className="text-xl text-red-600 hover:text-orange-500">
+                      <span className="text-xl text-rose-500 hover:text-rose-700 inline-block">
                         <FaTrash />
                       </span>
                     </button>
@@ -238,12 +238,13 @@ const ManageOrder = () => {
             </tbody>
           </table>
         </div>
-        <OrderStatusModal
-          updateOrder={updateOrder}
-          handleCloseUpdateOrder={handleCloseUpdateOrder}
-          modalHandler={modalHandler}
-        />
-      </section>
+          <OrderStatusModal
+            updateOrder={updateOrder}
+            handleCloseUpdateOrder={handleCloseUpdateOrder}
+            modalHandler={modalHandler}
+          />
+        </section>
+      </div>
     </>
   );
 };

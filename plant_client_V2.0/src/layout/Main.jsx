@@ -39,20 +39,28 @@ const Main = () => {
   }, [cart, user, isCartSuccess, dispatch]);
 
   return (
-    <div className="pt-16">
-      {/* Global Loader */}
-      {navigation.state === "loading" && <Loader />}
+    <div className="relative min-h-screen bg-gradient-to-br from-lime-50 via-emerald-50 to-teal-50 overflow-hidden font-inter">
+      {/* Global decorative blurs for website */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-lime-200/20 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[20%] right-[-5%] w-[35%] h-[50%] bg-emerald-200/20 rounded-full blur-[120px]"></div>
+      </div>
 
-      {/* Conditionally Render Navbar */}
-      {!noHeaderFooter && <Navbar />}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Global Loader */}
+        {navigation.state === "loading" && <Loader />}
 
-      {/* Main Content */}
-      <main className="min-h-[calc(100vh-64px)]">
-        <Outlet />
-      </main>
+        {/* Conditionally Render Navbar */}
+        {!noHeaderFooter && <Navbar />}
 
-      {/* Conditionally Render Footer */}
-      {!noHeaderFooter && <Footer />}
+        {/* Main Content */}
+        <main className="flex-grow pt-16">
+          <Outlet />
+        </main>
+
+        {/* Conditionally Render Footer */}
+        {!noHeaderFooter && <Footer />}
+      </div>
     </div>
   );
 };

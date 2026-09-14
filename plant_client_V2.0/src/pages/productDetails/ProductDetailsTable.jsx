@@ -1,10 +1,14 @@
 import { FaShoppingCart, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { ImSpinner9 } from "react-icons/im";
+import useHandleCart from "../../Hooks/UseHandleCart";
 
 const ProductDetailsTable = ({ plant }) => {
+  const { handleCart, isLoading } = useHandleCart();
   const isAvailable = typeof plant?.stock === 'number' ? plant.stock > 0 : plant?.stock?.toLowerCase() === "in stock";
 
   return (
     <div className="font-outfit">
+      {/* ... previous content ... */}
       {/* Product Name */}
       <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
         {plant?.name}
@@ -63,8 +67,18 @@ const ProductDetailsTable = ({ plant }) => {
       </div>
 
       {/* Add to Cart Button */}
-      <button className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-lime-600 to-emerald-600 hover:from-lime-500 hover:to-emerald-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-lime-600/20 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
-        <FaShoppingCart className="text-xl" /> Add to Cart
+      <button 
+        disabled={!isAvailable || isLoading}
+        onClick={() => handleCart(plant?._id)}
+        className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-lime-600 to-emerald-600 hover:from-lime-500 hover:to-emerald-500 disabled:from-slate-400 disabled:to-slate-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-lime-600/20 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+      >
+        {isLoading ? (
+          <ImSpinner9 className="text-xl animate-spin" />
+        ) : (
+          <>
+            <FaShoppingCart className="text-xl" /> Add to Cart
+          </>
+        )}
       </button>
     </div>
   );

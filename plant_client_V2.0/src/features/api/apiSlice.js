@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedOut } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_APP_API_URL,
+  baseUrl: import.meta.env.VITE_APP_API_URL || "https://plant-server-v2-0.vercel.app",
   prepareHeaders: async (headers, { getState, endpoint }) => {
     const state = getState();
     // console.log("Redux state in prepareHeaders:", state);
